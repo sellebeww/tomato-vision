@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Klasifikasi kesegaran tomat menggunakan CNN dari nol berbasis TensorFlow.">
+  <title>Tomato Vision · Klasifikasi Kesegaran Tomat</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#prediction"><img class="brand-mark" src="/logo.png" alt="" width="40" height="40"> Tomato Vision <span class="tag">RESEARCH STUDIO</span></a>
+    <span class="local"><span class="dot"></span> Lokal · Data tetap di perangkat</span>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">COMPUTER VISION / TENSORFLOW</p><h1>Kenali kesegaran.<br><span>Pahami hasilnya.</span></h1>
+      <p class="project-title">Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow</p>
+      <p class="muted">CNN dilatih dari nol. Tiga kelas kondisi visual. Data dan evaluasi yang dapat ditelusuri.</p></div>
+      <aside class="hero-note"><span class="eyebrow">ALUR PENELITIAN</span><ol><li>Foto sendiri & label</li><li>Split berdasarkan buah</li><li>Latih CNN & evaluasi</li><li>Prediksi dengan tinjauan</li></ol></aside>
+    </section>
+    <div id="status" class="notice" role="status">Memuat model dan status dataset…</div>
+    <nav class="tabs" aria-label="Menu utama">
+      <button class="tab active" data-panel="prediction" aria-pressed="true">01 <span>Prediksi</span></button>
+      <button class="tab" data-panel="dataset" aria-pressed="false">02 <span>Dataset & label</span></button>
+      <button class="tab" data-panel="training" aria-pressed="false">03 <span>Training</span></button>
+      <button class="tab" data-panel="evaluation" aria-pressed="false">04 <span>Evaluasi</span></button>
+    </nav>
+    <section id="prediction" class="tab-panel">
+      <div class="section-heading"><div><p class="eyebrow">INFERENSI GAMBAR BARU</p><h2>Satu foto. Tiga kemungkinan.</h2></div><span class="chip">Segar / Tidak segar / Busuk</span></div>
+      <div class="prediction-layout">
+        <div class="panel">
+          <label class="upload-zone" for="upload"><span class="upload-icon" aria-hidden="true">↥</span><strong>Pilih foto tomat</strong><span>JPG, PNG, WebP · Maks. 10 MB per foto</span><span class="muted">Bisa memilih beberapa foto sekaligus.</span><span class="pick" aria-hidden="true">Pilih file</span><input id="upload" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+          <div class="preview-frame" id="preview-frame" hidden><img id="preview" alt="Pratinjau foto tomat pilihan"></div>
+          <p id="file-info" class="muted">Ambil satu buah yang terlihat jelas, dengan pencahayaan cukup.</p>
+          <div class="actions"><button id="predict" disabled>Analisis foto <span aria-hidden="true">→</span></button><button id="download-predictions" class="secondary" disabled>Unduh hasil JSON</button></div>
+        </div>
+        <div class="panel result-panel"><p class="eyebrow">HASIL ANALISIS</p><div id="result" aria-live="polite"><div class="empty"><span class="empty-mark" aria-hidden="true">◎</span><h3>Hasil akan tampil di sini</h3><p>Model menampilkan prediksi dan probabilitas setiap kelas. Periksa kembali hasil yang meragukan.</p></div></div></div>
+      </div>
+      <p class="footnote">Batas penggunaan: klasifikasi kondisi visual, bukan pemeriksaan keamanan pangan. Tidak mendeteksi objek non-tomat atau banyak buah. Probabilitas tinggi tidak menjamin kebenaran.</p>
+    </section>
+    <section id="dataset" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">DATA MILIK SENDIRI</p><h2>Dataset yang bisa dipertanggungjawabkan.</h2></div><span id="data-state" class="chip">Memuat…</span></div>
+      <div id="data-stats" class="stats"></div>
+      <div class="panel"><h3>Tambahkan foto sendiri</h3><p class="muted">Foto asli disimpan tanpa perubahan. File identik tidak diimpor dua kali.</p>
+        <label class="check"><input id="own-attestation" type="checkbox"> Foto yang saya unggah adalah hasil pemotretan saya sendiri.</label>
+        <div class="actions import-row"><input id="import-files" type="file" accept="image/jpeg,image/png,image/webp" multiple aria-label="Foto sendiri untuk ditambahkan"><button id="import">Impor foto</button></div><p id="import-message" role="status"></p>
+      </div>
+      <div class="panel"><h3>Kriteria label</h3><div class="criteria"><p><b>Segar</b>Kulit relatif kencang, tidak menunjukkan pembusukan.</p><p><b>Tidak segar</b>Layu atau keriput, tanpa pembusukan nyata.</p><p><b>Busuk</b>Lesi pembusukan, jamur, atau kerusakan jaringan nyata.</p></div>
+      <p class="footnote">Warna hijau bukan tanda busuk. Satu buah fisik memakai ID yang sama pada semua sudut dan hari, meskipun kelasnya berubah. Jangan menyetujui label yang belum pasti.</p></div>
+      <div class="label-toolbar"><label class="grow">Cari foto / ID buah<input id="photo-search" placeholder="Nama foto atau ID buah"></label><label>Tampilkan<select id="photo-filter"><option value="all">Semua foto</option><option value="pending">Belum dikonfirmasi</option><option value="approved">Terkonfirmasi</option></select></label><div class="save-group"><button id="save">Simpan label</button><span id="saved" role="status"></span></div></div>
+      <p id="photo-count" class="muted"></p><div id="photos" class="photo-grid"></div>
+    </section>
+    <section id="training" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">CNN DARI NOL</p><h2>Dari foto ke model terukur.</h2></div><span class="chip">Tanpa bobot pretrained</span></div>
+      <div class="two-columns"><div class="panel"><h3>Pemeriksaan sebelum training</h3><div id="readiness"></div><button id="refresh" class="secondary">Periksa ulang dataset</button></div>
+      <div class="panel"><h3>Jalankan eksperimen</h3><p class="muted">Membandingkan baseline dan dua konfigurasi CNN. Pemilihan model memakai validation; test dievaluasi setelah pemilihan.</p>
+      <label>Maksimum epoch per kandidat<input id="epochs" type="number" min="1" max="100" value="40"></label>
+      <p class="footnote">Validation/test hanya foto sendiri. Tetap perlu cukup buah independen di setiap kelas. Training memakai CPU dan dapat memerlukan beberapa menit atau lebih.</p>
+      <button id="train" disabled>Mulai training foto sendiri</button><p id="train-message" role="status"></p></div></div>
+      <div class="panel"><div class="section-heading"><h3>Log eksperimen</h3><span id="job-state" class="chip">Belum berjalan</span></div><pre id="job-log">Belum ada training dari sesi aplikasi ini.</pre><div class="actions"><button id="reload-model" class="secondary">Muat model terpilih terbaru</button><button id="cancel-training" class="secondary" disabled>Hentikan training</button></div><p class="footnote">Menghentikan training atau server mempertahankan file yang sudah dibuat. Model terpilih tidak diganti oleh eksperimen yang belum selesai.</p></div>
+    </section>
+    <section id="evaluation" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">BUKTI, BUKAN HANYA AKURASI TRAINING</p><h2>Evaluasi model.</h2></div><button id="download-report" class="secondary">Unduh laporan JSON</button></div>
+      <p id="evaluation-notice" class="notice"></p><div id="eval-stats" class="stats"></div>
+      <div class="two-columns"><div class="panel"><h3>Confusion matrix</h3><p class="muted">Baris: label sebenarnya. Kolom: prediksi.</p><div id="confusion" class="table-wrap"></div></div><div class="panel"><h3>Ringkasan eksperimen</h3><dl id="model-details"></dl></div></div>
+      <div class="panel"><h3>Precision, recall, dan F1 per kelas</h3><div id="class-metrics" class="table-wrap"></div></div>
+      <div class="panel"><h3>Kurva pembelajaran</h3><img id="learning-curve" class="plot" alt="Kurva accuracy dan loss training serta validation" hidden></div>
+      <div class="panel"><h3>Robustness awal</h3><p class="muted">Perubahan pencahayaan dan blur pada test. Bukan pengganti evaluasi pada sesi pemotretan baru.</p><div id="robustness" class="table-wrap"></div></div>
+    </section>
+    <footer><strong>Tomato Vision</strong><span>TensorFlow · CNN dari nol · Dataset dengan provenance</span><span>Hasil model perlu diverifikasi pada foto baru</span></footer>
+  </main>
+</body>
+</html>

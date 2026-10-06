@@ -1,0 +1,46 @@
+# Virtual environment
+venv/
+.venv/
+.venv-repro/
+data/external/
+data/reference_import/
+data/augmented/
+data/annotation_backups/
+outputs/experiments/
+outputs/.matplotlib/
+models/.keras/
+
+# Python
+__pycache__/
+*.pyc
+
+# Dataset (foto tomat asli/dummy tidak perlu masuk git, terlalu besar)
+data/raw/*
+data/dummy/*
+data/processed/*
+!data/raw/.gitkeep
+!data/dummy/.gitkeep
+!data/processed/.gitkeep
+
+# Model & hasil training (biasanya besar, cukup disimpan lokal)
+models/*.h5
+models/*.keras
+models/checkpoints/
+models/saved_model/
+outputs/*.png
+outputs/logs/
+outputs/jobs/
+outputs/browser/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Data pribadi (nama file dan label lokal)
+data/annotations.csv
+data/duplicates.csv
+data/prepared/
+outputs/selected_run.json
