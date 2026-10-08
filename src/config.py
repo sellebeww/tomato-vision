@@ -50,8 +50,21 @@ class ExperimentConfig:
     threads: int = 4
     confidence_threshold: float = 0.7
     architecture: str = "regularized"
+    # Ablation switches (defaults reproduce the original own_v1 training exactly).
+    augment: bool | None = None        # None = architecture default (regularized yes, baseline no)
+    bn_momentum: float = 0.99          # Keras default; baseline BatchNormalization only
+    lr_schedule: str = "plateau"       # "plateau": halve LR every 3 stale epochs; "cosine": per-epoch cosine decay
+    restore_best: bool = True          # keep weights from the lowest validation-loss epoch
 
     def __post_init__(self):
+        if self.augment is not None and not isinstance(self.augment, bool):
+            raise ValueError("augment must be true, false or null")
+        if not 0 < self.bn_momentum < 1:
+            raise ValueError("bn_momentum must be in (0,1)")
+        if self.lr_schedule not in {"plateau", "cosine"}:
+            raise ValueError("lr_schedule must be plateau or cosine")
+        if not isinstance(self.restore_best, bool):
+            raise ValueError("restore_best must be boolean")
         for key in ("seed", "image_size", "batch_size", "epochs", "patience",
                     "train_samples_per_class", "threads"):
             value = getattr(self, key)

@@ -2,178 +2,199 @@
 
 # Tomato Vision
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sellebeww/tomato-vision/blob/main/notebooks/tomato_vision_colab.ipynb)
+[![Deploy demo](https://github.com/sellebeww/tomato-vision/actions/workflows/pages.yml/badge.svg)](https://github.com/sellebeww/tomato-vision/actions/workflows/pages.yml)
+![Python 3.11](https://img.shields.io/badge/python-3.11-blue)
+![TensorFlow 2.16.1](https://img.shields.io/badge/TensorFlow-2.16.1-orange)
+
 **Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow**
 
-Klasifikasi **kondisi visual** tomat: `segar`, `tidak_segar`, `busuk`.
-Dua CNN dibangun dari nol (tanpa transfer learning) dan dilatih dari foto sendiri.
+*In short: a small CNN trained from scratch with TensorFlow/Keras on 60 previously annotated tomato images (fresh / not fresh / rotten). The web demo runs the exported weights in plain JavaScript because GitHub Pages cannot run Python; the original TensorFlow model runs via `python -m src.predict` or the Colab notebook. Results are early indications only (tiny dataset).*
 
-## Status
+Proyek ini mengklasifikasikan **kondisi visual** satu tomat ke dalam tiga kelas: `segar`, `tidak_segar`, `busuk`.
+CNN dibangun dari nol (tanpa transfer learning) dengan TensorFlow/Keras dan dilatih dari 60 gambar beranotasi lama (asal pengambilan perlu verifikasi). Hasilnya berupa dugaan beserta probabilitas dan penanda **perlu tinjauan**, bukan penilaian keamanan pangan.
 
-Pipeline, pelabelan, training, evaluasi, dan demo prediksi tersedia. Dataset
-berisi 82 foto unik; 60 foto sudah berlabel (20 per kelas, 10 kelompok per kelas)
-dan 22 foto lain belum dilabeli. Dataset masih kecil, jadi angka evaluasi hanya
-indikasi awal dan model belum boleh disebut siap produksi.
-Lihat [panduan data](docs/DATASET.md), [panduan demo](docs/DEMO.md), dan
-[penjelasan teknis proyek](docs/LAPORAN_PROYEK.md).
+**Demo:** https://sellebeww.github.io/tomato-vision/ (aktif setelah GitHub Pages diaktifkan dan deploy pertama berhasil).
 
-## Tampilan aplikasi
+Isi: [Coba demo](#coba-demo) · [Cara kerja](#cara-kerja) · [Jalankan versi TensorFlow](#jalankan-versi-tensorflow) · [Hasil dan keterbatasan](#hasil-dan-keterbatasan) · [Struktur repo, tes, dan data](#struktur-repo-tes-dan-data)
 
-Aplikasi berjalan lokal di browser dan terdiri dari empat menu yang mengikuti alur kerja penelitian: prediksi, dataset, training, evaluasi.
+## Coba demo
 
-### 1. Prediksi
+Buka halaman demo, pilih atau seret satu atau beberapa foto tomat (JPG, PNG, WebP; hingga 20 foto, maks. 10 MB per foto), lalu klik **Analisis foto**. Demo menampilkan:
 
-![Menu Prediksi](docs/screenshots/1-prediksi.png)
+- dugaan kelas dan probabilitas ketiga kelas,
+- penanda **Perlu tinjauan** bila model ragu, hasil berubah pada variasi ringan, atau kualitas foto rendah,
+- foto contoh dari test terkunci, serta tab dataset, training, dan evaluasi.
 
-Unggah satu atau beberapa foto tomat, lalu klik **Analisis foto**. Model menampilkan dugaan kelas (segar, tidak segar, atau busuk) beserta probabilitas ketiga kelas dalam bentuk bar. Setiap hasil juga memuat nilai konsistensi prediksi pada variasi ringan (flip dan perubahan cahaya), peringatan kualitas foto bila ada, dan penanda perlu tinjauan manual bila model ragu. Hasil bisa diunduh sebagai JSON. Foto yang dipakai untuk prediksi hanya diproses di memori dan tidak disimpan.
+**Privasi:** foto diproses sepenuhnya di browser Anda dan tidak dikirim ke server mana pun. Halaman demo tidak memuat skrip atau font dari pihak ketiga; tautan ke README dan Colab hanya tautan biasa.
+Kotak **Tentang demo ini** di halaman menjelaskan hal yang sama beserta angka paritasnya.
 
-### 2. Dataset & label
-
-![Menu Dataset dan label](docs/screenshots/2-dataset.png)
-
-Ringkasan jumlah foto (total, terkonfirmasi, dan yang perlu ditinjau), form untuk menambah foto sendiri, serta kriteria label. Setiap foto diberi kelas dan **ID buah fisik**, supaya semua foto dari buah yang sama selalu berada di split yang sama dan tidak terjadi kebocoran data. Tersedia pencarian dan filter (semua, belum dikonfirmasi, terkonfirmasi). Perubahan label dibackup otomatis dan edit dari tab yang usang ditolak.
-
-### 3. Training
-
-![Menu Training](docs/screenshots/3-training.png)
-
-Sebelum training, aplikasi memeriksa kesiapan data: jumlah foto dan ID buah per kelas, serta peringatan bila data belum cukup. Tombol **Mulai training** menjalankan tiga kandidat CNN (baseline dan dua konfigurasi regularized) dari bobot acak. Log berjalan tampil di panel bawah dan training bisa dihentikan kapan saja tanpa menghapus hasil sebelumnya.
-
-### 4. Evaluasi
-
-![Menu Evaluasi](docs/screenshots/4-evaluasi.png)
-
-Hasil model terpilih pada data test: accuracy, macro-F1, loss, confusion matrix, precision/recall/F1 per kelas, kurva pembelajaran, dan uji robustness (lebih gelap, lebih terang, blur). Data test pada contoh ini hanya 12 foto dari 2 kelompok buah, jadi angkanya mendekati sempurna tetapi **belum membuktikan** performa pada foto baru; aplikasi sendiri memberi peringatan itu di bagian atas halaman. Laporan lengkap bisa diunduh sebagai JSON.
-
-## Setup bersih
-
-Gunakan Python **3.11**, jalankan dari root proyek:
-
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python -m unittest discover -s tests -v
-```
-
-Windows: aktivasi dengan `.venv\Scripts\activate`. CPU didukung; GPU tidak wajib.
-Untuk versi dependency transitif yang diuji pada macOS arm64, gunakan
-`pip install -r requirements-lock-macos-arm64.txt` di environment kosong.
-Seed 42 dan operasi deterministik diaktifkan. Hasil bit-per-bit lintas perangkat/
-versi tidak dijamin. Run menyimpan versi runtime, konfigurasi, snapshot source, dan hash data.
-
-## Demo dan pelabelan
-
-```bash
-python -m src.check --deep
-python -m src.app
-```
-
-Buka **http://127.0.0.1:7860**. Aplikasi memiliki empat menu: **Prediksi**,
-**Dataset & label**, **Training**, dan **Evaluasi**. Anotasi disimpan ke
-`data/annotations.csv` dengan backup dan kontrol versi agar tab lama tidak menimpa
-label baru. Foto untuk **prediksi** hanya diproses di memori; foto pada menu
-**Impor foto** disimpan sebagai data setelah konfirmasi pengguna.
-Gunakan `--labels-only` untuk pelabelan tanpa model, atau `--run direktori_run`
-untuk memilih model. Hanya di-bind ke localhost; bukan server publik.
-
-Sesudah training selesai, klik **Muat model terpilih terbaru**. Menutup server
-membatalkan training yang dimulai sesi tersebut, tanpa menghapus file hasil.
-
-Isi satu ID tetap per **buah fisik**, termasuk semua hari/sudutnya.
-Jangan memberi ID baru hanya karena nama foto/hari berubah. Label yang belum pasti
-jangan disetujui. Lihat kriteria kelas di panduan data.
-
-## Training
-
-Tambahkan foto JPG/JPEG/PNG/WebP ke `data/raw/`, lalu inventarisasi dan labeli:
-
-```bash
-python -m src.manifest --init-labels
-python -m src.app --labels-only
-```
-
-Setelah label dan kelompok disetujui, jalankan:
-
-```bash
-python -m src.pipeline --output outputs/experiments/own_v1
-```
-
-Direktori output **harus baru**; model lama tidak ditimpa.
-Pipeline menolak dataset tidak lengkap, kelas hilang, atau jumlah kelompok tidak
-cukup. Batas teknis minimal tiga kelompok per kelas **bukan** kecukupan ilmiah.
-Validation/test tidak diaugmentasi.
-
-Perintah tersebut (juga dapat dijalankan lewat menu Training):
-
-1. Memeriksa label, SHA-256, duplikat piksel, kemiripan dHash.
-2. Membekukan split berbasis buah (target 70/15/15, dapat berbeda karena kelompok).
-3. Melatih baseline dan dua konfigurasi CNN regularized dengan early stopping.
-4. Memilih kandidat dengan validation macro-F1, tie-break validation loss.
-5. Menguji baseline dan pemenang pada test yang sama setelah pemilihan selesai.
-6. Menyimpan penunjuk model demo ke `outputs/selected_run.json`.
-
-Jangan mengubah hyperparameter berdasarkan test. Untuk dataset berkembang, buat
-versi baru dan dokumentasikan perubahan; jangan bandingkan angka lintas split
-seolah eksperimennya setara.
-
-## Inferensi CLI
-
-```bash
-python -m src.predict --image data/raw/TOM001_segar.png
-```
-
-Bisa memberi beberapa path setelah `--image`, `--run direktori_run`, dan
-`--output outputs/prediksi.json`. Preprocessing sama dengan training:
-orientasi EXIF → RGB → letterbox → float [0,1].
-Satu tomat harus terlihat jelas. Model tidak mendeteksi non-tomat, banyak buah,
-atau keamanan pangan. Probabilitas tinggi bukan bukti prediksi benar.
-Hasil menyertakan probabilitas mentah, alasan tinjauan manual, kualitas gambar,
-dan konsistensi prediksi pada empat variasi ringan.
-
-## Training/evaluasi terpisah dan ekspor augmentasi
-
-```bash
-python -m src.train --dataset data/prepared/<fingerprint> --run outputs/experiments/single_baru --config configs/default.json
-python -m src.evaluate --run outputs/experiments/single_baru
-python -m src.export_augmentation --dataset data/prepared/<fingerprint> --output data/augmented/export_baru --per-class 1000
-```
-
-Bundle dibuat oleh `python -m src.manifest`. Ekspor hanya memakai sumber train.
-Variasi hasil ekspor bukan foto independen; CSV menyimpan parent hash dan group ID.
-Training default menggunakan augmentasi online, sehingga ekspor tidak perlu
-diimpor kembali.
-
-## Struktur
+## Cara kerja
 
 ```text
-configs/default.json             konfigurasi tervalidasi
-data/reference_import/          foto ZIP, nama dipertahankan
-data/raw/                       foto tambahan
-data/annotations.csv            label dan ID buah manual
-data/duplicates.csv             salinan identik yang dikecualikan
-data/prepared/<fingerprint>/    manifest dan split terkunci
-data/augmented/                 variasi TRAIN dengan parent provenance
-src/manifest.py                 inventarisasi, QC, versi dataset
-src/dataset_split.py            split kelompok dan guard leakage
-src/preprocessing.py            loader bersama, sampling, augmentasi
-src/model.py                    baseline dan residual separable CNN
-src/train.py                    training reproducible
-src/evaluate.py                 metrik, confusion matrix, robustness
-src/experiment.py               tuning validation-only
-src/cross_validate.py           studi development berkelompok, test terkunci
-src/quality.py                  diagnostik kualitas dan ketidakpastian
-src/pipeline.py                 orkestrasi end-to-end
-src/predict.py                  inferensi CLI/library
-src/workspace.py                impor, revisi anotasi, kesiapan dataset
-src/jobs.py                     training lokal, log, pembatalan
-src/check.py                    pemeriksaan model, environment, data
-src/app.py + web/               aplikasi lokal empat menu
-tests/                          tes otomatis
-outputs/experiments/<run>/      model.keras, run.json, history, grafik,
-                                snapshot source, dataset, evaluasi, prediksi
-docs/                           dataset card, demo, penjelasan teknis
+foto sendiri + label
+        │
+        ▼
+ training TensorFlow/Keras  ──►  model.keras  ──►  python -m src.predict   (TensorFlow asli: lokal / Colab)
+ (CPU, seed tetap)                    │
+                                      │ python -m src.export_web
+                                      ▼
+                        bobot float32 + graf (model.json, weights.bin)
+                                      │
+                                      ▼
+                   inferensi JavaScript murni di browser (GitHub Pages)
 ```
 
-Model H5 dan dummy lama dipertahankan tetapi **tidak dipakai pipeline baru**.
-`data/external/` juga tidak dipakai. Tidak ada download dataset publik atau bobot
-pretrained dalam alur training.
+GitHub Pages hanya menyajikan file statis dan tidak dapat menjalankan Python atau TensorFlow. Karena itu bobot model Keras diekspor (BatchNorm dilipat ke konvolusi), lalu dijalankan oleh `site/tomato-core.js` di browser. Kode JavaScript meniru preprocessing Python (orientasi EXIF → RGB → letterbox 128×128 → [0,1]), diagnostik kualitas foto, dan logika "perlu tinjauan".
+
+Kesamaan hasil tidak diasumsikan, tetapi diuji. Angka berikut dihasilkan otomatis (`python -m src.export_web`, lalu `node tests/js_parity.mjs --write-info`) dan disalin ke sini oleh `python -m scripts.sync_docs`; jangan diedit tangan:
+
+<!-- model_info:start -->
+_Belum dihasilkan: model final belum diekspor (studi `own_v2` masih berjalan). Setelah ekspor dan `node tests/js_parity.mjs --write-info`, jalankan `python -m scripts.sync_docs`._
+<!-- model_info:end -->
+
+Tes yang menjaga kesamaan ini:
+
+| Tes | Yang dibandingkan |
+|---|---|
+| `python -m unittest tests.test_web_export` | graf yang diekspor vs keluaran Keras tersimpan |
+| `node tests/js_parity.mjs` | JavaScript vs prediktor Python (tensor input per byte, jaringan, probabilitas, status tinjauan) |
+| `python -m unittest tests.test_predict_vs_web` | `python -m src.predict` vs JavaScript pada foto contoh yang sama |
+| `node tests/site_smoke.mjs`, `node tests/site_about_smoke.mjs` | situs di Chrome: model, unggah, layar ponsel, tanpa request eksternal |
+
+## Jalankan versi TensorFlow
+
+Tiga jalur, dari yang paling mudah. Semuanya CPU saja; GPU tidak diperlukan. Model yang dijalankan adalah model Keras yang sama dengan sumber bobot demo (`models/release/`, disalin oleh `python -m src.export_web`).
+
+### 1. Colab (tanpa instalasi)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sellebeww/tomato-vision/blob/main/notebooks/tomato_vision_colab.ipynb)
+
+Notebook meng-clone repo, memasang dependensi, meminta unggahan foto, menjalankan prediksi, dan menampilkan probabilitas.
+
+> **Belum diuji di Colab.** Isi notebook sudah dijalankan secara lokal (tanpa langkah clone, `pip install`, dan `files.upload` milik Colab). Semua versi di `requirements.txt` memiliki wheel Linux x86_64 untuk Python 3.11 dan 3.12 (dicek dengan `pip install --dry-run`), tetapi tidak untuk Python 3.13. Bila runtime Colab sudah 3.13, notebook memakai TensorFlow bawaan Colab dan menampilkan peringatan bahwa kombinasi itu belum diuji.
+
+### 2. Lokal dengan `predict.py`
+
+```bash
+git clone https://github.com/sellebeww/tomato-vision.git
+cd tomato-vision
+python3.11 -m venv .venv
+source .venv/bin/activate            # Windows: .venv\Scripts\activate
+python -m pip install -r requirements.txt
+
+python -m src.predict foto.jpg                  # satu foto
+python -m src.predict a.jpg b.png folder_foto/  # banyak foto dan/atau folder (tidak rekursif)
+python -m src.predict foto.jpg --json           # JSON lengkap; --output hasil.json untuk menyimpan
+```
+
+Contoh keluaran:
+
+```text
+foto.jpg
+  Dugaan      : tidak_segar (83.6%) -> PERLU TINJAUAN
+  Probabilitas: segar   0.0% | tidak_segar  83.6% | busuk  16.4%
+  - Prediksi berubah pada flip atau perubahan pencahayaan ringan.
+```
+
+Preprocessing dan ambang "perlu tinjauan" identik dengan demo web. File yang bukan gambar menghasilkan pesan jelas (`GAGAL: Bukan file gambar yang dapat dibaca…`), foto lain tetap diproses, dan kode keluar bernilai 1. Python **3.11** (diuji: 3.11.9); versi lain belum diuji. Versi paket dipin di [requirements.txt](requirements.txt); untuk versi transitif yang diuji di macOS arm64 ada `requirements-lock-macos-arm64.txt`.
+
+### 3. Reproduksi training
+
+Foto asli **tidak ikut repo** (`data/raw/` dan label pribadi ada di `.gitignore`). Hanya 6 foto contoh dari test terkunci yang diterbitkan (`site/examples/`, tanpa metadata EXIF). Untuk mengulang training Anda perlu foto sendiri:
+
+```bash
+# letakkan foto JPG/PNG/WebP di data/raw/, lalu beri label dan ID buah
+python -m src.manifest --init-labels
+python -m src.app --labels-only            # aplikasi pelabelan lokal, http://127.0.0.1:7860
+
+# training satu kali (seed 42, direktori output harus baru; model lama tidak ditimpa)
+python -m src.pipeline --output outputs/experiments/saya_v1
+python -m src.predict foto.jpg --run outputs/experiments/saya_v1/baseline
+```
+
+Seed 42 dan operasi deterministik diaktifkan, tetapi hasil bit-per-bit lintas perangkat atau versi TensorFlow tidak dijamin. Setiap run menyimpan versi runtime, konfigurasi, snapshot source, dan hash data. Validation/test tidak diaugmentasi dan hyperparameter tidak boleh diubah berdasarkan test.
+
+**Ekspansi dataset lokal (7 Oktober 2026):** tersedia 360 variasi training baru,
+120 per kelas, di `data/augmented/own_v3_360/`. CSV gabungannya memuat 420 gambar
+(60 foto asli + 360 augmentasi). Pipeline umum kini menjaga grup sesi dan enam
+foto test terkunci. Variasi bukan buah baru atau bukti peningkatan akurasi;
+lihat [dataset card dan perintah reproduksi](docs/DATASET.md#ekspansi-dataset-7-oktober-2026).
+
+**Penggabungan foto primer (9 Oktober 2026):** 22 foto di `data/reference_import/` digabung sebagai `segar`; manifest baru `data/prepared/ff822adef8db3ae5` (82 foto: 70 train / 6 val / 6 test terkunci). Dilatih ulang di `outputs/experiments/own_v4_ref22/`; validation hanya enam foto, jadi hasilnya bukan bukti peningkatan. Model demo web belum diganti. Lihat [catatan dataset](docs/DATASET.md#penggabungan-foto-primer-9-oktober-2026).
+
+Studi evaluasi `own_v2` (validasi silang 5 fold berbasis sesi × 5 seed, protokol dibekukan sebelum training) dijalankan oleh satu perintah yang bisa dilanjutkan bila terputus:
+
+```bash
+nohup caffeinate -i bash scripts/run_own_v2.sh > outputs/experiments/own_v2/driver.log 2>&1 &
+```
+
+Skrip ini menjalankan sweep (`python -m src.cv_study sweep`), lalu `scripts/finish_own_v2.py`: summarize → select (aturan yang sudah dideklarasikan) → refit final → test terkunci **satu kali** → ekspor demo → paritas JS → README dan draf laporan → semua tes. Hasilnya dicatat di `outputs/experiments/own_v2/release_status.md`. Satu run butuh puluhan menit di CPU, jadi studi lengkap berjalan sekitar satu hari. Setiap langkah menolak menimpa artefak sebelumnya. Rincian per langkah ada di docstring [src/cv_study.py](src/cv_study.py).
+
+## Hasil dan keterbatasan
+
+<!-- results:start -->
+**Metrik belum tersedia.** Studi `own_v2` (validasi silang 5 fold berbasis sesi × 5 seed, lalu test terkunci yang dinilai satu kali) masih berjalan (`scripts/run_own_v2.sh`). Setelah selesai, tabel akurasi/macro-F1 dengan interval kepercayaan diisi otomatis di sini dari `site/data/report.json` (`python -m scripts.sync_docs`), sama dengan tab **Evaluasi** di demo.
+<!-- results:end -->
+
+Keterbatasan yang harus dibaca sebelum memercayai angka apa pun:
+
+- **Data training sangat kecil:** 82 foto asli berlabel dari 12 grup sesi: 60 foto lama (20 per kelas) dan 22 foto primer impor berlabel `segar` oleh pemilik (9 Oktober 2026; satu latar, satu grup, kondisi tidak diperiksa per foto), sehingga kelas segar berlebih. Asal pengambilan sumber lama perlu bukti terpisah. Foto dalam satu sesi bukan sampel independen.
+- **Kebocoran sesi sudah ditemukan:** audit versi pertama (`own_v1`, split per "set") menunjukkan sesi `A_meja_kayu` (30 foto, kemungkinan satu buah yang sama) tersebar di train, validasi, dan test (18, 6, dan 6 foto). Karena itu akurasi 100% pada `own_v1` **tidak boleh dipakai sebagai bukti kinerja**. Studi `own_v2` memakai sesi sebagai grup sehingga satu sesi tidak pernah terpecah antar split.
+- **Test terkunci sangat kecil:** 6 foto (2 per kelas) dari 2 sesi (`B06_talenan`, `B07_baja`, dibekukan di `protocol.json`), jadi interval kepercayaannya sangat lebar; satu foto salah mengubah akurasi test sekitar 17 poin persen.
+- **Mudah gagal di luar kondisi data:** pencahayaan, latar, kamera, atau varietas yang berbeda dapat menurunkan akurasi. Uji robustness awal menunjukkan kinerja turun pada foto buram.
+- **Bukan detektor tomat:** model tidak mengenali non-tomat atau banyak buah. Pemeriksaan warna hanya menandai gambar yang hampir tanpa warna tomat; objek merah lain tetap bisa diberi probabilitas tinggi.
+- **Bukan jaminan keamanan pangan** dan belum siap produksi (`production_ready: false`). Probabilitas tinggi bukan bukti prediksi benar.
+
+## Struktur repo, tes, dan data
+
+```text
+src/             pipeline: manifest, split sesi, model, train, evaluate, cv_study, predict, export_web, app lokal
+site/            demo statis GitHub Pages (index.html, app.js, tomato-core.js, worker.js, model_info.json, data/)
+models/release/  model Keras yang sama dengan bobot demo (dibuat oleh src.export_web)
+notebooks/       tomato_vision_colab.ipynb
+scripts/         run_own_v2.sh + finish_own_v2.py (studi → rilis), sync_docs.py (README/laporan dari JSON), strip_examples.py
+tests/           tes Python (unittest), js_parity.mjs, js_predict.mjs, site_smoke.mjs, site_about_smoke.mjs
+configs/ docs/   konfigurasi; dataset card, panduan demo, penjelasan teknis
+submission/      laporan (.docx) dan paket dataset
+.github/         workflow deploy Pages (menjalankan tes paritas dulu)
+```
+
+**Menjalankan tes** (dari root repo, venv aktif):
+
+```bash
+python -m unittest discover -s tests -v                # unit, ekspor web, predict.py, predict vs web
+node tests/js_parity.mjs                               # paritas JavaScript vs Keras
+python3 -m http.server 8765 -d site &                  # untuk tes browser
+chrome --headless=new --remote-debugging-port=9235 about:blank &   # sesuaikan nama/jalur Chrome
+node tests/site_smoke.mjs && node tests/site_about_smoke.mjs
+python -m scripts.sync_docs --check                    # README sesuai site/model_info.json
+```
+
+Mengekspor ulang demo setelah model baru: `python -m src.export_web`, lalu `node tests/js_parity.mjs --write-info`, lalu `python -m scripts.sync_docs`. Untuk mengaktifkan GitHub Pages: push ke `main`, lalu **Settings → Pages → Source: GitHub Actions**.
+
+**Aplikasi lokal** (pelabelan, training, evaluasi; bind hanya ke localhost): `python -m src.check --deep && python -m src.app`. Panduannya ada di [docs/DEMO.md](docs/DEMO.md), kriteria label di [docs/DATASET.md](docs/DATASET.md), dan penjelasan teknis di [docs/LAPORAN_PROYEK.md](docs/LAPORAN_PROYEK.md).
+
+**Lisensi dan data:** repo ini belum memiliki berkas lisensi, jadi hak penggunaan belum diberikan secara eksplisit. Foto tomat adalah milik pemilik repo dan tidak dipublikasikan penuh; foto contoh di demo diterbitkan tanpa metadata. Model dilatih dari bobot acak, tanpa dataset publik atau bobot pretrained.
+
+## Berkas pengumpulan IS794
+
+[Laporan Word](submission/IS794_Laporan_TomatoVision.docx),
+[PPT final](submission/presentasi/IS794_Presentasi_Final.pptx),
+[PPT Week 7](submission/presentasi/IS794_Presentasi_Week7.pptx), dan
+[notebook proyek lengkap](notebooks/IS794_TomatoVision_Project.ipynb) tersedia.
+Laporan memakai hasil validation own_v3 yang sudah diaudit, bukan hasil historis
+own_v1. Notebook mencakup EDA, CNN, training opsional, evaluasi ulang, dan inferensi.
+
+Lihat [audit ketentuan](submission/audit/KESESUAIAN_IS794.md) dan
+[pembeda penelitian](submission/audit/PEMBEDA_DAN_PRESENTASI.md).
+Jumlah file dataset tidak otomatis membuktikan minimal 100 data primer.
+Format laporan dibuat DOCX sesuai permintaan; PDF tetap diminta dalam ketentuan
+pengumpulan resmi. Identitas dan kontribusi digabungkan dari dokumen tim.
+
+```bash
+python -m pip install -r requirements-submission.txt
+python -m src.selective_evaluation --run outputs/experiments/own_v3_augmented/regularized --output outputs/selective_review_baru.json
+python -m scripts.build_assignment_submission
+python -m scripts.validate_submission
+```

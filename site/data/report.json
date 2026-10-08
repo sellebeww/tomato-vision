@@ -1,0 +1,400 @@
+{
+  "title": "Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow",
+  "source": {
+    "run": "baseline",
+    "experiment": "own_v1",
+    "dataset_fingerprint": "9fc934f2830aaf7286feb5f6034bde2cbe0ad1fb6478268e42932aec8fd8b27a"
+  },
+  "model": {
+    "architecture": "baseline",
+    "parameters": 423619,
+    "best_epoch": 15,
+    "epochs_run": 25,
+    "image_size": 128,
+    "elapsed_seconds": 530.9597167080065,
+    "validation": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "loss": 0.006152101398750495
+    },
+    "train_clean_accuracy": 1.0,
+    "temperature": 1.0,
+    "calibration_note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained",
+    "production_ready": false,
+    "mode": "own",
+    "weights": "random initialization; no pretrained weights"
+  },
+  "evaluation": {
+    "accuracy": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0,
+    "macro_f1": 1.0,
+    "loss": 0.028372565482414725,
+    "expected_calibration_error": 0.026318534966317565,
+    "report": {
+      "segar": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      },
+      "tidak_segar": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      },
+      "busuk": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 12.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 12.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        4,
+        0,
+        0
+      ],
+      [
+        0,
+        4,
+        0
+      ],
+      [
+        0,
+        0,
+        4
+      ]
+    ],
+    "n_images": 12,
+    "mode": "own",
+    "dataset_fingerprint": "9fc934f2830aaf7286feb5f6034bde2cbe0ad1fb6478268e42932aec8fd8b27a",
+    "generalization_claim": "Own-photo held-out evaluation; assess group counts and capture diversity",
+    "uncertainty": {
+      "group_count": 2,
+      "valid_resamples": 300,
+      "macro_f1_95_percent_interval": [
+        1.0,
+        1.0
+      ],
+      "note": "Group bootstrap; unreliable with very few independent groups"
+    },
+    "robustness": {
+      "darker": {
+        "accuracy": 0.9166666666666666,
+        "macro_precision": 0.9333333333333332,
+        "macro_recall": 0.9166666666666666,
+        "macro_f1": 0.9153439153439153,
+        "loss": 0.4168131134658408,
+        "expected_calibration_error": 0.10857916745021597,
+        "report": {
+          "segar": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 4.0
+          },
+          "tidak_segar": {
+            "precision": 1.0,
+            "recall": 0.75,
+            "f1-score": 0.8571428571428571,
+            "support": 4.0
+          },
+          "busuk": {
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1-score": 0.8888888888888888,
+            "support": 4.0
+          },
+          "accuracy": 0.9166666666666666,
+          "macro avg": {
+            "precision": 0.9333333333333332,
+            "recall": 0.9166666666666666,
+            "f1-score": 0.9153439153439153,
+            "support": 12.0
+          },
+          "weighted avg": {
+            "precision": 0.9333333333333332,
+            "recall": 0.9166666666666666,
+            "f1-score": 0.9153439153439153,
+            "support": 12.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            4,
+            0,
+            0
+          ],
+          [
+            0,
+            3,
+            1
+          ],
+          [
+            0,
+            0,
+            4
+          ]
+        ],
+        "n_images": 12
+      },
+      "brighter": {
+        "accuracy": 0.9166666666666666,
+        "macro_precision": 0.9333333333333332,
+        "macro_recall": 0.9166666666666666,
+        "macro_f1": 0.9153439153439153,
+        "loss": 0.2924787258437805,
+        "expected_calibration_error": 0.0736911982577011,
+        "report": {
+          "segar": {
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1-score": 0.8888888888888888,
+            "support": 4.0
+          },
+          "tidak_segar": {
+            "precision": 1.0,
+            "recall": 0.75,
+            "f1-score": 0.8571428571428571,
+            "support": 4.0
+          },
+          "busuk": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 4.0
+          },
+          "accuracy": 0.9166666666666666,
+          "macro avg": {
+            "precision": 0.9333333333333332,
+            "recall": 0.9166666666666666,
+            "f1-score": 0.9153439153439153,
+            "support": 12.0
+          },
+          "weighted avg": {
+            "precision": 0.9333333333333332,
+            "recall": 0.9166666666666666,
+            "f1-score": 0.9153439153439153,
+            "support": 12.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            4,
+            0,
+            0
+          ],
+          [
+            1,
+            3,
+            0
+          ],
+          [
+            0,
+            0,
+            4
+          ]
+        ],
+        "n_images": 12
+      },
+      "blur": {
+        "accuracy": 0.3333333333333333,
+        "macro_precision": 0.1111111111111111,
+        "macro_recall": 0.3333333333333333,
+        "macro_f1": 0.16666666666666666,
+        "loss": 3.414514492937426,
+        "expected_calibration_error": 0.5933834752227553,
+        "report": {
+          "segar": {
+            "precision": 0.3333333333333333,
+            "recall": 1.0,
+            "f1-score": 0.5,
+            "support": 4.0
+          },
+          "tidak_segar": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 4.0
+          },
+          "busuk": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 4.0
+          },
+          "accuracy": 0.3333333333333333,
+          "macro avg": {
+            "precision": 0.1111111111111111,
+            "recall": 0.3333333333333333,
+            "f1-score": 0.16666666666666666,
+            "support": 12.0
+          },
+          "weighted avg": {
+            "precision": 0.1111111111111111,
+            "recall": 0.3333333333333333,
+            "f1-score": 0.16666666666666666,
+            "support": 12.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            4,
+            0,
+            0
+          ],
+          [
+            4,
+            0,
+            0
+          ],
+          [
+            4,
+            0,
+            0
+          ]
+        ],
+        "n_images": 12
+      }
+    }
+  },
+  "dataset": {
+    "own_images": 82,
+    "approved": 60,
+    "unreviewed": 22,
+    "class_counts": {
+      "segar": 20,
+      "tidak_segar": 20,
+      "busuk": 20
+    },
+    "groups_per_class": {
+      "segar": 10,
+      "tidak_segar": 10,
+      "busuk": 10
+    },
+    "splits": {
+      "train": {
+        "segar": 12,
+        "tidak_segar": 12,
+        "busuk": 12
+      },
+      "val": {
+        "segar": 4,
+        "tidak_segar": 4,
+        "busuk": 4
+      },
+      "test": {
+        "segar": 4,
+        "tidak_segar": 4,
+        "busuk": 4
+      }
+    },
+    "groups": {
+      "train": 6,
+      "val": 2,
+      "test": 2
+    },
+    "total_groups": 10
+  },
+  "candidates": [
+    {
+      "name": "baseline",
+      "architecture": "baseline",
+      "parameters": 423619,
+      "learning_rate": 0.001,
+      "dropout": 0.5,
+      "epochs_run": 25,
+      "best_epoch": 15,
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "loss": 0.006152101398750495,
+      "ece": 0.006043969735822219,
+      "train_val_gap": 0.0,
+      "selected": true
+    },
+    {
+      "name": "regularized_lr001",
+      "architecture": "regularized",
+      "parameters": 96019,
+      "learning_rate": 0.001,
+      "dropout": 0.35,
+      "epochs_run": 22,
+      "best_epoch": 12,
+      "accuracy": 0.8333333333333334,
+      "macro_f1": 0.832010582010582,
+      "loss": 0.45560684130755247,
+      "ece": 0.16214371731342578,
+      "train_val_gap": 0.16666666666666663,
+      "selected": false
+    },
+    {
+      "name": "regularized_lr0003",
+      "architecture": "regularized",
+      "parameters": 96019,
+      "learning_rate": 0.0003,
+      "dropout": 0.5,
+      "epochs_run": 30,
+      "best_epoch": 21,
+      "accuracy": 0.8333333333333334,
+      "macro_f1": 0.8380952380952381,
+      "loss": 0.5272790987439548,
+      "ece": 0.1755865171810272,
+      "train_val_gap": 0.11111111111111105,
+      "selected": false
+    }
+  ],
+  "examples": [
+    {
+      "file": "examples/contoh_segar_1.jpg",
+      "label": "segar",
+      "split": "test",
+      "source": "TOM002_segar.png"
+    },
+    {
+      "file": "examples/contoh_segar_2.jpg",
+      "label": "segar",
+      "split": "test",
+      "source": "TOM009_segar.png"
+    },
+    {
+      "file": "examples/contoh_tidak_segar_1.jpg",
+      "label": "tidak_segar",
+      "split": "test",
+      "source": "TOM012_tidak_segar.png"
+    },
+    {
+      "file": "examples/contoh_tidak_segar_2.jpg",
+      "label": "tidak_segar",
+      "split": "test",
+      "source": "TOM019_tidak_segar.png"
+    },
+    {
+      "file": "examples/contoh_busuk_1.jpg",
+      "label": "busuk",
+      "split": "test",
+      "source": "TOM022_busuk.png"
+    },
+    {
+      "file": "examples/contoh_busuk_2.jpg",
+      "label": "busuk",
+      "split": "test",
+      "source": "TOM029_busuk.png"
+    }
+  ]
+}

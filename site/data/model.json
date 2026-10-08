@@ -1,0 +1,91 @@
+{
+  "format": "tomato-vision-cnn/1",
+  "classes": [
+    "segar",
+    "tidak_segar",
+    "busuk"
+  ],
+  "input_size": 128,
+  "layers": [
+    {
+      "op": "conv3x3",
+      "in": 3,
+      "out": 32,
+      "w": 0,
+      "b": 864,
+      "relu": true
+    },
+    {
+      "op": "maxpool2"
+    },
+    {
+      "op": "conv3x3",
+      "in": 32,
+      "out": 64,
+      "w": 896,
+      "b": 19328,
+      "relu": true
+    },
+    {
+      "op": "maxpool2"
+    },
+    {
+      "op": "conv3x3",
+      "in": 64,
+      "out": 128,
+      "w": 19392,
+      "b": 93120,
+      "relu": true
+    },
+    {
+      "op": "maxpool2"
+    },
+    {
+      "op": "conv3x3",
+      "in": 128,
+      "out": 256,
+      "w": 93248,
+      "b": 388160,
+      "relu": true
+    },
+    {
+      "op": "maxpool2"
+    },
+    {
+      "op": "gap"
+    },
+    {
+      "op": "dense",
+      "in": 256,
+      "out": 128,
+      "w": 388416,
+      "b": 421184,
+      "activation": "relu"
+    },
+    {
+      "op": "dense",
+      "in": 128,
+      "out": 3,
+      "w": 421312,
+      "b": 421696,
+      "activation": "softmax"
+    }
+  ],
+  "weights_file": "weights.bin",
+  "weights_floats": 421699,
+  "weights_sha256": "0b8da44cd674508537925a5c406a9dbe7864d6d0fc76a48391625339c6993454",
+  "temperature": 1.0,
+  "confidence_threshold": 0.7,
+  "mode": "own",
+  "production_ready": false,
+  "calibration": {
+    "temperature": 1.0,
+    "fitted": false,
+    "validation_images": 12,
+    "validation_groups": 2,
+    "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+  },
+  "dataset_fingerprint": "9fc934f2830aaf7286feb5f6034bde2cbe0ad1fb6478268e42932aec8fd8b27a",
+  "pad_color": 127,
+  "keras_parity_max_abs_error": 6.128278817740807e-08
+}

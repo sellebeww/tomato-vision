@@ -1,0 +1,83 @@
+file,session_id,basis
+TOM001_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM002_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM003_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM004_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM005_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM006_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM007_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM008_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM009_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM010_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM011_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM012_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM013_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM014_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM015_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM016_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM017_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM018_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM019_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM020_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM021_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM022_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM023_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM024_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM025_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM026_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM027_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM028_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM029_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM030_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM031_segar,B01_ubin,latar unik per triplet segar-tidak_segar-busuk
+TOM032_segar,B02_piring,latar unik per triplet segar-tidak_segar-busuk
+TOM033_segar,B03_kardus,latar unik per triplet segar-tidak_segar-busuk
+TOM034_segar,B04_granit_hitam,latar unik per triplet segar-tidak_segar-busuk
+TOM035_segar,B05_linen,latar unik per triplet segar-tidak_segar-busuk
+TOM036_segar,B06_talenan,latar unik per triplet segar-tidak_segar-busuk
+TOM037_segar,B07_baja,latar unik per triplet segar-tidak_segar-busuk
+TOM038_segar,B08_beton,latar unik per triplet segar-tidak_segar-busuk
+TOM039_segar,B09_kayu_gelap,latar unik per triplet segar-tidak_segar-busuk
+TOM040_segar,B10_meja_bintik,latar unik per triplet segar-tidak_segar-busuk
+TOM041_tidak_segar,B01_ubin,latar unik per triplet segar-tidak_segar-busuk
+TOM042_tidak_segar,B02_piring,latar unik per triplet segar-tidak_segar-busuk
+TOM043_tidak_segar,B03_kardus,latar unik per triplet segar-tidak_segar-busuk
+TOM044_tidak_segar,B04_granit_hitam,latar unik per triplet segar-tidak_segar-busuk
+TOM045_tidak_segar,B05_linen,latar unik per triplet segar-tidak_segar-busuk
+TOM046_tidak_segar,B06_talenan,latar unik per triplet segar-tidak_segar-busuk
+TOM047_tidak_segar,B07_baja,latar unik per triplet segar-tidak_segar-busuk
+TOM048_tidak_segar,B08_beton,latar unik per triplet segar-tidak_segar-busuk
+TOM049_tidak_segar,B09_kayu_gelap,latar unik per triplet segar-tidak_segar-busuk
+TOM050_tidak_segar,B10_meja_bintik,latar unik per triplet segar-tidak_segar-busuk
+TOM051_busuk,B01_ubin,latar unik per triplet segar-tidak_segar-busuk
+TOM052_busuk,B02_piring,latar unik per triplet segar-tidak_segar-busuk
+TOM053_busuk,B03_kardus,latar unik per triplet segar-tidak_segar-busuk
+TOM054_busuk,B04_granit_hitam,latar unik per triplet segar-tidak_segar-busuk
+TOM055_busuk,B05_linen,latar unik per triplet segar-tidak_segar-busuk
+TOM056_busuk,B06_talenan,latar unik per triplet segar-tidak_segar-busuk
+TOM057_busuk,B07_baja,latar unik per triplet segar-tidak_segar-busuk
+TOM058_busuk,B08_beton,latar unik per triplet segar-tidak_segar-busuk
+TOM059_busuk,B09_kayu_gelap,latar unik per triplet segar-tidak_segar-busuk
+TOM060_busuk,B10_meja_bintik,latar unik per triplet segar-tidak_segar-busuk
+tomat_ref_01,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_02,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_03,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_04,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_05,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_06,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_07,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_08,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_09,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_10,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_11,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_12,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_13,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_14,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_15,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_16,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_17,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_18,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_19,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_20,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_21,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_22,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"

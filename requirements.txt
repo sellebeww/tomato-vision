@@ -1,4 +1,8 @@
-# Python 3.11; tested CPU environment. No pretrained weights or external APIs.
+# Tomato Vision: dependensi dengan versi dipin.
+# Python: 3.11 (diuji: 3.11.9, macOS arm64). Versi Python lain BELUM diuji.
+# CPU saja sudah cukup; GPU tidak diperlukan (semua tes dan training dijalankan di CPU).
+# Pasang: python -m pip install -r requirements.txt
+# Paket training/evaluasi (pandas, scikit-learn, matplotlib) ikut terpasang agar semua perintah README berjalan.
 tensorflow==2.16.1
 keras==3.15.1
 

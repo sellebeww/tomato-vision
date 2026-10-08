@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image, ImageOps
 from src.config import ROOT_DIR, DATA_DIR, CLASS_NAMES, FILENAME_PATTERN, RAW_DATA_DIR, resolve_path
-from src.dataset_split import assign_group_splits, validate_splits
+from src.dataset_split import assign_group_splits, assign_locked_splits, validate_splits
 
 LABEL_COLUMNS = ["filepath", "sha256", "group_id", "label", "approved", "source", "notes"]
 
@@ -85,7 +85,75 @@ def own_rows():
     if rows.empty:
         raise ValueError("No approved own labels. Run python -m src.app, label photos and assign fruit IDs.")
     rows["group_id"] = "own:" + rows.group_id.astype(str).str.strip().str.casefold()
-    return rows
+    return apply_session_groups(rows)
+
+
+def apply_session_groups(rows):
+    """Join audited sessions and conservatively link fruit IDs across sessions."""
+    path = DATA_DIR / "sessions.csv"
+    if not path.exists():
+        return rows.copy()
+    sessions = pd.read_csv(path, keep_default_na=False, dtype=str)
+    if not {"file", "session_id"}.issubset(sessions.columns):
+        raise ValueError("sessions.csv requires file and session_id")
+    for key in ("file", "session_id"):
+        sessions[key] = sessions[key].str.strip()
+        if sessions[key].eq("").any():
+            raise ValueError(f"Empty {key} in sessions.csv")
+    if sessions.file.duplicated().any():
+        raise ValueError("Duplicate file in sessions.csv")
+    result = rows.copy()
+    result["session_id"] = result.filepath.map(lambda p: Path(p).stem).map(sessions.set_index("file").session_id)
+    if result.session_id.isna().any():
+        raise ValueError("Every approved photo needs a session_id in data/sessions.csv")
+    parent = {g: g for g in result.group_id}
+    def root(g):
+        while parent[g] != g:
+            parent[g] = parent[parent[g]]
+            g = parent[g]
+        return g
+    for _, part in result.groupby("session_id"):
+        groups = part.group_id.unique()
+        for g in groups[1:]:
+            a, b = root(groups[0]), root(g)
+            parent[max(a, b)] = min(a, b)
+    result["annotated_group_id"] = result.group_id
+    result["group_id"] = result.group_id.map(root)
+    return result
+
+
+SYNTHETIC_LABELS = ROOT_DIR / "submission/dataset/labels.csv"
+
+def synthetic_rows():
+    """AI-generated images from the submission package; kept tagged source=synthetic_ai."""
+    package = SYNTHETIC_LABELS.parent
+    df = pd.read_csv(SYNTHETIC_LABELS, keep_default_na=False, dtype=str)
+    df = df[df.source == "synthetic_ai"]
+    if df.empty:
+        raise ValueError("No synthetic_ai rows in " + relative(SYNTHETIC_LABELS))
+    if not df.label.isin(CLASS_NAMES).all() or df.group_id.str.strip().eq("").any():
+        raise ValueError("Synthetic rows need a known label and a scene group_id")
+    return pd.DataFrame(dict(filepath=[relative(package / f) for f in df.file], sha256=df.sha256.values,
+                             group_id=df.group_id.values, label=df.label.values, approved=True,
+                             source="synthetic_ai", notes="included by owner request; labels not human-reviewed"))
+
+def add_synthetic(own, synthetic):
+    """Append synthetic images to the train split; they never touch validation or test."""
+    synthetic = enrich(synthetic)
+    synthetic = synthetic[~synthetic.pixel_sha256.isin(own.pixel_sha256)].drop_duplicates("pixel_sha256")
+    synthetic = synthetic.assign(split="train", original_group_id=synthetic.group_id, annotated_group_id=synthetic.group_id)
+    if "session_id" in own:
+        synthetic["session_id"] = synthetic.group_id
+    return pd.concat([own, synthetic], ignore_index=True)
+
+def split_with_existing_holdout(base, seed=42):
+    protocol = DATA_DIR.parent / "outputs/experiments/own_v2/protocol.json"
+    if protocol.exists():
+        metadata = json.loads(protocol.read_text())
+        hashes = metadata["locked_test_sha256"]
+        result = assign_locked_splits(base, hashes, seed)
+        return result, {"locked_test_sha256": sorted(hashes), "holdout_protocol_sha256": sha256(protocol)}
+    return assign_group_splits(base, seed), {}
 
 def enrich(df):
     rows = []
@@ -133,11 +201,13 @@ def group_near_duplicates(df, distance=4):
     return result, pairs
 
 def prepare(mode="own", seed=42):
-    if mode != "own":
+    if mode not in ("own", "own_plus_synthetic"):
         raise ValueError("Unknown dataset mode")
     base = enrich(own_rows())
     base, pairs = group_near_duplicates(base)
-    result = assign_group_splits(base,seed)
+    result, holdout = split_with_existing_holdout(base,seed)
+    if mode == "own_plus_synthetic":
+        result = add_synthetic(result, synthetic_rows())
     validate_splits(result)
     hashes=[int(x,16) for x in result.dhash]
     splits=result.split.tolist()
@@ -148,8 +218,9 @@ def prepare(mode="own", seed=42):
     result=result.sort_values("filepath").reset_index(drop=True)
     settings={"mode":mode,"seed":seed,
               "classes":CLASS_NAMES,"dhash_distance":4,
-              "label_policy":"manual approved own photos",
-              "group_policy":"fruit ID plus conservative dHash connected components",
+              "label_policy":"manual approved own photos"+("; AI-generated images added to train only, tagged synthetic_ai, labels not human-reviewed" if mode!="own" else ""),
+              "group_policy":"fruit ID plus audited sessions and conservative dHash connected components",
+              **holdout,
               "limitation":"dHash cannot prove fruit independence; actual fruit IDs must be accurate"}
     folder=save_bundle(result,settings,pairs=pairs)
     print(json.dumps({"dataset":relative(folder),**json.loads((folder/'dataset.json').read_text())},indent=2))
@@ -159,6 +230,8 @@ def save_bundle(result,settings,folder=None,pairs=None):
     """Write immutable bundles; used for preparation and development-only folds."""
     validate_splits(result)
     settings=dict(settings)
+    if "locked_test_sha256" in settings and set(result[result.split == "test"].sha256) != set(settings["locked_test_sha256"]):
+        raise ValueError("Manifest does not preserve the locked test")
     result=result.sort_values('filepath').reset_index(drop=True)
     payload=result.to_csv(index=False)
     fingerprint=hashlib.sha256((json.dumps(settings,sort_keys=True)+payload).encode()).hexdigest()
@@ -183,6 +256,8 @@ def load_bundle(folder, verify=True):
     meta=json.loads((folder/"dataset.json").read_text())
     df=pd.read_csv(folder/"manifest.csv",keep_default_na=False)
     validate_splits(df)
+    if "locked_test_sha256" in meta and set(df[df.split == "test"].sha256) != set(meta["locked_test_sha256"]):
+        raise ValueError("Manifest does not preserve the locked test")
     settings={k:v for k,v in meta.items() if k not in
               {"fingerprint","counts","groups","unique_images","near_duplicate_merges"}}
     fingerprint=hashlib.sha256((json.dumps(settings,sort_keys=True)+(folder/"manifest.csv").read_text()).encode()).hexdigest()
@@ -217,11 +292,12 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--init-labels",action="store_true")
     parser.add_argument("--seed",type=int,default=42)
+    parser.add_argument("--with-synthetic",action="store_true",help="add submission/dataset synthetic_ai images to train only")
     args=parser.parse_args()
     if args.init_labels:
         init_labels()
     else:
-        prepare("own",args.seed)
+        prepare("own_plus_synthetic" if args.with_synthetic else "own",args.seed)
 
 if __name__=="__main__":
     main()

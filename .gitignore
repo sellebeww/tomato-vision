@@ -44,3 +44,11 @@ data/annotations.csv
 data/duplicates.csv
 data/prepared/
 outputs/selected_run.json
+
+# Paket dataset lengkap (140 MB, di atas batas 100 MB GitHub; data pribadi). Pakai Git LFS/rilis bila memang ingin dibagikan.
+submission/dataset/*.zip
+submission/dataset/images/
+# Berkas sementara Word dan cadangan dari scripts/sync_docs.py
+~$*
+*.docx.bak
+*.docx.tmp

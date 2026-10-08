@@ -7,7 +7,8 @@ import shutil
 import pandas as pd
 from PIL import Image
 from src.config import CLASS_NAMES, DATA_DIR, RAW_DATA_DIR
-from src.manifest import LABEL_COLUMNS, init_labels, validate_annotation_rows, enrich, group_near_duplicates
+from src.manifest import (LABEL_COLUMNS, init_labels, validate_annotation_rows, enrich,
+                          group_near_duplicates, apply_session_groups, split_with_existing_holdout)
 from src.dataset_split import assign_group_splits, validate_splits
 
 def annotation_snapshot():
@@ -86,8 +87,8 @@ def dataset_readiness():
         if len(frame):
             validate_annotation_rows(snapshot['rows'])
         if not blockers:
-            grouped,pairs=group_near_duplicates(enrich(approved))
-            split=assign_group_splits(grouped)
+            grouped,pairs=group_near_duplicates(enrich(apply_session_groups(approved)))
+            split,_=split_with_existing_holdout(grouped)
             validate_splits(split)
             preview={s:{'images':int((split.split==s).sum()),
                         'groups':int(split[split.split==s].group_id.nunique())}

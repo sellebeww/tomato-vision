@@ -4,13 +4,14 @@
 
 Proyek ini mengimplementasikan klasifikasi kondisi visual satu buah tomat menjadi
 segar, tidak segar, dan busuk menggunakan CNN yang dilatih dari nol dengan
-TensorFlow/Keras. Sistem mencakup inventarisasi foto sendiri, anotasi, pemisahan
+TensorFlow/Keras. Sistem mencakup inventarisasi sumber proyek, anotasi, pemisahan
 data berdasarkan identitas buah, augmentasi training, pembandingan model,
 evaluasi, dan aplikasi prediksi lokal.
 
-Implementasi perangkat lunak telah dijalankan. Dataset berisi 82 foto unik; 60
-foto sudah berlabel dan dikelompokkan, sedangkan 22 foto lain belum dikonfirmasi.
-Angka evaluasi harus dibaca bersama jumlah kelompok test yang kecil.
+Implementasi perangkat lunak telah dijalankan. Dataset berisi 82 foto unik yang
+seluruhnya berlabel: 60 foto lama (20 per kelas) dan 22 foto primer impor yang pada
+9 Oktober 2026 digabung dengan label `segar` atas arahan pemilik. Angka evaluasi
+harus dibaca bersama jumlah kelompok validation/test yang kecil.
 
 ## Tujuan dan batas masalah
 
@@ -22,16 +23,21 @@ banyak buah sekaligus. Klaim generalisasi memerlukan test foto nyata independen.
 
 ## Dataset
 
-Folder `data/reference_import/` memuat 26 JPEG, 22 di antaranya unik berdasarkan
+Folder `data/reference_import/` memuat 26 JPEG foto primer, 22 di antaranya unik berdasarkan
 SHA-256. Salinan duplikat dipertahankan namun tidak menjadi sampel independen.
-Folder `data/raw/` memuat 60 foto berlabel, 20 per kelas, dalam 10 kelompok.
+Ke-22 foto unik digabung ke dataset berlabel sebagai `segar` (label dari pemilik,
+tidak diperiksa satu per satu); semuanya satu grup `R_reference_meja_kayu` sehingga
+berpindah split bersama dan masuk training.
+Berkas diberi nama seragam `tomat_ref_01.jpeg` sampai `tomat_ref_22.jpeg`; salinan identik
+memakai akhiran `_salinan1` (misalnya `tomat_ref_06_salinan1.jpeg`).
+Folder `data/raw/` memuat 60 sumber berlabel, 20 per kelas, dengan 11 kelompok sesi pada split yang telah diaudit. Asal pemotretan sumber lama perlu bukti terpisah.
 Dataset publik dan dummy berbentuk lingkaran tidak dipakai oleh pipeline.
 
-Label foto sendiri disetujui berdasarkan pengamatan pemilik. `group_id` adalah
-identitas buah fisik: seluruh hari dan sudut satu buah berada di split yang sama.
+Anotasi lama ditandai disetujui pada inventaris; 22 foto impor disetujui pada 9 Oktober 2026. `group_id` menggabungkan ID buah dan sesi secara konservatif: seluruh hari dan sudut satu buah berada di split yang sama.
 Pemeriksaan memakai hash file, hash piksel, dan pengelompokan konservatif dHash.
 dHash tidak dapat membuktikan identitas buah; kualitas metadata tetap penting.
-Target proporsi split 70/15/15, tetapi kelompok membuat proporsi aktual berbeda.
+Proporsi aktual adalah 70 training / 6 validation / 6 test terkunci (manifest `data/prepared/ff822adef8db3ae5`); test terkunci dan validation tidak berubah dari sebelum penggabungan, dan grup sesi membuat proporsi berbeda dari target 70/15/15.
+Training berisi segar 38, tidak_segar 16, busuk 16 foto asli dari 8 grup. Kelas segar berlebih dan 22 fotonya satu latar, sehingga ada risiko model mengaitkan latar dengan kelas.
 Setiap split wajib mencakup ketiga kelas. Satu atau dua buah tidak dipisah secara
 paksa menjadi train/validation/test.
 
@@ -103,6 +109,21 @@ menu Evaluasi. Laporkan accuracy, macro-F1, confusion matrix, jumlah kelompok
 test, dan contoh kesalahan. Jangan menjalankan eksperimen berulang hanya untuk
 menaikkan angka test; jangan menilai model dari training accuracy saja.
 
+Pelatihan ulang setelah penggabungan 22 foto primer (9 Oktober 2026; ringkasan di
+`outputs/experiments/own_v4_ref22/summary.md`, test tidak dievaluasi):
+
+| Kandidat | Accuracy train | Accuracy validation | Macro-F1 validation | Loss validation |
+|---|---:|---:|---:|---:|
+| regularized | 75,7% | 66,7% (4/6) | 0,556 | 0,505 |
+| baseline_augmented | 98,6% | 100% (6/6) | 1,000 | 0,100 |
+
+Menurut aturan pemilihan (macro-F1 validation, lalu loss) kandidat terpilih adalah
+baseline_augmented. Angka ini berasal dari enam foto validation (dua sesi) yang juga
+memandu early stopping; selisih 4/6 menjadi 6/6 hanya dua foto dan **bukan bukti
+peningkatan**. Regularized memprediksi kedua foto segar validation sebagai tidak_segar.
+Hasil own_v3 sebelumnya (kedua kandidat 4/6, macro-F1 0,656) tidak diganti oleh angka ini
+sebagai klaim akurasi; model demo tidak diganti dan belum siap produksi.
+
 ## Aplikasi dan verifikasi
 
 Empat menu aplikasi adalah Prediksi, Dataset & label, Training, dan Evaluasi.
@@ -123,6 +144,14 @@ Tes HTTP dan browser memeriksa alur pengguna, termasuk desktop dan ponsel.
 ## Kesimpulan dan langkah lanjut
 
 Perangkat lunak dapat dijalankan dan didemokan sebagai prototipe end-to-end.
-Untuk memperkuat hasil, perlu konfirmasi label/ID buah pada 22 foto yang belum
-dilabeli, penambahan buah independen, lalu training dan evaluasi ulang. Tahap itu
-tidak dapat digantikan dengan label/ID tebakan atau jumlah augmentasi yang besar.
+Untuk memperkuat hasil, perlu verifikasi kondisi tiap foto dari 22 foto yang kini
+berlabel `segar`, penambahan buah dan latar independen terutama untuk kelas
+tidak_segar dan busuk, lalu training dan evaluasi ulang. Tahap itu tidak dapat
+digantikan dengan label/ID tebakan atau jumlah augmentasi yang besar.
+
+
+## Laporan pengumpulan terbaru
+
+Dokumen Word lengkap berada di [submission/IS794_Laporan_TomatoVision.docx](../submission/IS794_Laporan_TomatoVision.docx). Laporan tersebut menggantikan hasil historis own_v1 yang terpengaruh kebocoran sesi. Hasil own_v3 yang dipakai adalah validation accuracy 4/6 (66,7%) dan macro-F1 0,656. Notebook proyek ada di `notebooks/IS794_TomatoVision_Project.ipynb`.
+
+Evaluasi prediksi selektif (`src/selective_evaluation.py`) membandingkan coverage dan proporsi kesalahan pada prediksi yang diterima. Pada enam validation, aturan review menerima empat gambar (3/4 benar), menahan satu kesalahan, tetapi satu kesalahan tetap lolos. Ini bukan peningkatan accuracy keseluruhan atau hasil test independen. Rancangan pembeda dan latihan presentasi ada di `submission/audit/PEMBEDA_DAN_PRESENTASI.md`.

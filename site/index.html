@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob: data:; script-src 'self'; style-src 'self'; connect-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="Demo Tomato Vision: klasifikasi kesegaran tomat (segar, tidak segar, busuk) dengan CNN dari nol. Model berjalan di browser; foto tidak diunggah.">
+  <meta name="theme-color" content="#1c5339">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tomato Vision · Klasifikasi Kesegaran Tomat">
+  <meta property="og:description" content="CNN dari nol yang berjalan sepenuhnya di browser Anda. Foto tidak diunggah ke server.">
+  <meta property="og:image" content="https://sellebeww.github.io/tomato-vision/img/logo.png">
+  <title>Tomato Vision · Klasifikasi Kesegaran Tomat</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <script src="tomato-core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Lewati ke konten</a>
+  <header class="topbar">
+    <a class="brand" href="#prediction"><img class="brand-mark" src="img/logo.png" alt="" width="40" height="40"> Tomato Vision <span class="tag">RESEARCH STUDIO</span></a>
+    <span class="local"><span class="dot" aria-hidden="true"></span> Berjalan di browser · Foto tidak diunggah</span>
+  </header>
+  <main id="main">
+    <section class="hero">
+      <div><p class="eyebrow">COMPUTER VISION / TENSORFLOW</p><h1>Kenali kesegaran.<br><span>Pahami hasilnya.</span></h1>
+      <p class="project-title">Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow</p>
+      <p class="muted">CNN dilatih dari nol dengan TensorFlow, lalu dijalankan langsung di browser. Tiga kelas kondisi visual. Evaluasi berbasis sesi pemotretan dan validasi silang.</p></div>
+      <aside class="hero-note"><span class="eyebrow">ALUR PENELITIAN</span><ol><li>Foto sendiri &amp; label</li><li>Split berdasarkan sesi</li><li>Validasi silang 5 × 5 seed</li><li>Prediksi dengan tinjauan</li></ol></aside>
+    </section>
+    <details class="about" id="about">
+      <summary>Tentang demo ini: bagaimana model berjalan di browser</summary>
+      <div class="about-body">
+        <p>Model dilatih dengan <b>TensorFlow/Keras</b>. Bobotnya lalu diekspor dan dijalankan oleh <b>JavaScript</b> di browser Anda, karena GitHub Pages hanya menyajikan file statis dan tidak dapat menjalankan Python/TensorFlow.</p>
+        <p id="about-parity">Memuat angka paritas…</p>
+        <dl id="about-facts" class="about-facts"></dl>
+        <p><b>Foto yang Anda unggah tidak meninggalkan perangkat.</b> Foto dianalisis di tab ini dan tidak dikirim ke server mana pun.</p>
+        <p class="about-links"><a href="https://github.com/sellebeww/tomato-vision#jalankan-versi-tensorflow" target="_blank" rel="noopener noreferrer">Jalankan versi TensorFlow asli<span class="sr-only"> (README, tab baru)</span></a>
+          <a href="https://colab.research.google.com/github/sellebeww/tomato-vision/blob/main/notebooks/tomato_vision_colab.ipynb" target="_blank" rel="noopener noreferrer">Buka notebook Colab<span class="sr-only"> (tab baru)</span></a></p>
+      </div>
+    </details>
+    <div id="status" class="notice" role="status">Memuat model…</div>
+    <noscript><div class="notice">Demo ini membutuhkan JavaScript karena model dijalankan di browser Anda.</div></noscript>
+    <nav class="tabs" aria-label="Menu utama">
+      <button class="tab active" data-panel="prediction" aria-pressed="true">01 <span>Prediksi</span></button>
+      <button class="tab" data-panel="dataset" aria-pressed="false">02 <span>Dataset &amp; label</span></button>
+      <button class="tab" data-panel="training" aria-pressed="false">03 <span>Training</span></button>
+      <button class="tab" data-panel="evaluation" aria-pressed="false">04 <span>Evaluasi</span></button>
+    </nav>
+
+    <section id="prediction" class="tab-panel">
+      <div class="section-heading"><div><p class="eyebrow">INFERENSI GAMBAR BARU</p><h2>Satu foto. Tiga kemungkinan.</h2></div><span class="chip">Segar / Tidak segar / Busuk</span></div>
+      <div class="panel model-panel">
+        <div class="model-select"><label for="model-select">Model</label><select id="model-select" disabled></select></div>
+        <dl id="model-card" class="model-card" aria-live="polite"></dl>
+      </div>
+      <div class="prediction-layout">
+        <div class="panel">
+          <label class="upload-zone" id="drop" for="upload"><span class="upload-icon" aria-hidden="true">↥</span><strong>Pilih atau seret foto tomat</strong><span>JPG, PNG, WebP · Maks. 10 MB dan 25 megapiksel per foto</span><span class="muted">Hingga 20 foto sekaligus.</span><span class="pick" aria-hidden="true">Pilih file</span><input id="upload" type="file" accept="image/jpeg,image/png,image/webp,.heic,.heif" multiple></label>
+          <label class="camera-button secondary" for="camera">Ambil foto dengan kamera<input id="camera" type="file" accept="image/*" capture="environment"></label>
+          <div class="preview-frame" id="preview-frame" hidden><img id="preview" alt="Pratinjau foto tomat pilihan"></div>
+          <p id="file-info" class="muted">Ambil satu buah yang terlihat jelas, dengan pencahayaan cukup.</p>
+          <div class="actions"><button id="predict" disabled>Analisis foto <span aria-hidden="true">→</span></button><button id="download-predictions" class="secondary" disabled>Unduh hasil JSON</button></div>
+          <div class="examples-block" id="examples-block" hidden><p class="eyebrow">ATAU COBA FOTO CONTOH</p><div id="examples" class="examples"></div>
+          <p class="footnote">Foto contoh berasal dari <b>test terkunci</b>: tidak dipakai untuk training, pemilihan model, maupun kalibrasi ambang.</p></div>
+        </div>
+        <div class="panel result-panel"><p class="eyebrow">HASIL ANALISIS</p><div id="result" aria-live="polite"><div class="empty"><span class="empty-mark" aria-hidden="true">◎</span><h3>Hasil akan tampil di sini</h3><p>Model menampilkan prediksi dan probabilitas setiap kelas. Periksa kembali hasil yang ditandai “perlu tinjauan”.</p></div></div></div>
+      </div>
+      <div class="notice honest" id="honest-note">Model ini dilatih dari foto yang sangat terbatas (60 foto berlabel dari 11 sesi pemotretan), sehingga bisa salah pada pencahayaan, latar, kamera, atau varietas yang berbeda. Gunakan sebagai alat bantu, bukan penentu.</div>
+      <p class="footnote">Batas penggunaan: klasifikasi kondisi visual, bukan pemeriksaan keamanan pangan. Tidak mendeteksi banyak buah. Pemeriksaan warna hanya menandai gambar yang hampir tanpa warna tomat; objek merah lain tetap bisa diberi probabilitas tinggi. Foto diproses sepenuhnya di perangkat Anda dan tidak dikirim ke server mana pun.</p>
+    </section>
+
+    <section id="dataset" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">DATA MILIK SENDIRI</p><h2>Dataset yang bisa dipertanggungjawabkan.</h2></div><span id="data-state" class="chip">Memuat…</span></div>
+      <div id="data-stats" class="stats"></div>
+      <div class="panel"><h3>Audit kebocoran data</h3><p id="audit-text" class="muted"></p></div>
+      <div class="two-columns">
+        <div class="panel"><h3>Pembagian data (berdasarkan sesi)</h3><p class="muted">Satu sesi pemotretan tidak pernah terpecah antar split.</p><div id="split-table" class="table-wrap"></div></div>
+        <div class="panel"><h3>Kriteria label</h3><div class="criteria stacked"><p><b>Segar</b>Kulit relatif kencang, tidak menunjukkan pembusukan.</p><p><b>Tidak segar</b>Layu atau keriput, tanpa pembusukan nyata.</p><p><b>Busuk</b>Lesi pembusukan, jamur, atau kerusakan jaringan nyata.</p></div>
+        <p class="footnote">Warna hijau bukan tanda busuk. Kesegaran tidak sama dengan kematangan.</p></div>
+      </div>
+      <div class="panel" id="gallery-panel" hidden><h3>Foto test terkunci</h3><p class="muted">Dataset lengkap tidak dipublikasikan di situs ini.</p><div id="gallery" class="photo-grid"></div></div>
+      <div class="panel"><h3>Pelabelan dan impor foto</h3><p class="muted">Menu pelabelan, impor, dan penyimpanan anotasi tersedia di aplikasi lokal karena membutuhkan penyimpanan file. Jalankan <code>python -m src.app</code> (lihat tab Training).</p></div>
+    </section>
+
+    <section id="training" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">CNN DARI NOL</p><h2>Dari foto ke model terukur.</h2></div><span class="chip">Tanpa bobot pretrained</span></div>
+      <div class="panel"><h3>Protokol evaluasi</h3><ul id="protocol" class="plain-list"></ul></div>
+      <div class="panel"><h3>Ablation: satu variabel per eksperimen</h3><p class="muted">Validasi silang 5 fold berbasis sesi × 5 seed (25 run per baris). Akurasi adalah prediksi out-of-fold, rata-rata ± simpangan baku antar seed.</p><div id="ablation" class="table-wrap"></div>
+      <p id="selection-note" class="footnote"></p></div>
+      <div class="panel"><h3>Kurva pembelajaran model final</h3><div id="curves" class="curve-grid"></div><p class="footnote">Model final dilatih ulang pada seluruh data development tanpa data validasi, dengan jumlah epoch dan jadwal learning rate dari median run validasi silang.</p></div>
+      <div class="panel"><h3>Latih di komputer sendiri</h3><p class="muted">Training dan pelabelan membutuhkan Python 3.11 dan TensorFlow, sehingga tidak berjalan di halaman statis ini.</p>
+      <pre class="code" tabindex="0">git clone https://github.com/sellebeww/tomato-vision.git
+cd tomato-vision
+python3.11 -m venv .venv &amp;&amp; source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m src.app                       # aplikasi lengkap di http://127.0.0.1:7860
+python -m src.cv_study protocol         # studi own_v2 (lihat README)
+python -m src.export_web                # perbarui demo statis</pre></div>
+    </section>
+
+    <section id="evaluation" class="tab-panel" hidden>
+      <div class="section-heading"><div><p class="eyebrow">BUKTI, BUKAN HANYA AKURASI TRAINING</p><h2>Evaluasi model.</h2></div><button id="download-report" class="secondary">Unduh laporan JSON</button></div>
+      <p id="evaluation-notice" class="notice"></p>
+      <div id="eval-stats" class="stats"></div>
+      <div class="panel"><h3>Validasi silang vs test terkunci</h3><div id="model-compare" class="table-wrap"></div></div>
+      <div class="two-columns"><div class="panel"><h3>Confusion matrix (out-of-fold)</h3><p class="muted">Baris: label sebenarnya. Kolom: prediksi. Dijumlahkan atas 5 seed.</p><div id="confusion" class="table-wrap"></div></div>
+      <div class="panel"><h3>Confusion matrix (test terkunci)</h3><p class="muted">Dijumlahkan atas 5 seed model final.</p><div id="confusion-test" class="table-wrap"></div></div></div>
+      <div class="panel"><h3>Precision, recall, dan F1 per kelas (out-of-fold)</h3><div id="class-metrics" class="table-wrap"></div></div>
+      <div class="panel"><h3>Robustness awal (test terkunci)</h3><p class="muted">Gambar test digelapkan, diterangkan, atau diburamkan. Bukan pengganti sesi pemotretan baru.</p><div id="robustness" class="table-wrap"></div></div>
+      <div class="panel"><h3>Dibandingkan dengan versi lama (own_v1)</h3><div id="legacy" class="table-wrap"></div><p class="footnote" id="legacy-note"></p></div>
+    </section>
+
+    <footer><strong>Tomato Vision</strong><span>TensorFlow · CNN dari nol · Inferensi di browser</span><span><a href="https://github.com/sellebeww/tomato-vision">Kode sumber di GitHub</a> · Hasil model perlu diverifikasi pada foto baru</span></footer>
+  </main>
+</body>
+</html>

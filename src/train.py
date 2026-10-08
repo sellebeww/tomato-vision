@@ -28,6 +28,61 @@ def plot_learning_curve(history,path):
     fig.savefig(path,dpi=150)
     plt.close(fig)
 
+def fit_loop(model,x,y,config,validation=None,lr_trajectory=None,fixed_epochs=None,label="run",on_epoch=None,verbose=True,on_improve=None):
+    """Shared epoch loop (also used by src.cv_study).
+
+    Exactly balanced draws per epoch with fresh augmentation. With validation: early stopping on
+    validation loss (patience), optional restore of the best-validation weights, and the configured
+    LR schedule. Without validation: fixed epochs and an explicit per-epoch LR trajectory.
+    """
+    import math
+    import tensorflow as tf
+    rng=np.random.default_rng(config.seed)
+    history={k:[] for k in ("loss","accuracy","val_loss","val_accuracy","learning_rate")}
+    epochs=fixed_epochs or config.epochs
+    best,best_weights,best_epoch,stale=float("inf"),None,0,0
+    for epoch in range(epochs):
+        if lr_trajectory is not None:
+            model.optimizer.learning_rate.assign(float(lr_trajectory[min(epoch,len(lr_trajectory)-1)]))
+        elif config.lr_schedule=="cosine":
+            model.optimizer.learning_rate.assign(config.learning_rate*.5*(1+math.cos(math.pi*epoch/config.epochs)))
+        ids=balanced_indices(y,max(config.train_samples_per_class,int(np.bincount(y).max())),rng)
+        h=model.fit(array_dataset(x[ids],y[ids],config.batch_size),
+                    validation_data=array_dataset(*validation,config.batch_size) if validation else None,
+                    epochs=1,verbose=0,shuffle=False).history
+        for key in ("loss","accuracy","val_loss","val_accuracy"):
+            history[key].append(float(h[key][0]) if key in h else float("nan"))
+        lr=float(tf.keras.backend.get_value(model.optimizer.learning_rate))
+        history["learning_rate"].append(lr)
+        keys=('loss','accuracy','val_loss','val_accuracy') if validation else ('loss','accuracy')
+        if not all(np.isfinite(history[key][-1]) for key in keys):
+            raise ValueError('Non-finite training metrics; run stopped without publishing a model')
+        if verbose:
+            print(f"{label} epoch {epoch+1}: loss={history['loss'][-1]:.4f} val_loss={history['val_loss'][-1]:.4f} "
+                  f"acc={history['accuracy'][-1]:.3f} val_acc={history['val_accuracy'][-1]:.3f}",flush=True)
+        if on_epoch:
+            on_epoch(history)
+        if not validation:
+            continue
+        loss=history["val_loss"][-1]
+        if loss<best-1e-5:
+            best,best_epoch,stale=loss,epoch+1,0
+            if config.restore_best:
+                best_weights=model.get_weights()
+            if on_improve:
+                on_improve(model)
+        else:
+            stale+=1
+            if config.lr_schedule=="plateau" and lr_trajectory is None and stale%3==0:
+                model.optimizer.learning_rate.assign(max(lr*.5,1e-6))
+            if stale>=config.patience:
+                break
+    if best_weights is not None:
+        model.set_weights(best_weights)
+    history["best_epoch"]=best_epoch if validation else len(history["loss"])
+    history["restored_best"]=bool(best_weights is not None)
+    return history
+
 def train_run(dataset,run,config):
     import tensorflow as tf
     import keras
@@ -51,37 +106,11 @@ def train_run(dataset,run,config):
     x,y=load_arrays(train,config.image_size)
     vx,vy=load_arrays(val,config.image_size)
     model=build_model(config=config)
-    rng=np.random.default_rng(config.seed)
-    history={k:[] for k in ("loss","accuracy","val_loss","val_accuracy","learning_rate")}
-    best=float("inf")
-    stale=0
     started=time.monotonic()
-    # Epoch loop enables exactly balanced finite draws with fresh augmentation.
-    for epoch in range(config.epochs):
-        ids=balanced_indices(y,max(config.train_samples_per_class,int(np.bincount(y).max())),rng)
-        h=model.fit(array_dataset(x[ids],y[ids],config.batch_size),
-                    validation_data=array_dataset(vx,vy,config.batch_size),epochs=1,verbose=0,shuffle=False).history
-        for key in ("loss","accuracy","val_loss","val_accuracy"):
-            history[key].append(float(h[key][0]))
-        lr=float(tf.keras.backend.get_value(model.optimizer.learning_rate))
-        history["learning_rate"].append(lr)
-        loss=history["val_loss"][-1]
-        if not all(np.isfinite(history[key][-1]) for key in ('loss','accuracy','val_loss','val_accuracy')):
-            raise ValueError('Non-finite training metrics; run stopped without publishing a model')
-        print(f"{run.name} epoch {epoch+1}: loss={h['loss'][0]:.4f} val_loss={loss:.4f} "
-              f"acc={h['accuracy'][0]:.3f} val_acc={h['val_accuracy'][0]:.3f}",flush=True)
-        if loss<best-1e-5:
-            best=loss
-            stale=0
-            model.save(run/"model.keras")
-        else:
-            stale+=1
-            if stale%3==0:
-                model.optimizer.learning_rate.assign(max(lr*.5,1e-6))
-            if stale>=config.patience:
-                break
-        (run/"history.json").write_text(json.dumps(history,indent=2))
+    history=fit_loop(model,x,y,config,validation=(vx,vy),label=run.name,
+                     on_epoch=lambda h:(run/"history.json").write_text(json.dumps(h,indent=2)))
     (run/"history.json").write_text(json.dumps(history,indent=2))
+    model.save(run/"model.keras")
     model=tf.keras.models.load_model(run/"model.keras",compile=False)
     vp=predict_batches(model,vx)
     calibration=calibration_policy(vy,vp,val.group_id.tolist())
@@ -96,9 +125,9 @@ def train_run(dataset,run,config):
           "calibration":calibration,
           "temperature_note":calibration['note'],
           "dataset_fingerprint":data_meta["fingerprint"],"mode":data_meta["mode"],
-          "best_epoch":int(np.argmin(history["val_loss"])+1),"epochs_run":len(history["loss"]),
+          "best_epoch":history["best_epoch"],"epochs_run":len(history["loss"]),
           "elapsed_seconds":time.monotonic()-started,"train_unique":len(train),
-          "train_draws_per_epoch":len(ids),"model_parameters":model.count_params(),
+          "train_draws_per_epoch":3*max(config.train_samples_per_class,int(np.bincount(y).max())),"model_parameters":model.count_params(),
           "train_clean":train_metrics,"validation":val_metrics,
           "validation_calibrated":metrics(vy,temperature_scale(vp,temperature)),
           "train_val_accuracy_gap":train_metrics["accuracy"]-val_metrics["accuracy"],

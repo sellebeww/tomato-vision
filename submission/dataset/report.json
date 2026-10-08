@@ -1,0 +1,348 @@
+{
+  "total_images": 229,
+  "by_source": {
+    "own": 82,
+    "synthetic_ai": 147
+  },
+  "by_label": {
+    "own": {
+      "segar": 42,
+      "tidak_segar": 20,
+      "busuk": 20
+    },
+    "synthetic_ai": {
+      "segar": 49,
+      "tidak_segar": 49,
+      "busuk": 49
+    }
+  },
+  "unlabeled_images": 0,
+  "by_split": {
+    "train": 217,
+    "test": 6,
+    "val": 6
+  },
+  "synthetic": {
+    "planned": 218,
+    "saved": 147,
+    "missing_ids": [
+      "syn_148",
+      "syn_149",
+      "syn_150",
+      "syn_151",
+      "syn_152",
+      "syn_153",
+      "syn_154",
+      "syn_155",
+      "syn_156",
+      "syn_157",
+      "syn_158",
+      "syn_159",
+      "syn_160",
+      "syn_161",
+      "syn_162",
+      "syn_163",
+      "syn_164",
+      "syn_165",
+      "syn_166",
+      "syn_167",
+      "syn_168",
+      "syn_169",
+      "syn_170",
+      "syn_171",
+      "syn_172",
+      "syn_173",
+      "syn_174",
+      "syn_175",
+      "syn_176",
+      "syn_177",
+      "syn_178",
+      "syn_179",
+      "syn_180",
+      "syn_181",
+      "syn_182",
+      "syn_183",
+      "syn_184",
+      "syn_185",
+      "syn_186",
+      "syn_187",
+      "syn_188",
+      "syn_189",
+      "syn_190",
+      "syn_191",
+      "syn_192",
+      "syn_193",
+      "syn_194",
+      "syn_195",
+      "syn_196",
+      "syn_197",
+      "syn_198",
+      "syn_199",
+      "syn_200",
+      "syn_201",
+      "syn_202",
+      "syn_203",
+      "syn_204",
+      "syn_205",
+      "syn_206",
+      "syn_207",
+      "syn_208",
+      "syn_209",
+      "syn_210",
+      "syn_211",
+      "syn_212",
+      "syn_213",
+      "syn_214",
+      "syn_215",
+      "syn_216",
+      "syn_217",
+      "syn_218"
+    ]
+  },
+  "intended_factor_counts_by_label": {
+    "background": {
+      "a scratched pale wooden kitchen board": {
+        "segar": 3,
+        "tidak_segar": 3,
+        "busuk": 3
+      },
+      "blue plastic kitchen tray": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "brown corrugated cardboard surface": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "brushed stainless steel sink drainer": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "cream ceramic plate on a table": {
+        "segar": 3,
+        "tidak_segar": 3,
+        "busuk": 3
+      },
+      "dark walnut table": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "gray concrete windowsill": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "green plastic market crate floor": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "matte charcoal kitchen counter": {
+        "segar": 3,
+        "tidak_segar": 3,
+        "busuk": 3
+      },
+      "not_recorded_in_earlier_batch": {
+        "segar": 15,
+        "tidak_segar": 15,
+        "busuk": 15
+      },
+      "red brick patio ledge": {
+        "segar": 3,
+        "tidak_segar": 3,
+        "busuk": 3
+      },
+      "speckled beige stone counter": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "terracotta saucer": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "unbleached cotton kitchen cloth": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "white ceramic kitchen tiles": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "woven bamboo shallow basket base": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      }
+    },
+    "lighting": {
+      "diffuse overcast outdoor daylight": {
+        "segar": 9,
+        "tidak_segar": 9,
+        "busuk": 9
+      },
+      "late afternoon side sunlight with a soft edged shadow": {
+        "segar": 7,
+        "tidak_segar": 7,
+        "busuk": 7
+      },
+      "not_recorded_in_earlier_batch": {
+        "segar": 15,
+        "tidak_segar": 15,
+        "busuk": 15
+      },
+      "soft indirect morning window daylight": {
+        "segar": 9,
+        "tidak_segar": 9,
+        "busuk": 9
+      },
+      "warm indoor ceiling light, realistic white balance": {
+        "segar": 9,
+        "tidak_segar": 9,
+        "busuk": 9
+      }
+    },
+    "subject_scale": {
+      "not_recorded_in_earlier_batch": {
+        "segar": 15,
+        "tidak_segar": 15,
+        "busuk": 15
+      },
+      "the tomato occupying about 30 percent of the frame width with substantial visible background": {
+        "segar": 10,
+        "tidak_segar": 10,
+        "busuk": 10
+      },
+      "the tomato occupying about 45 percent of the frame width with more visible surroundings": {
+        "segar": 12,
+        "tidak_segar": 12,
+        "busuk": 12
+      },
+      "the tomato occupying about 65 percent of the frame width": {
+        "segar": 12,
+        "tidak_segar": 12,
+        "busuk": 12
+      }
+    },
+    "viewpoint": {
+      "a 45 degree oblique view showing the top and front": {
+        "segar": 10,
+        "tidak_segar": 10,
+        "busuk": 10
+      },
+      "a low side view at the height of the fruit": {
+        "segar": 8,
+        "tidak_segar": 8,
+        "busuk": 8
+      },
+      "a near overhead view with the entire fruit visible": {
+        "segar": 8,
+        "tidak_segar": 8,
+        "busuk": 8
+      },
+      "a slightly elevated side view showing its stem scar": {
+        "segar": 8,
+        "tidak_segar": 8,
+        "busuk": 8
+      },
+      "not_recorded_in_earlier_batch": {
+        "segar": 15,
+        "tidak_segar": 15,
+        "busuk": 15
+      }
+    },
+    "morphology": {
+      "a ribbed red beefsteak tomato with a short natural calyx": {
+        "segar": 6,
+        "tidak_segar": 6,
+        "busuk": 6
+      },
+      "a round pink-red tomato with a faint pale shoulder": {
+        "segar": 5,
+        "tidak_segar": 5,
+        "busuk": 5
+      },
+      "a round red salad tomato with a small dried stem scar": {
+        "segar": 6,
+        "tidak_segar": 6,
+        "busuk": 6
+      },
+      "a small round orange-red cherry tomato": {
+        "segar": 6,
+        "tidak_segar": 6,
+        "busuk": 6
+      },
+      "an elongated reddish-orange plum tomato": {
+        "segar": 5,
+        "tidak_segar": 5,
+        "busuk": 5
+      },
+      "an oval red roma tomato without a stem": {
+        "segar": 6,
+        "tidak_segar": 6,
+        "busuk": 6
+      },
+      "not_recorded_in_earlier_batch": {
+        "segar": 15,
+        "tidak_segar": 15,
+        "busuk": 15
+      }
+    },
+    "surface_moisture": {
+      "damp skin with a thin realistic water sheen, not a glossy plastic rendering": {
+        "segar": 8,
+        "tidak_segar": 8,
+        "busuk": 8
+      },
+      "dry skin without water droplets": {
+        "segar": 10,
+        "tidak_segar": 10,
+        "busuk": 10
+      },
+      "freshly rinsed skin with scattered clear water droplets; water is not mold and does not change the requested freshness condition": {
+        "segar": 10,
+        "tidak_segar": 10,
+        "busuk": 10
+      },
+      "not_recorded_in_earlier_batch": {
+        "segar": 21,
+        "tidak_segar": 21,
+        "busuk": 21
+      }
+    },
+    "focus_condition": {
+      "mild realistic smartphone defocus; important wrinkles or rot still visibly distinguishable, not strong Gaussian smearing": {
+        "segar": 9,
+        "tidak_segar": 9,
+        "busuk": 9
+      },
+      "not_recorded_in_earlier_batch": {
+        "segar": 21,
+        "tidak_segar": 21,
+        "busuk": 21
+      },
+      "sharp focus on the tomato skin": {
+        "segar": 9,
+        "tidak_segar": 9,
+        "busuk": 9
+      },
+      "subtle handheld motion softness along one direction while tomato condition remains identifiable": {
+        "segar": 10,
+        "tidak_segar": 10,
+        "busuk": 10
+      }
+    }
+  },
+  "all_file_hashes_verified": true,
+  "synthetic_in_validation_or_test": 0,
+  "factor_values_are_prompt_instructions_not_measured_ground_truth": true,
+  "human_review_required_for_synthetic": true,
+  "accuracy_improvement_measured": false
+}
