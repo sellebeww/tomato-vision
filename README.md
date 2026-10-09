@@ -16,6 +16,25 @@ CNN dibangun dari nol (tanpa transfer learning) dengan TensorFlow/Keras dan dila
 
 **Demo:** https://sellebeww.github.io/tomato-vision/ (aktif setelah GitHub Pages diaktifkan dan deploy pertama berhasil).
 
+## Sekilas
+
+Unggah foto satu tomat, dan CNN menilai kondisinya: **segar**, **tidak segar**, atau **busuk**. Hasilnya berupa dugaan beserta probabilitas tiap kelas. Hasil yang meragukan ditandai **perlu tinjauan**.
+
+- **Dari nol:** CNN dilatih dengan TensorFlow/Keras tanpa bobot pretrained, dari 82 foto yang dipotret dan dilabeli sendiri.
+- **Evaluasi jujur:** data dibagi per sesi pemotretan agar tidak bocor antar split, dan test terkunci belum dibuka.
+- **Privat:** model berjalan di browser, jadi foto tidak diunggah ke server mana pun.
+
+| | |
+|---|---|
+| ![Halaman utama demo](docs/screenshots/demo-1-beranda.png) | ![Hasil prediksi](docs/screenshots/demo-2-prediksi.png) |
+| **Halaman utama.** Ringkasan proyek dan status model. | **Prediksi.** Pilih foto atau coba foto contoh; hasil berupa probabilitas per kelas. |
+| ![Tab dataset](docs/screenshots/demo-3-dataset.png) | ![Tab evaluasi](docs/screenshots/demo-4-evaluasi.png) |
+| **Dataset.** Distribusi kelas, pembagian per sesi, dan audit kebocoran data. | **Evaluasi.** Akurasi, confusion matrix, dan prediksi per foto, lengkap dengan batas klaimnya. |
+
+<p align="center"><img src="docs/screenshots/demo-5-ponsel.png" alt="Tampilan di ponsel" width="260"><br><sub>Tampilan di ponsel.</sub></p>
+
+> Hasil masih indikasi awal: validation hanya 6 foto dari 2 sesi, jadi angka tinggi belum membuktikan model akan akurat pada foto baru.
+
 Isi: [Coba demo](#coba-demo) · [Cara kerja](#cara-kerja) · [Jalankan versi TensorFlow](#jalankan-versi-tensorflow) · [Hasil dan keterbatasan](#hasil-dan-keterbatasan) · [Struktur repo, tes, dan data](#struktur-repo-tes-dan-data)
 
 ## Coba demo
@@ -24,7 +43,7 @@ Buka halaman demo, pilih atau seret satu atau beberapa foto tomat (JPG, PNG, Web
 
 - dugaan kelas dan probabilitas ketiga kelas,
 - penanda **Perlu tinjauan** bila model ragu, hasil berubah pada variasi ringan, atau kualitas foto rendah,
-- foto contoh dari test terkunci, serta tab dataset, training, dan evaluasi.
+- foto contoh dari split validation (test terkunci tidak dipublikasikan), serta tab dataset, training, dan evaluasi.
 
 **Privasi:** foto diproses sepenuhnya di browser Anda dan tidak dikirim ke server mana pun. Halaman demo tidak memuat skrip atau font dari pihak ketiga; tautan ke README dan Colab hanya tautan biasa.
 Kotak **Tentang demo ini** di halaman menjelaskan hal yang sama beserta angka paritasnya.
@@ -50,7 +69,11 @@ GitHub Pages hanya menyajikan file statis dan tidak dapat menjalankan Python ata
 Kesamaan hasil tidak diasumsikan, tetapi diuji. Angka berikut dihasilkan otomatis (`python -m src.export_web`, lalu `node tests/js_parity.mjs --write-info`) dan disalin ke sini oleh `python -m scripts.sync_docs`; jangan diedit tangan:
 
 <!-- model_info:start -->
-_Belum dihasilkan: model final belum diekspor (studi `own_v2` masih berjalan). Setelah ekspor dan `node tests/js_parity.mjs --write-info`, jalankan `python -m scripts.sync_docs`._
+Diambil otomatis dari [`site/model_info.json`](site/model_info.json) (model `baseline_augmented`, diekspor 9 Oktober 2026):
+
+- Model: CNN `baseline`, 423.619 parameter, bobot web 1,69 MB. Dilatih dengan TensorFlow 2.16.1 / Keras 3.15.1.
+- Ekspor vs Keras: selisih maksimum probabilitas 6.7e-07 (gerbang ekspor: 1.0e-04).
+- JavaScript vs Keras (13 kasus uji, `tests/js_parity.mjs`): selisih maksimum keluaran jaringan **8.3e-07** (batas uji 1.0e-04); termasuk pengubahan ukuran foto, selisih probabilitas maksimum **5.8e-07** (batas 1.0e-02).
 <!-- model_info:end -->
 
 Tes yang menjaga kesamaan ini:
@@ -101,7 +124,7 @@ Preprocessing dan ambang "perlu tinjauan" identik dengan demo web. File yang buk
 
 ### 3. Reproduksi training
 
-Foto asli **tidak ikut repo** (`data/raw/` dan label pribadi ada di `.gitignore`). Hanya 6 foto contoh dari test terkunci yang diterbitkan (`site/examples/`, tanpa metadata EXIF). Untuk mengulang training Anda perlu foto sendiri:
+Foto asli **tidak ikut repo** (`data/raw/` dan label pribadi ada di `.gitignore`). Hanya 6 foto validation yang diterbitkan sebagai contoh (`site/examples/`, tanpa metadata EXIF); foto test terkunci tidak diterbitkan. Untuk mengulang training Anda perlu foto sendiri:
 
 ```bash
 # letakkan foto JPG/PNG/WebP di data/raw/, lalu beri label dan ID buah
@@ -121,7 +144,7 @@ Seed 42 dan operasi deterministik diaktifkan, tetapi hasil bit-per-bit lintas pe
 foto test terkunci. Variasi bukan buah baru atau bukti peningkatan akurasi;
 lihat [dataset card dan perintah reproduksi](docs/DATASET.md#ekspansi-dataset-7-oktober-2026).
 
-**Penggabungan foto primer (9 Oktober 2026):** 22 foto di `data/reference_import/` digabung sebagai `segar`; manifest baru `data/prepared/ff822adef8db3ae5` (82 foto: 70 train / 6 val / 6 test terkunci). Dilatih ulang di `outputs/experiments/own_v4_ref22/`; validation hanya enam foto, jadi hasilnya bukan bukti peningkatan. Model demo web belum diganti. Lihat [catatan dataset](docs/DATASET.md#penggabungan-foto-primer-9-oktober-2026).
+**Penggabungan foto primer (9 Oktober 2026):** 22 foto di `data/reference_import/` digabung sebagai `segar`; manifest baru `data/prepared/ff822adef8db3ae5` (82 foto: 70 train / 6 val / 6 test terkunci). Dilatih ulang di `outputs/experiments/own_v4_ref22/`; validation hanya enam foto, jadi hasilnya bukan bukti peningkatan. Sejak 9 Oktober 2026 demo web menjalankan kandidat terpilih `baseline_augmented` (dengan `regularized` sebagai pembanding), diekspor dengan `python -m src.export_web --study own_v4_ref22`; test terkunci tetap belum dinilai. Lihat [catatan dataset](docs/DATASET.md#penggabungan-foto-primer-9-oktober-2026).
 
 Studi evaluasi `own_v2` (validasi silang 5 fold berbasis sesi × 5 seed, protokol dibekukan sebelum training) dijalankan oleh satu perintah yang bisa dilanjutkan bila terputus:
 
@@ -134,7 +157,14 @@ Skrip ini menjalankan sweep (`python -m src.cv_study sweep`), lalu `scripts/fini
 ## Hasil dan keterbatasan
 
 <!-- results:start -->
-**Metrik belum tersedia.** Studi `own_v2` (validasi silang 5 fold berbasis sesi × 5 seed, lalu test terkunci yang dinilai satu kali) masih berjalan (`scripts/run_own_v2.sh`). Setelah selesai, tabel akurasi/macro-F1 dengan interval kepercayaan diisi otomatis di sini dari `site/data/report.json` (`python -m scripts.sync_docs`), sama dengan tab **Evaluasi** di demo.
+Diambil otomatis dari [`site/data/report.json`](site/data/report.json) (studi `own_v4_ref22`, model demo web). Data: 82 foto berlabel dari 12 sesi; satu split tetap berbasis sesi: 70 train, 6 validation (sesi B05_linen, B08_beton), 6 test terkunci (sesi B06_talenan, B07_baja, belum dinilai).
+
+| Kandidat | Parameter | Akurasi train | Akurasi validation | Macro-F1 validation | Loss validation |
+|---|---|---|---|---|---|
+| **baseline_augmented** (terpilih) | 423.619 | 98,6% | 100,0% (6/6) | 1,000 | 0,100 |
+| regularized | 96.019 | 75,7% | 66,7% (4/6) | 0,556 | 0,505 |
+
+Aturan seleksi: macro-F1 validation tertinggi, lalu loss validation terendah. Validation juga dipakai untuk early stopping, jadi skornya optimistis; dengan hanya 6 foto, satu foto salah mengubah akurasi 16,7%. Angka ini indikasi awal, bukan bukti generalisasi.
 <!-- results:end -->
 
 Keterbatasan yang harus dibaca sebelum memercayai angka apa pun:

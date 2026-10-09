@@ -1,0 +1,44 @@
+{
+  "default": "baseline_augmented",
+  "models": [
+    {
+      "id": "baseline_augmented",
+      "path": "data/models/baseline_augmented/",
+      "architecture": "baseline",
+      "parameters": 423619,
+      "weights_bytes": 1686796,
+      "weights_sha256": "d28c7e57b2b8d4797def2211bc51beb2b6103e7bf9717e5ce55bee5e07ada2ac",
+      "keras_parity_max_abs_error": 6.730700370660703e-07,
+      "review_threshold": null,
+      "confidence_threshold": 0.7,
+      "role": "selected",
+      "label": "baseline_augmented",
+      "validation": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "loss": 0.10013201867231725,
+        "n_images": 6
+      },
+      "keras_release_file": "models/release/baseline_augmented/model.keras"
+    },
+    {
+      "id": "regularized",
+      "path": "data/models/regularized/",
+      "architecture": "regularized",
+      "parameters": 96019,
+      "weights_bytes": 384076,
+      "weights_sha256": "24d3e5963c3b8d300a587a709ef888f2dff57bc5bbffa40787c826c03c32369c",
+      "keras_parity_max_abs_error": 2.2537092192465025e-07,
+      "review_threshold": null,
+      "confidence_threshold": 0.7,
+      "role": "comparison",
+      "label": "regularized",
+      "validation": {
+        "accuracy": 0.6666666666666666,
+        "macro_f1": 0.5555555555555555,
+        "loss": 0.5053764403134687,
+        "n_images": 6
+      }
+    }
+  ]
+}

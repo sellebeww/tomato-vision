@@ -509,12 +509,106 @@ def build_v2(site, examples_enabled=True, release_dir=RELEASE_DIR, study=STUDY_D
     return models, fixtures
 
 
+SINGLE_SPLIT_STUDY_DIR = ROOT_DIR / "outputs" / "experiments" / "own_v4_ref22"
+REPORT_TITLE = "Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow"
+METRIC_KEYS = ("accuracy", "macro_f1", "loss", "expected_calibration_error", "report", "confusion_matrix", "n_images")
+
+
+def _legacy_own_v1():
+    legacy = ROOT_DIR / "outputs" / "experiments" / "own_v1" / "baseline"
+    if not (legacy / "evaluation.json").exists():
+        return None
+    v1, v1_test = json.loads((legacy / "run.json").read_text()), json.loads((legacy / "evaluation.json").read_text())
+    return {"validation_accuracy": v1["validation"]["accuracy"], "validation_images": v1["validation"]["n_images"],
+            "test_accuracy": v1_test["accuracy"], "test_images": v1_test["n_images"],
+            "note": "own_v1 memakai satu split per 'set'; sesi meja kayu (30 foto) tersebar di train/validasi/test, "
+                    "jadi angka 100% own_v1 tidak sebanding dan kemungkinan terlalu optimistis."}
+
+
+def build_single_split(site, examples_enabled=True, release_dir=RELEASE_DIR, study=SINGLE_SPLIT_STUDY_DIR):
+    """Single train/validation/test split study (own_v3, own_v4_ref22): selection.json lists the candidates.
+
+    The locked test split is never evaluated here; example photos and the parity check use validation photos only."""
+    study = Path(study)
+    selection = json.loads((study / "selection.json").read_text())
+    selected = Path(selection["selected"]).name
+    candidates = sorted(selection["candidates"], key=lambda c: c["name"] != selected)
+    manifest = pd.read_csv(resolve_path(candidates[0]["run"]) / "dataset" / "manifest.csv")
+    val_rows = manifest[manifest.split == "val"].sort_values(["label_idx", "filepath"])
+    examples = write_examples([{"filepath": r.filepath, "label": r.label, "split": f"validation ({r.session_id})"}
+                               for r in val_rows.itertuples()], site / "examples") if examples_enabled else []
+    if not examples_enabled:
+        shutil.rmtree(site / "examples", ignore_errors=True)
+    check = [load_image(resolve_path(p), 128) for p in val_rows.filepath]
+    remove_legacy_bundle(site)
+    out = site / "data" / "models"
+    shutil.rmtree(out, ignore_errors=True)
+    sessions = dict(zip(manifest.filepath, manifest.session_id))
+    models, fixtures, rows = [], [], []
+    for candidate in candidates:
+        run = resolve_path(candidate["run"])
+        meta = json.loads((run / "run.json").read_text())
+        role = "selected" if candidate["name"] == selected else "comparison"
+        validation = {k: meta["validation"][k] for k in METRIC_KEYS}
+        info = {"role": role, "label": candidate["name"],
+                "validation": {k: validation[k] for k in ("accuracy", "macro_f1", "loss", "n_images")}}
+        models.append(export_model(run, out, candidate["name"], info, check, release_dir if role == "selected" else None))
+        fixtures.append((run, Path(FIXTURE_DIR) / f"web_parity_{candidate['name']}.json"))
+        predictions = pd.read_csv(run / "validation_predictions.csv")
+        config = meta["config"]
+        rows.append({"name": candidate["name"], "role": role, "architecture": config["architecture"],
+                     "parameters": int(meta["model_parameters"]), "augment": bool(config.get("augment")),
+                     "dropout": config.get("dropout"), "learning_rate": config.get("learning_rate"),
+                     "lr_schedule": config.get("lr_schedule"), "epochs_max": config.get("epochs"),
+                     "best_epoch": meta["best_epoch"], "epochs_run": meta["epochs_run"],
+                     "elapsed_seconds": round(meta["elapsed_seconds"]),
+                     "train": {k: meta["train_clean"][k] for k in ("accuracy", "macro_f1", "loss", "n_images")},
+                     "validation": validation,
+                     "predictions": [{"source": Path(p.filepath).name, "session": sessions.get(p.filepath, ""), "label": p.label,
+                                      "probabilities": {c: float(getattr(p, "prob_" + c)) for c in CLASS_NAMES}}
+                                     for p in predictions.itertuples()]})
+        source = run / "learning_curve.png"
+        if source.exists():
+            shutil.copyfile(source, site / "img" / f"learning_curve_{candidate['name']}.png")
+    atomic_json(site / "data" / "models.json", {"default": selected, "models": models})
+    if release_dir is not None:
+        write_release_manifest(release_dir, selected, [m["id"] for m in models if m.get("keras_release_file")])
+    write_model_info(site, models, selected)
+    splits = {s: {c: int(n) for c, n in manifest[manifest.split == s].label.value_counts().items()} for s in ("train", "val", "test")}
+    report = {"title": REPORT_TITLE, "study": study.name, "study_type": "single_split",
+              "selection": {"selected": selected, "rule": selection["selection_rule"],
+                            "test_evaluated": bool(selection.get("test_evaluated")),
+                            "production_ready": bool(selection.get("production_ready")), "limitation": selection.get("limitation")},
+              "candidates": rows,
+              "dataset": {"images": int(len(manifest)), "sessions": int(manifest.session_id.nunique()),
+                          "class_counts": {c: int(n) for c, n in manifest.label.value_counts().items()},
+                          "splits": splits,
+                          "split_sessions": {s: sorted(manifest[manifest.split == s].session_id.unique().tolist()) for s in ("train", "val", "test")},
+                          "sources": {s: int(n) for s, n in manifest.source.value_counts().items()},
+                          "fingerprint": json.loads((resolve_path(candidates[0]["run"]) / "dataset" / "dataset.json").read_text()).get("fingerprint")},
+              "examples": examples}
+    legacy = _legacy_own_v1()
+    if legacy:
+        report["legacy_own_v1"] = legacy
+    atomic_json(site / "data" / "report.json", report)
+    for name in ("logo.png", "favicon.png", "apple-touch-icon.png"):
+        shutil.copyfile(ROOT_DIR / "web" / name, site / "img" / name)
+    site_config(site, examples_enabled)
+    return models, fixtures
+
+
 def run_export(site=SITE_DIR, examples=True, fixtures=True, release_dir=RELEASE_DIR, study=STUDY_DIR, fixture_dir=FIXTURE_DIR):
     """Full export: web bundle, report, model_info.json, Keras release copy and parity fixtures."""
     site, fixture_dir = Path(site), Path(fixture_dir)
     (site / "img").mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
-    models, cases = build_v2(site, examples, release_dir, study, fixture_dir)
+    if (Path(study) / "cv_summary.json").exists():
+        models, cases = build_v2(site, examples, release_dir, study, fixture_dir)
+    else:
+        for old in (site / "img").glob("learning_curve_*.png"):
+            old.unlink()
+        models, cases = build_single_split(site, examples, release_dir, study)
+        cases = [(run, fixture_dir / path.name) for run, path in cases]
     for model in models:
         print(f"Exported {model['id']}: {model['weights_bytes']/1e6:.2f} MB, Keras parity error {model['keras_parity_max_abs_error']:.2e}")
     if fixtures:
@@ -530,14 +624,16 @@ def run_export(site=SITE_DIR, examples=True, fixtures=True, release_dir=RELEASE_
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--study", choices=["own_v2"], default="own_v2")
+    parser.add_argument("--study", choices=["own_v2", "own_v4_ref22"], default="own_v4_ref22",
+                        help="own_v2: session CV study (needs cv_summary.json); own_v4_ref22: single split, validation only")
     parser.add_argument("--site", default=str(SITE_DIR))
     parser.add_argument("--no-examples", action="store_true", help="Publish without example photos")
     parser.add_argument("--no-fixture", action="store_true")
     parser.add_argument("--release-dir", default=str(RELEASE_DIR), help="Where the selected Keras model is copied for src.predict")
     parser.add_argument("--no-release", action="store_true", help="Do not copy the Keras model")
     args = parser.parse_args()
-    run_export(args.site, not args.no_examples, not args.no_fixture, None if args.no_release else Path(args.release_dir))
+    study = ROOT_DIR / "outputs" / "experiments" / args.study
+    run_export(args.site, not args.no_examples, not args.no_fixture, None if args.no_release else Path(args.release_dir), study)
 
 
 if __name__ == "__main__":

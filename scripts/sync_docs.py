@@ -182,6 +182,36 @@ def results_block(report):
     return "\n".join(lines)
 
 
+def single_split_results_block(report):
+    """README results for a single train/validation/test split study (src/export_web.py build_single_split)."""
+    selection, dataset = report["selection"], report["dataset"]
+    rows = report["candidates"]
+    best = next(r for r in rows if r["name"] == selection["selected"])
+    sessions = dataset["split_sessions"]
+    n_val = best["validation"]["n_images"]
+    test_state = "sudah dinilai" if selection["test_evaluated"] else "belum dinilai"
+    lines = [RSTART,
+             f"Diambil otomatis dari [`site/data/report.json`](site/data/report.json) (studi `{report['study']}`, model demo web). "
+             f"Data: {dataset['images']} foto berlabel dari {dataset['sessions']} sesi; satu split tetap berbasis sesi: "
+             f"{sum(dataset['splits']['train'].values())} train, {n_val} validation (sesi {', '.join(sessions['val'])}), "
+             f"{sum(dataset['splits']['test'].values())} test terkunci (sesi {', '.join(sessions['test'])}, {test_state}).",
+             "",
+             "| Kandidat | Parameter | Akurasi train | Akurasi validation | Macro-F1 validation | Loss validation |",
+             "|---|---|---|---|---|---|"]
+    for row in rows:
+        v = row["validation"]
+        mark = f"**{row['name']}** (terpilih)" if row["name"] == selection["selected"] else row["name"]
+        f1, loss = (f"{x:.3f}".replace(".", ",") for x in (v["macro_f1"], v["loss"]))
+        lines.append(f"| {mark} | {thousands(row['parameters'])} | {pct(row['train']['accuracy'])} | {pct(v['accuracy'])} "
+                     f"({round(v['accuracy'] * v['n_images'])}/{v['n_images']}) | {f1} | {loss} |")
+    lines += ["",
+              "Aturan seleksi: macro-F1 validation tertinggi, lalu loss validation terendah. Validation juga dipakai untuk early stopping, "
+              f"jadi skornya optimistis; dengan hanya {n_val} foto, satu foto salah mengubah akurasi {pct(1 / n_val)}. "
+              "Angka ini indikasi awal, bukan bukti generalisasi.",
+              REND]
+    return "\n".join(lines)
+
+
 def evaluation_paragraphs(report):
     """Lead text of a report paragraph -> new segments. Only facts from report.json."""
     selected, cv, test, scv, stest = evaluation_facts(report)
@@ -287,7 +317,8 @@ def update_readme(info, entry, check, report=None, readme=None):
     text = readme.read_text()
     new = replace_block(text, START, END, readme_block(info, entry))
     if report is not None:
-        new = replace_block(new, RSTART, REND, results_block(report))
+        block = single_split_results_block(report) if report.get("study_type") == "single_split" else results_block(report)
+        new = replace_block(new, RSTART, REND, block)
     if check:
         if new != text:
             raise SystemExit("README.md differs from site/model_info.json / report.json. Run: python -m scripts.sync_docs")
@@ -309,10 +340,16 @@ def main(argv=None):
     args = parser.parse_args(argv)
     info, entry = load(args.info)
     report = None
-    if Path(args.report).exists() and "selection" in json.loads(Path(args.report).read_text()):
-        report = load_report(args.report)
+    if Path(args.report).exists():
+        raw = json.loads(Path(args.report).read_text())
+        if raw.get("study_type") == "single_split":
+            report = raw
+        elif "selection" in raw:
+            report = load_report(args.report)
     if args.docx:
-        update_docx(args.docx, info, entry, args.colab_tested, report=report, out=args.docx_out)
+        # The report's evaluation paragraphs are written only from a finished cross-validation study.
+        docx_report = report if report is not None and report.get("study_type") != "single_split" else None
+        update_docx(args.docx, info, entry, args.colab_tested, report=docx_report, out=args.docx_out)
         print("Report updated:", args.docx_out or f"{args.docx} (backup: .docx.bak)")
     else:
         update_readme(info, entry, args.check, report, args.readme)

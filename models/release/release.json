@@ -1,0 +1,7 @@
+{
+  "default": "baseline_augmented",
+  "models": [
+    "baseline_augmented"
+  ],
+  "note": "Same Keras network that the web demo exports (see site/model_info.json)."
+}

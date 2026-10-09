@@ -1,0 +1,390 @@
+{
+  "format": "tomato-vision-graph/2",
+  "id": "regularized",
+  "classes": [
+    "segar",
+    "tidak_segar",
+    "busuk"
+  ],
+  "input_size": 128,
+  "nodes": [
+    {
+      "name": "rgb_0_to_1",
+      "op": "input",
+      "inputs": []
+    },
+    {
+      "name": "re_lu",
+      "op": "relu",
+      "max": 1,
+      "inputs": [
+        "rgb_0_to_1"
+      ]
+    },
+    {
+      "name": "conv2d",
+      "op": "conv",
+      "k": 3,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 3,
+      "cout": 24,
+      "w": 0,
+      "b": null,
+      "inputs": [
+        "re_lu"
+      ]
+    },
+    {
+      "name": "group_normalization",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 648,
+      "beta": 672,
+      "inputs": [
+        "conv2d"
+      ]
+    },
+    {
+      "name": "activation",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "group_normalization"
+      ]
+    },
+    {
+      "name": "separable_conv2d",
+      "op": "sepconv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 24,
+      "cout": 48,
+      "dw": 696,
+      "w": 912,
+      "b": null,
+      "inputs": [
+        "activation"
+      ]
+    },
+    {
+      "name": "group_normalization_1",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 2064,
+      "beta": 2112,
+      "inputs": [
+        "separable_conv2d"
+      ]
+    },
+    {
+      "name": "activation_1",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "group_normalization_1"
+      ]
+    },
+    {
+      "name": "separable_conv2d_1",
+      "op": "sepconv",
+      "k": 3,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 48,
+      "cout": 48,
+      "dw": 2160,
+      "w": 2592,
+      "b": null,
+      "inputs": [
+        "activation_1"
+      ]
+    },
+    {
+      "name": "group_normalization_2",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 4896,
+      "beta": 4944,
+      "inputs": [
+        "separable_conv2d_1"
+      ]
+    },
+    {
+      "name": "conv2d_1",
+      "op": "conv",
+      "k": 1,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 24,
+      "cout": 48,
+      "w": 4992,
+      "b": null,
+      "inputs": [
+        "activation"
+      ]
+    },
+    {
+      "name": "add",
+      "op": "add",
+      "inputs": [
+        "group_normalization_2",
+        "conv2d_1"
+      ]
+    },
+    {
+      "name": "activation_2",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "add"
+      ]
+    },
+    {
+      "name": "separable_conv2d_2",
+      "op": "sepconv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 48,
+      "cout": 96,
+      "dw": 6144,
+      "w": 6576,
+      "b": null,
+      "inputs": [
+        "activation_2"
+      ]
+    },
+    {
+      "name": "group_normalization_3",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 11184,
+      "beta": 11280,
+      "inputs": [
+        "separable_conv2d_2"
+      ]
+    },
+    {
+      "name": "activation_3",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "group_normalization_3"
+      ]
+    },
+    {
+      "name": "separable_conv2d_3",
+      "op": "sepconv",
+      "k": 3,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 96,
+      "cout": 96,
+      "dw": 11376,
+      "w": 12240,
+      "b": null,
+      "inputs": [
+        "activation_3"
+      ]
+    },
+    {
+      "name": "group_normalization_4",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 21456,
+      "beta": 21552,
+      "inputs": [
+        "separable_conv2d_3"
+      ]
+    },
+    {
+      "name": "conv2d_2",
+      "op": "conv",
+      "k": 1,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 48,
+      "cout": 96,
+      "w": 21648,
+      "b": null,
+      "inputs": [
+        "activation_2"
+      ]
+    },
+    {
+      "name": "add_1",
+      "op": "add",
+      "inputs": [
+        "group_normalization_4",
+        "conv2d_2"
+      ]
+    },
+    {
+      "name": "activation_4",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "add_1"
+      ]
+    },
+    {
+      "name": "separable_conv2d_4",
+      "op": "sepconv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 96,
+      "cout": 160,
+      "dw": 26256,
+      "w": 27120,
+      "b": null,
+      "inputs": [
+        "activation_4"
+      ]
+    },
+    {
+      "name": "group_normalization_5",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 42480,
+      "beta": 42640,
+      "inputs": [
+        "separable_conv2d_4"
+      ]
+    },
+    {
+      "name": "activation_5",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "group_normalization_5"
+      ]
+    },
+    {
+      "name": "separable_conv2d_5",
+      "op": "sepconv",
+      "k": 3,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 160,
+      "cout": 160,
+      "dw": 42800,
+      "w": 44240,
+      "b": null,
+      "inputs": [
+        "activation_5"
+      ]
+    },
+    {
+      "name": "group_normalization_6",
+      "op": "groupnorm",
+      "groups": 8,
+      "epsilon": 0.001,
+      "gamma": 69840,
+      "beta": 70000,
+      "inputs": [
+        "separable_conv2d_5"
+      ]
+    },
+    {
+      "name": "conv2d_3",
+      "op": "conv",
+      "k": 1,
+      "stride": 2,
+      "padding": "same",
+      "act": "linear",
+      "cin": 96,
+      "cout": 160,
+      "w": 70160,
+      "b": null,
+      "inputs": [
+        "activation_4"
+      ]
+    },
+    {
+      "name": "add_2",
+      "op": "add",
+      "inputs": [
+        "group_normalization_6",
+        "conv2d_3"
+      ]
+    },
+    {
+      "name": "activation_6",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "add_2"
+      ]
+    },
+    {
+      "name": "global_average_pooling2d",
+      "op": "gap",
+      "inputs": [
+        "activation_6"
+      ]
+    },
+    {
+      "name": "dense",
+      "op": "dense",
+      "in": 160,
+      "out": 64,
+      "w": 85520,
+      "b": 95760,
+      "act": "relu",
+      "inputs": [
+        "global_average_pooling2d"
+      ]
+    },
+    {
+      "name": "class_probabilities",
+      "op": "dense",
+      "in": 64,
+      "out": 3,
+      "w": 95824,
+      "b": 96016,
+      "act": "softmax",
+      "inputs": [
+        "dense"
+      ]
+    }
+  ],
+  "output": "class_probabilities",
+  "weights_file": "weights.bin",
+  "weights_floats": 96019,
+  "weights_sha256": "24d3e5963c3b8d300a587a709ef888f2dff57bc5bbffa40787c826c03c32369c",
+  "temperature": 1.0,
+  "confidence_threshold": 0.7,
+  "review_threshold": null,
+  "mode": "own",
+  "production_ready": false,
+  "calibration": {
+    "temperature": 1.0,
+    "fitted": false,
+    "validation_images": 6,
+    "validation_groups": 2,
+    "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+  },
+  "architecture": "regularized",
+  "parameters": 96019,
+  "pad_color": 127,
+  "keras_parity_max_abs_error": 2.2537092192465025e-07,
+  "source_run": "outputs/experiments/own_v4_ref22/regularized"
+}

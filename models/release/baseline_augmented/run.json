@@ -1,0 +1,44 @@
+{
+  "config": {
+    "seed": 42,
+    "image_size": 128,
+    "batch_size": 16,
+    "epochs": 30,
+    "learning_rate": 0.001,
+    "dropout": 0.35,
+    "weight_decay": 0.0001,
+    "patience": 10,
+    "train_samples_per_class": 120,
+    "threads": 4,
+    "confidence_threshold": 0.7,
+    "architecture": "baseline",
+    "augment": true,
+    "bn_momentum": 0.9,
+    "lr_schedule": "plateau",
+    "restore_best": true
+  },
+  "classes": [
+    "segar",
+    "tidak_segar",
+    "busuk"
+  ],
+  "temperature": 1.0,
+  "calibration": {
+    "temperature": 1.0,
+    "fitted": false,
+    "validation_images": 6,
+    "validation_groups": 2,
+    "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+  },
+  "mode": "own",
+  "production_ready": false,
+  "model_parameters": 423619,
+  "runtime": {
+    "python": "3.11.9",
+    "tensorflow": "2.16.1",
+    "keras": "3.15.1",
+    "platform": "macOS-14.8.9-arm64-arm-64bit"
+  },
+  "dataset_fingerprint": "ff822adef8db3ae57996f5dad7d64d9f3ed5ef4cbfddd07ad69b92c2ab89423e",
+  "source_run": "outputs/experiments/own_v4_ref22/baseline_augmented"
+}

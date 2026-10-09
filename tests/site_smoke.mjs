@@ -116,32 +116,45 @@ if (models.models.length > 1) {
 }
 
 // Dataset / training / evaluation tabs rendered from report.json
-const selected = report.selection.selected, cvRows = report.cv.filter(r => r.complete), testModels = Object.keys(report.test.models);
 for (const id of ['dataset', 'training', 'evaluation']) {
   await evaluate(`document.querySelector('[data-panel="${id}"]').click()`);
   await until(`!document.querySelector('#${id}').hidden`);
   await screenshot('desktop-' + id);
 }
 assert.equal(await count('#data-stats .stat'), 4);
-assert.equal(await count('#split-table tbody tr'), 2);
 assert.equal(await count('#gallery .photo'), examples.length);
 assert.ok(await count('#protocol li') >= 4);
-assert.equal(await count('#ablation tbody tr'), cvRows.length);
-assert.equal(await count('#ablation tbody tr.highlight'), 1);
-assert.match(await text('#selection-note'), new RegExp('Terpilih: ' + selected));
 assert.equal(await count('#curves img'), models.models.length);
 await until("[...document.querySelectorAll('#curves img')].every(i=>i.complete)");
 assert.equal(await evaluate("[...document.querySelectorAll('#curves img')].every(i=>i.naturalWidth>0)"), true, 'learning curves load');
 assert.equal(await count('#eval-stats .stat'), 4);
-assert.ok((await text('#eval-stats')).includes(pct(report.test.models[selected].accuracy.mean)), 'test accuracy from report.json');
-assert.ok((await text('#eval-stats')).includes(pct(cvRows.find(r => r.name === selected).accuracy.mean)), 'CV accuracy from report.json');
-assert.equal(await count('#model-compare tbody tr'), testModels.length);
-assert.equal(await count('#confusion tbody tr'), 3);
-assert.equal(await count('#confusion-test tbody tr'), 3);
 assert.equal(await count('#class-metrics tbody tr'), 3);
-assert.equal(await count('#robustness tbody tr'), 1 + Object.keys(report.test.models[selected].robustness).length);
-if (report.legacy_own_v1) assert.ok(await count('#legacy tbody tr') >= 4);
 assert.doesNotMatch(await text('#evaluation-notice'), /tidak dapat|tidak tersedia/);
+if (report.study_type === 'single_split') {
+  const selected = report.selection.selected, best = report.candidates.find(c => c.name === selected);
+  assert.equal(await count('#split-table tbody tr'), 3);
+  assert.equal(await count('#ablation tbody tr'), report.candidates.length);
+  assert.equal(await count('#ablation tbody tr.highlight'), 1);
+  assert.match(await text('#selection-note'), new RegExp('Terpilih: ' + selected));
+  assert.ok((await text('#eval-stats')).includes(pct(best.validation.accuracy)), 'validation accuracy from report.json');
+  assert.match(await text('#eval-stats'), /Belum dinilai/);
+  assert.equal(await count('#model-compare tbody tr'), report.candidates.length);
+  assert.equal(await count('#confusion table'), report.candidates.length);
+  assert.equal(await count('#val-predictions tbody tr'), best.predictions.length);
+} else {
+  const selected = report.selection.selected, cvRows = report.cv.filter(r => r.complete), testModels = Object.keys(report.test.models);
+  assert.equal(await count('#split-table tbody tr'), 2);
+  assert.equal(await count('#ablation tbody tr'), cvRows.length);
+  assert.equal(await count('#ablation tbody tr.highlight'), 1);
+  assert.match(await text('#selection-note'), new RegExp('Terpilih: ' + selected));
+  assert.ok((await text('#eval-stats')).includes(pct(report.test.models[selected].accuracy.mean)), 'test accuracy from report.json');
+  assert.ok((await text('#eval-stats')).includes(pct(cvRows.find(r => r.name === selected).accuracy.mean)), 'CV accuracy from report.json');
+  assert.equal(await count('#model-compare tbody tr'), testModels.length);
+  assert.equal(await count('#confusion tbody tr'), 3);
+  assert.equal(await count('#confusion-test tbody tr'), 3);
+  assert.equal(await count('#robustness tbody tr'), 1 + Object.keys(report.test.models[selected].robustness).length);
+}
+if (report.legacy_own_v1) assert.ok(await count('#legacy tbody tr') >= 4);
 
 // Responsive layout (phone widths), every tab
 for (const [width, height] of [[390, 844], [360, 640]]) {

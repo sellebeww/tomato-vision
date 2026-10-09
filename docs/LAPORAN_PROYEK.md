@@ -122,7 +122,8 @@ baseline_augmented. Angka ini berasal dari enam foto validation (dua sesi) yang 
 memandu early stopping; selisih 4/6 menjadi 6/6 hanya dua foto dan **bukan bukti
 peningkatan**. Regularized memprediksi kedua foto segar validation sebagai tidak_segar.
 Hasil own_v3 sebelumnya (kedua kandidat 4/6, macro-F1 0,656) tidak diganti oleh angka ini
-sebagai klaim akurasi; model demo tidak diganti dan belum siap produksi.
+sebagai klaim akurasi. Demo web kini menjalankan baseline_augmented own_v4_ref22
+agar sesuai dengan laporan; model tetap belum siap produksi dan test terkunci belum dinilai.
 
 ## Aplikasi dan verifikasi
 

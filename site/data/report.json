@@ -1,400 +1,387 @@
 {
   "title": "Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow",
-  "source": {
-    "run": "baseline",
-    "experiment": "own_v1",
-    "dataset_fingerprint": "9fc934f2830aaf7286feb5f6034bde2cbe0ad1fb6478268e42932aec8fd8b27a"
-  },
-  "model": {
-    "architecture": "baseline",
-    "parameters": 423619,
-    "best_epoch": 15,
-    "epochs_run": 25,
-    "image_size": 128,
-    "elapsed_seconds": 530.9597167080065,
-    "validation": {
-      "accuracy": 1.0,
-      "macro_f1": 1.0,
-      "loss": 0.006152101398750495
-    },
-    "train_clean_accuracy": 1.0,
-    "temperature": 1.0,
-    "calibration_note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained",
+  "study": "own_v4_ref22",
+  "study_type": "single_split",
+  "selection": {
+    "selected": "baseline_augmented",
+    "rule": "validation macro-F1, then validation loss",
+    "test_evaluated": false,
     "production_ready": false,
-    "mode": "own",
-    "weights": "random initialization; no pretrained weights"
-  },
-  "evaluation": {
-    "accuracy": 1.0,
-    "macro_precision": 1.0,
-    "macro_recall": 1.0,
-    "macro_f1": 1.0,
-    "loss": 0.028372565482414725,
-    "expected_calibration_error": 0.026318534966317565,
-    "report": {
-      "segar": {
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1-score": 1.0,
-        "support": 4.0
-      },
-      "tidak_segar": {
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1-score": 1.0,
-        "support": 4.0
-      },
-      "busuk": {
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1-score": 1.0,
-        "support": 4.0
-      },
-      "accuracy": 1.0,
-      "macro avg": {
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1-score": 1.0,
-        "support": 12.0
-      },
-      "weighted avg": {
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1-score": 1.0,
-        "support": 12.0
-      }
-    },
-    "confusion_matrix": [
-      [
-        4,
-        0,
-        0
-      ],
-      [
-        0,
-        4,
-        0
-      ],
-      [
-        0,
-        0,
-        4
-      ]
-    ],
-    "n_images": 12,
-    "mode": "own",
-    "dataset_fingerprint": "9fc934f2830aaf7286feb5f6034bde2cbe0ad1fb6478268e42932aec8fd8b27a",
-    "generalization_claim": "Own-photo held-out evaluation; assess group counts and capture diversity",
-    "uncertainty": {
-      "group_count": 2,
-      "valid_resamples": 300,
-      "macro_f1_95_percent_interval": [
-        1.0,
-        1.0
-      ],
-      "note": "Group bootstrap; unreliable with very few independent groups"
-    },
-    "robustness": {
-      "darker": {
-        "accuracy": 0.9166666666666666,
-        "macro_precision": 0.9333333333333332,
-        "macro_recall": 0.9166666666666666,
-        "macro_f1": 0.9153439153439153,
-        "loss": 0.4168131134658408,
-        "expected_calibration_error": 0.10857916745021597,
-        "report": {
-          "segar": {
-            "precision": 1.0,
-            "recall": 1.0,
-            "f1-score": 1.0,
-            "support": 4.0
-          },
-          "tidak_segar": {
-            "precision": 1.0,
-            "recall": 0.75,
-            "f1-score": 0.8571428571428571,
-            "support": 4.0
-          },
-          "busuk": {
-            "precision": 0.8,
-            "recall": 1.0,
-            "f1-score": 0.8888888888888888,
-            "support": 4.0
-          },
-          "accuracy": 0.9166666666666666,
-          "macro avg": {
-            "precision": 0.9333333333333332,
-            "recall": 0.9166666666666666,
-            "f1-score": 0.9153439153439153,
-            "support": 12.0
-          },
-          "weighted avg": {
-            "precision": 0.9333333333333332,
-            "recall": 0.9166666666666666,
-            "f1-score": 0.9153439153439153,
-            "support": 12.0
-          }
-        },
-        "confusion_matrix": [
-          [
-            4,
-            0,
-            0
-          ],
-          [
-            0,
-            3,
-            1
-          ],
-          [
-            0,
-            0,
-            4
-          ]
-        ],
-        "n_images": 12
-      },
-      "brighter": {
-        "accuracy": 0.9166666666666666,
-        "macro_precision": 0.9333333333333332,
-        "macro_recall": 0.9166666666666666,
-        "macro_f1": 0.9153439153439153,
-        "loss": 0.2924787258437805,
-        "expected_calibration_error": 0.0736911982577011,
-        "report": {
-          "segar": {
-            "precision": 0.8,
-            "recall": 1.0,
-            "f1-score": 0.8888888888888888,
-            "support": 4.0
-          },
-          "tidak_segar": {
-            "precision": 1.0,
-            "recall": 0.75,
-            "f1-score": 0.8571428571428571,
-            "support": 4.0
-          },
-          "busuk": {
-            "precision": 1.0,
-            "recall": 1.0,
-            "f1-score": 1.0,
-            "support": 4.0
-          },
-          "accuracy": 0.9166666666666666,
-          "macro avg": {
-            "precision": 0.9333333333333332,
-            "recall": 0.9166666666666666,
-            "f1-score": 0.9153439153439153,
-            "support": 12.0
-          },
-          "weighted avg": {
-            "precision": 0.9333333333333332,
-            "recall": 0.9166666666666666,
-            "f1-score": 0.9153439153439153,
-            "support": 12.0
-          }
-        },
-        "confusion_matrix": [
-          [
-            4,
-            0,
-            0
-          ],
-          [
-            1,
-            3,
-            0
-          ],
-          [
-            0,
-            0,
-            4
-          ]
-        ],
-        "n_images": 12
-      },
-      "blur": {
-        "accuracy": 0.3333333333333333,
-        "macro_precision": 0.1111111111111111,
-        "macro_recall": 0.3333333333333333,
-        "macro_f1": 0.16666666666666666,
-        "loss": 3.414514492937426,
-        "expected_calibration_error": 0.5933834752227553,
-        "report": {
-          "segar": {
-            "precision": 0.3333333333333333,
-            "recall": 1.0,
-            "f1-score": 0.5,
-            "support": 4.0
-          },
-          "tidak_segar": {
-            "precision": 0.0,
-            "recall": 0.0,
-            "f1-score": 0.0,
-            "support": 4.0
-          },
-          "busuk": {
-            "precision": 0.0,
-            "recall": 0.0,
-            "f1-score": 0.0,
-            "support": 4.0
-          },
-          "accuracy": 0.3333333333333333,
-          "macro avg": {
-            "precision": 0.1111111111111111,
-            "recall": 0.3333333333333333,
-            "f1-score": 0.16666666666666666,
-            "support": 12.0
-          },
-          "weighted avg": {
-            "precision": 0.1111111111111111,
-            "recall": 0.3333333333333333,
-            "f1-score": 0.16666666666666666,
-            "support": 12.0
-          }
-        },
-        "confusion_matrix": [
-          [
-            4,
-            0,
-            0
-          ],
-          [
-            4,
-            0,
-            0
-          ],
-          [
-            4,
-            0,
-            0
-          ]
-        ],
-        "n_images": 12
-      }
-    }
-  },
-  "dataset": {
-    "own_images": 82,
-    "approved": 60,
-    "unreviewed": 22,
-    "class_counts": {
-      "segar": 20,
-      "tidak_segar": 20,
-      "busuk": 20
-    },
-    "groups_per_class": {
-      "segar": 10,
-      "tidak_segar": 10,
-      "busuk": 10
-    },
-    "splits": {
-      "train": {
-        "segar": 12,
-        "tidak_segar": 12,
-        "busuk": 12
-      },
-      "val": {
-        "segar": 4,
-        "tidak_segar": 4,
-        "busuk": 4
-      },
-      "test": {
-        "segar": 4,
-        "tidak_segar": 4,
-        "busuk": 4
-      }
-    },
-    "groups": {
-      "train": 6,
-      "val": 2,
-      "test": 2
-    },
-    "total_groups": 10
+    "limitation": "Validation has only six photos from two sessions and also drives early stopping; a jump from 4/6 to 6/6 is two photos. No measured improvement on independent test data. Demo model unchanged."
   },
   "candidates": [
     {
-      "name": "baseline",
+      "name": "baseline_augmented",
+      "role": "selected",
       "architecture": "baseline",
       "parameters": 423619,
-      "learning_rate": 0.001,
-      "dropout": 0.5,
-      "epochs_run": 25,
-      "best_epoch": 15,
-      "accuracy": 1.0,
-      "macro_f1": 1.0,
-      "loss": 0.006152101398750495,
-      "ece": 0.006043969735822219,
-      "train_val_gap": 0.0,
-      "selected": true
-    },
-    {
-      "name": "regularized_lr001",
-      "architecture": "regularized",
-      "parameters": 96019,
-      "learning_rate": 0.001,
+      "augment": true,
       "dropout": 0.35,
-      "epochs_run": 22,
-      "best_epoch": 12,
-      "accuracy": 0.8333333333333334,
-      "macro_f1": 0.832010582010582,
-      "loss": 0.45560684130755247,
-      "ece": 0.16214371731342578,
-      "train_val_gap": 0.16666666666666663,
-      "selected": false
+      "learning_rate": 0.001,
+      "lr_schedule": "plateau",
+      "epochs_max": 30,
+      "best_epoch": 13,
+      "epochs_run": 23,
+      "elapsed_seconds": 194,
+      "train": {
+        "accuracy": 0.9857142857142858,
+        "macro_f1": 0.9854545454545455,
+        "loss": 0.06226846778187661,
+        "n_images": 70
+      },
+      "validation": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "loss": 0.10013201867231725,
+        "expected_calibration_error": 0.08560038580481714,
+        "report": {
+          "segar": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "tidak_segar": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "busuk": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "accuracy": 1.0,
+          "macro avg": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 6.0
+          },
+          "weighted avg": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 6.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            2
+          ]
+        ],
+        "n_images": 6
+      },
+      "predictions": [
+        {
+          "source": "TOM035_segar.png",
+          "session": "B05_linen",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.9748824,
+            "tidak_segar": 0.017187934,
+            "busuk": 0.007929559
+          }
+        },
+        {
+          "source": "TOM038_segar.png",
+          "session": "B08_beton",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.9810598,
+            "tidak_segar": 0.007906859,
+            "busuk": 0.011033371
+          }
+        },
+        {
+          "source": "TOM045_tidak_segar.png",
+          "session": "B05_linen",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.06082376,
+            "tidak_segar": 0.8766673,
+            "busuk": 0.06250899
+          }
+        },
+        {
+          "source": "TOM048_tidak_segar.png",
+          "session": "B08_beton",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.11378117,
+            "tidak_segar": 0.65448403,
+            "busuk": 0.23173486
+          }
+        },
+        {
+          "source": "TOM055_busuk.png",
+          "session": "B05_linen",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 4.9798273e-05,
+            "tidak_segar": 0.00042172274,
+            "busuk": 0.9995285
+          }
+        },
+        {
+          "source": "TOM058_busuk.png",
+          "session": "B08_beton",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 0.0001958896,
+            "tidak_segar": 2.8429382e-05,
+            "busuk": 0.9997757
+          }
+        }
+      ]
     },
     {
-      "name": "regularized_lr0003",
+      "name": "regularized",
+      "role": "comparison",
       "architecture": "regularized",
       "parameters": 96019,
-      "learning_rate": 0.0003,
-      "dropout": 0.5,
-      "epochs_run": 30,
-      "best_epoch": 21,
-      "accuracy": 0.8333333333333334,
-      "macro_f1": 0.8380952380952381,
-      "loss": 0.5272790987439548,
-      "ece": 0.1755865171810272,
-      "train_val_gap": 0.11111111111111105,
-      "selected": false
+      "augment": false,
+      "dropout": 0.35,
+      "learning_rate": 0.001,
+      "lr_schedule": "plateau",
+      "epochs_max": 20,
+      "best_epoch": 20,
+      "epochs_run": 20,
+      "elapsed_seconds": 69,
+      "train": {
+        "accuracy": 0.7571428571428571,
+        "macro_f1": 0.7847121644356667,
+        "loss": 0.33902824358929606,
+        "n_images": 70
+      },
+      "validation": {
+        "accuracy": 0.6666666666666666,
+        "macro_f1": 0.5555555555555555,
+        "loss": 0.5053764403134687,
+        "expected_calibration_error": 0.20132994767245,
+        "report": {
+          "segar": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 2.0
+          },
+          "tidak_segar": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1-score": 0.6666666666666666,
+            "support": 2.0
+          },
+          "busuk": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "accuracy": 0.6666666666666666,
+          "macro avg": {
+            "precision": 0.5,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.5555555555555555,
+            "support": 6.0
+          },
+          "weighted avg": {
+            "precision": 0.5,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.5555555555555555,
+            "support": 6.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            2
+          ]
+        ],
+        "n_images": 6
+      },
+      "predictions": [
+        {
+          "source": "TOM035_segar.png",
+          "session": "B05_linen",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.45644194,
+            "tidak_segar": 0.5247275,
+            "busuk": 0.018830605
+          }
+        },
+        {
+          "source": "TOM038_segar.png",
+          "session": "B08_beton",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.4212407,
+            "tidak_segar": 0.52700275,
+            "busuk": 0.05175656
+          }
+        },
+        {
+          "source": "TOM045_tidak_segar.png",
+          "session": "B05_linen",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.31405225,
+            "tidak_segar": 0.63365114,
+            "busuk": 0.05229669
+          }
+        },
+        {
+          "source": "TOM048_tidak_segar.png",
+          "session": "B08_beton",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.43521953,
+            "tidak_segar": 0.5304882,
+            "busuk": 0.03429223
+          }
+        },
+        {
+          "source": "TOM055_busuk.png",
+          "session": "B05_linen",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 0.028921317,
+            "tidak_segar": 0.20820037,
+            "busuk": 0.76287836
+          }
+        },
+        {
+          "source": "TOM058_busuk.png",
+          "session": "B08_beton",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 0.006042369,
+            "tidak_segar": 0.016248267,
+            "busuk": 0.9777093
+          }
+        }
+      ]
     }
   ],
+  "dataset": {
+    "images": 82,
+    "sessions": 12,
+    "class_counts": {
+      "segar": 42,
+      "tidak_segar": 20,
+      "busuk": 20
+    },
+    "splits": {
+      "train": {
+        "segar": 38,
+        "tidak_segar": 16,
+        "busuk": 16
+      },
+      "val": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "test": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      }
+    },
+    "split_sessions": {
+      "train": [
+        "A_meja_kayu",
+        "B01_ubin",
+        "B02_piring",
+        "B03_kardus",
+        "B04_granit_hitam",
+        "B09_kayu_gelap",
+        "B10_meja_bintik",
+        "R_reference_meja_kayu"
+      ],
+      "val": [
+        "B05_linen",
+        "B08_beton"
+      ],
+      "test": [
+        "B06_talenan",
+        "B07_baja"
+      ]
+    },
+    "sources": {
+      "own": 82
+    },
+    "fingerprint": "ff822adef8db3ae57996f5dad7d64d9f3ed5ef4cbfddd07ad69b92c2ab89423e"
+  },
   "examples": [
     {
-      "file": "examples/contoh_segar_1.jpg",
+      "file": "examples/contoh_1_segar.jpg",
       "label": "segar",
-      "split": "test",
-      "source": "TOM002_segar.png"
+      "split": "validation (B05_linen)",
+      "source": "TOM035_segar.png"
     },
     {
-      "file": "examples/contoh_segar_2.jpg",
+      "file": "examples/contoh_2_segar.jpg",
       "label": "segar",
-      "split": "test",
-      "source": "TOM009_segar.png"
+      "split": "validation (B08_beton)",
+      "source": "TOM038_segar.png"
     },
     {
-      "file": "examples/contoh_tidak_segar_1.jpg",
+      "file": "examples/contoh_3_tidak_segar.jpg",
       "label": "tidak_segar",
-      "split": "test",
-      "source": "TOM012_tidak_segar.png"
+      "split": "validation (B05_linen)",
+      "source": "TOM045_tidak_segar.png"
     },
     {
-      "file": "examples/contoh_tidak_segar_2.jpg",
+      "file": "examples/contoh_4_tidak_segar.jpg",
       "label": "tidak_segar",
-      "split": "test",
-      "source": "TOM019_tidak_segar.png"
+      "split": "validation (B08_beton)",
+      "source": "TOM048_tidak_segar.png"
     },
     {
-      "file": "examples/contoh_busuk_1.jpg",
+      "file": "examples/contoh_5_busuk.jpg",
       "label": "busuk",
-      "split": "test",
-      "source": "TOM022_busuk.png"
+      "split": "validation (B05_linen)",
+      "source": "TOM055_busuk.png"
     },
     {
-      "file": "examples/contoh_busuk_2.jpg",
+      "file": "examples/contoh_6_busuk.jpg",
       "label": "busuk",
-      "split": "test",
-      "source": "TOM029_busuk.png"
+      "split": "validation (B08_beton)",
+      "source": "TOM058_busuk.png"
     }
-  ]
+  ],
+  "legacy_own_v1": {
+    "validation_accuracy": 1.0,
+    "validation_images": 12,
+    "test_accuracy": 1.0,
+    "test_images": 12,
+    "note": "own_v1 memakai satu split per 'set'; sesi meja kayu (30 foto) tersebar di train/validasi/test, jadi angka 100% own_v1 tidak sebanding dan kemungkinan terlalu optimistis."
+  }
 }

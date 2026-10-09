@@ -1,0 +1,66 @@
+{
+  "format": "tomato-vision-model-info/1",
+  "default": "baseline_augmented",
+  "exported_at": "2026-10-09T03:29:34+00:00",
+  "export_environment": {
+    "python": "3.11.9",
+    "tensorflow": "2.16.1",
+    "keras": "3.15.1"
+  },
+  "parity_gate": {
+    "max_abs_error": 0.0001,
+    "meaning": "Exported float64 graph vs Keras probabilities, on test photos plus random images"
+  },
+  "models": [
+    {
+      "id": "baseline_augmented",
+      "role": "selected",
+      "architecture": "baseline",
+      "parameters": 423619,
+      "weights_bytes": 1686796,
+      "weights_mb": 1.69,
+      "weights_sha256": "d28c7e57b2b8d4797def2211bc51beb2b6103e7bf9717e5ce55bee5e07ada2ac",
+      "keras_parity_max_abs_error": 6.730700370660703e-7,
+      "review_threshold": 0.7,
+      "keras_release_file": "models/release/baseline_augmented/model.keras",
+      "js_parity": {
+        "max_network_error_vs_keras": 8.344650268554688e-7,
+        "max_end_to_end_probability_error": 5.814752044308591e-7,
+        "max_input_level_diff": 0,
+        "cases": 13,
+        "tolerance": {
+          "network": 0.0001,
+          "end_to_end_probability": 0.01
+        },
+        "measured_at": "2026-10-09T03:30:19Z",
+        "runtime": "node v25.2.1",
+        "method": "tests/js_parity.mjs: browser inference code (site/tomato-core.js) vs outputs of the Keras model stored in tests/fixtures"
+      }
+    },
+    {
+      "id": "regularized",
+      "role": "comparison",
+      "architecture": "regularized",
+      "parameters": 96019,
+      "weights_bytes": 384076,
+      "weights_mb": 0.38,
+      "weights_sha256": "24d3e5963c3b8d300a587a709ef888f2dff57bc5bbffa40787c826c03c32369c",
+      "keras_parity_max_abs_error": 2.2537092192465025e-7,
+      "review_threshold": 0.7,
+      "keras_release_file": null,
+      "js_parity": {
+        "max_network_error_vs_keras": 0.0000020265579223632812,
+        "max_end_to_end_probability_error": 4.881468995687754e-7,
+        "max_input_level_diff": 0,
+        "cases": 13,
+        "tolerance": {
+          "network": 0.0001,
+          "end_to_end_probability": 0.01
+        },
+        "measured_at": "2026-10-09T03:30:19Z",
+        "runtime": "node v25.2.1",
+        "method": "tests/js_parity.mjs: browser inference code (site/tomato-core.js) vs outputs of the Keras model stored in tests/fixtures"
+      }
+    }
+  ]
+}
