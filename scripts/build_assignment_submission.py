@@ -6,13 +6,16 @@ import json
 import re
 from pathlib import Path
 import shutil
+import sys
 import os
 from collections import Counter
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'submission'
 os.environ.setdefault('MPLCONFIGDIR', str(ROOT / 'outputs/.matplotlib'))
-RUN = ROOT / 'outputs/experiments/own_v3_augmented'
+RUN = ROOT / 'outputs/experiments/own_v4_ref22'
+PREPARED = ROOT / 'data/prepared/ff822adef8db3ae5'
+SELECTED = json.loads((RUN / 'selection.json').read_text())['selected'].rsplit('/', 1)[1]
 CLASSES = ['segar', 'tidak_segar', 'busuk']
 REFERENCES = [
  ('Shu, Y., Zhang, J., Wang, Y., & Wei, Y. (2025). Fruit Freshness Classification and Detection Based on the ResNet-101 Network and Non-Local Attention Mechanism. Foods, 14, 1987.', 'https://www.mdpi.com/2304-8158/14/11/1987', 'ResNet-101 dan attention untuk kesegaran buah; mendukung perhatian pada kerusakan permukaan. Data dan protokol berbeda, sehingga bukan pembanding angka langsung.'),
@@ -27,10 +30,10 @@ REFERENCES = [
 
 def load_facts():
     rows = list(csv.DictReader((OUT / 'dataset/labels.csv').open()))
-    manifest = list(csv.DictReader((ROOT / 'data/prepared/7d208f30a6b6e8d7/manifest.csv').open()))
+    manifest = list(csv.DictReader((PREPARED / 'manifest.csv').open()))
     runs = {name: json.loads((RUN / name / 'run.json').read_text()) for name in ['regularized', 'baseline_augmented']}
-    assert len(rows) >= 127 and len({r['sha256'] for r in rows}) == len(rows)
-    assert Counter(r['split'] for r in manifest) == {'train':48, 'val':6, 'test':6}
+    assert len(rows) >= 229 and len({r['sha256'] for r in rows}) == len(rows)
+    assert Counter(r['split'] for r in manifest) == {'train':70, 'val':6, 'test':6}
     assert all(r['validation']['n_images'] == 6 for r in runs.values())
     return rows, manifest, runs
 
@@ -46,13 +49,13 @@ def figures(manifest, runs):
     fig, axes = plt.subplots(1,2,figsize=(10,3.5))
     inventory = list(csv.DictReader((OUT / 'dataset/labels.csv').open()))
     synthetic_count = sum(r['source'] == 'synthetic_ai' for r in inventory)
-    axes[0].bar(['Anotasi lama','Sintetis','Impor review'],[60,synthetic_count,22],color=['#237c69','#cf8e31','#7d8990'])
+    axes[0].bar(['Foto lama','Foto primer impor','Sintetis'],[60,22,synthetic_count],color=['#237c69','#7d8990','#cf8e31'])
     axes[0].set_title(f'{len(inventory)} gambar dalam paket'); axes[0].set_ylabel('Jumlah gambar')
     x=np.arange(3)
     for i,c in enumerate(CLASSES):
         values=[sum(r['split']==s and r['label']==c for r in manifest) for s in ['train','val','test']]
         axes[1].bar(x+(i-1)*.24,values,.24,label=c,color=['#237c69','#cf8e31','#bb4c47'][i])
-    axes[1].set_xticks(x,['Training','Validation','Test terkunci']); axes[1].set_title('Split 60 sumber berlabel'); axes[1].legend(fontsize=8)
+    axes[1].set_xticks(x,['Training','Validation','Test terkunci']); axes[1].set_title('Split 82 foto asli berlabel'); axes[1].legend(fontsize=8)
     fig.tight_layout(); fig.savefig(folder/'eda.png',dpi=180); plt.close(fig)
     fig,axes=plt.subplots(1,2,figsize=(10,3.5))
     for name in runs:
@@ -63,12 +66,12 @@ def figures(manifest, runs):
     for ax in axes: ax.set_xlabel('Epoch'); ax.legend(fontsize=8); ax.grid(alpha=.15)
     axes[0].set_title('Validation loss'); axes[1].set_title('Validation accuracy')
     fig.tight_layout(); fig.savefig(folder/'learning_curves.png',dpi=180); plt.close(fig)
-    cm=np.array(runs['regularized']['validation']['confusion_matrix'])
+    cm=np.array(runs[SELECTED]['validation']['confusion_matrix'])
     fig,ax=plt.subplots(figsize=(5,3.8)); ax.imshow(cm,cmap='Greens',vmin=0,vmax=2)
     ax.set_xticks(range(3),CLASSES); ax.set_yticks(range(3),CLASSES)
     for i in range(3):
         for j in range(3): ax.text(j,i,str(cm[i,j]),ha='center',va='center',fontsize=18)
-    ax.set_xlabel('Prediksi'); ax.set_ylabel('Label anotasi'); ax.set_title('Validation: 4/6 benar, dua sesi')
+    ax.set_xlabel('Prediksi'); ax.set_ylabel('Label anotasi'); ax.set_title(f'{SELECTED}: validation {int(np.trace(cm))}/6 benar, dua sesi',fontsize=9)
     fig.tight_layout(); fig.savefig(folder/'validation_confusion.png',dpi=180); plt.close(fig)
     fig,axes=plt.subplots(1,3,figsize=(9,3))
     for ax,c in zip(axes,CLASSES):
@@ -83,7 +86,7 @@ def figures(manifest, runs):
         if i<4: ax.annotate('',xy=(.165+i*.2,.62),xytext=(.235+i*.2,.62),xycoords='axes fraction',arrowprops=dict(arrowstyle='<-',color='#237c69'))
     ax.text(.5,.14,'Test terkunci hanya dibuka setelah protokol dan model final.\nSintetis / label belum terkonfirmasi tidak masuk evaluasi sumber.',ha='center',transform=ax.transAxes)
     fig.tight_layout(); fig.savefig(folder/'framework.png',dpi=180); plt.close(fig)
-    selective=json.loads((ROOT/'outputs/assignment_audit/selective_validation.json').read_text())
+    selective=json.loads((ROOT/'outputs/assignment_audit/selective_validation_own_v4.json').read_text())
     curve=selective['risk_coverage_curve']
     fig,ax=plt.subplots(figsize=(7,3.5))
     valid=[r for r in curve if r['selective_risk'] is not None]
@@ -94,7 +97,15 @@ def figures(manifest, runs):
 
 
 def content(runs):
-    r=runs['regularized']; v=r['validation']; b=runs['baseline_augmented']
+    r=runs['regularized']; b=runs['baseline_augmented']; sel=runs[SELECTED]; v=sel['validation']
+    inventory=list(csv.DictReader((OUT/'dataset/labels.csv').open()))
+    n_total=len(inventory); n_syn=sum(x['source']=='synthetic_ai' for x in inventory)
+    fingerprint=json.loads((PREPARED/'dataset.json').read_text())['fingerprint']
+    correct=round(v['accuracy']*6); pct=lambda x:f'{x*100:.1f}'.replace('.',',')
+    selective=json.loads((ROOT/'outputs/assignment_audit/selective_validation_own_v4.json').read_text())['policies']
+    def policy_row(name,key):
+        x=selective[key]; ok=round(x['accepted_accuracy']*x['accepted']) if x['accepted'] else 0
+        return [name,f"{x['accepted']}/6",pct(x['coverage'])+'%',f"{ok}/{x['accepted']} ({pct(x['accepted_accuracy'])}%)" if x['accepted'] else 'tidak terdefinisi',str(x['errors_accepted'])]
     sections=[]
     def section(title,*items): sections.append((title,list(items)))
     def p(t): return ('p',t)
@@ -108,72 +119,73 @@ def content(runs):
         'Tujuannya adalah membangun alur yang dapat ditelusuri, mulai dari inventaris, anotasi, pemisahan sesi, '
         'preprocessing, training, hingga prediksi dan analisis kesalahan. '
         'Dua CNN dilatih dari bobot acak: baseline dengan empat blok konvolusi serta model regularized '
-        'dengan residual separable convolution dan Group Normalization. Eksperimen menggunakan 60 anotasi '
-        'lama dengan split sesi 48 training, 6 validation, dan 6 test terkunci. Paket diperluas menjadi '
-        '127 gambar, terdiri dari 60 sumber lama, 45 gambar sintetis, dan 22 foto impor yang labelnya belum '
-        'dikonfirmasi. Gambar tambahan tersebut belum digunakan dalam hasil training yang dilaporkan. '
-        'Model regularized mencapai accuracy validation 66,7% dan macro-F1 0,656; baseline augmented '
-        'mencapai accuracy yang sama dengan loss lebih besar. Karena validation hanya mencakup dua sesi '
-        'dan juga menentukan early stopping, hasil ini merupakan temuan eksploratif. Hasil historis 100% '
-        'tidak dipakai sebagai bukti karena audit menemukan kebocoran sesi. Kontribusi proyek adalah '
-        'pipeline, aplikasi, dan artefak evaluasi yang dapat diperiksa. Pemenuhan minimal 100 gambar '
+        'dengan residual separable convolution dan Group Normalization. Eksperimen menggunakan 82 foto asli berlabel: '
+        '60 anotasi lama dan 22 foto primer impor yang digabung dengan label segar atas arahan pemilik pada 9 Oktober 2026. '
+        f'Split sesi menghasilkan 70 training, 6 validation, dan 6 test terkunci. Paket dataset berisi {n_total} gambar, '
+        f'yaitu 82 foto asli dan {n_syn} gambar sintetis yang belum digunakan dalam hasil training yang dilaporkan. '
+        'Pada validation, baseline augmented mencapai accuracy 100% (6/6) dan macro-F1 1,000, sedangkan regularized '
+        'mencapai 66,7% (4/6) dan macro-F1 0,556. Validation hanya enam foto dari dua sesi dan juga menentukan early stopping, '
+        'sehingga hasil ini eksploratif dan bukan bukti peningkatan dibanding hasil sebelumnya (kedua kandidat 4/6). '
+        'Hasil historis 100% pada own_v1 tidak dipakai sebagai bukti karena audit menemukan kebocoran sesi; '
+        'angka 6/6 sekarang berasal dari split yang telah diaudit tetapi tetap sampel yang sangat kecil. '
+        'Kontribusi proyek adalah pipeline, aplikasi, dan artefak evaluasi yang dapat diperiksa. Pemenuhan minimal 100 gambar '
         'primer belum terbukti hanya dari jumlah paket; dokumentasi sumber dan penambahan pengamatan '
         'primer tetap diperlukan sebelum klaim kepatuhan penuh.'))
     section('Literature Study and Previous Work',p('Lima artikel jurnal terkait [1]–[5] dibandingkan berdasarkan tugas dan metode; [6]–[8] menjadi landasan teknis. Artikel yang lebih lama dipakai sebagai dasar metode, bukan disebut temuan terbaru. Ringkasan berasal dari halaman penerbit yang diperiksa pada 7 Oktober 2026.'),
         table(['Rujukan','Metode dan relevansi'],[[f'[{i+1}] '+ref[0].split('. (')[0],ref[2]] for i,ref in enumerate(REFERENCES)]),
         p('Posisi penelitian: proyek ini menguji tiga kondisi visual satu komoditas dengan CNN dari nol. Dataset, label, serta unit evaluasinya berbeda dari literatur, sehingga tidak ada klaim mengungguli hasil penelitian terdahulu. Perbandingan yang sah membutuhkan data uji dan protokol yang sama.'))
     section('Data Acquisition, Preparation and Pre-processing',
-        p('Inventaris primer dan sumber. PDF tugas halaman 1 mengizinkan pengumpulan primer melalui scraping atau pemotretan manual dan meminta minimal 100 gambar. Metadata lama menyebut 60 sumber sebagai own, tetapi metadata itu belum merupakan verifikasi asal pemotretan. Terdapat 22 foto impor unik dalam 26 file dan 45 gambar sintetis baru. Tidak ada klaim bahwa 127 gambar semuanya hasil pemotretan tim.'),
-        table(['Komponen','Jumlah','Penggunaan saat ini'],[['Sumber lama berlabel','60','Training 48, validation 6, test terkunci 6; asal pengambilan perlu bukti'],['Sintetis baru','45','15 per kelas; belum disetujui untuk training, source=synthetic_ai'],['Impor unik','22','Diagnostik tanpa ground truth; label kosong'],['Salinan impor identik','4','Disimpan, tidak dihitung sebagai sampel tambahan'],['Augmentasi terpisah','360','Turunan training dari 48 induk; bukan bagian jumlah 127']]),
-        p('Kurasi: segar berarti kulit relatif utuh dan kencang tanpa tanda pembusukan; tidak segar berarti keriput atau layu tanpa pembusukan nyata; busuk berarti lesi atau jamur yang tampak. Ini definisi operasional visual, bukan hasil pengujian laboratorium. Label ambigu tetap tidak disetujui. Kondisi 22 foto impor belum dikonfirmasi dan prediksi model tidak menggantikan label manusia.'),
+        p('Inventaris primer dan sumber. PDF tugas halaman 1 mengizinkan pengumpulan primer melalui scraping atau pemotretan manual dan meminta minimal 100 gambar. Paket berisi 82 foto asli berlabel: 60 foto lama (metadata menyebutnya own, tetapi itu belum verifikasi asal pemotretan) dan 22 foto primer yang diambil pemilik sendiri dan kini digabung dengan label segar; 26 file impor memuat 4 salinan identik. Selain itu ada ' + str(n_syn) + ' gambar sintetis. Dengan 82 foto asli, syarat minimal 100 gambar primer belum terpenuhi; gambar sintetis tidak dihitung sebagai data primer.'),
+        table(['Komponen','Jumlah','Penggunaan saat ini'],[['Foto lama berlabel','60','Training 48, validation 6, test terkunci 6; asal pengambilan perlu bukti'],['Foto primer impor','22','Label segar dari pemilik (9 Okt 2026), satu grup, seluruhnya training'],['Sintetis','0','source=synthetic_ai; belum disetujui untuk training'],['Salinan impor identik','4','Disimpan, tidak dihitung sebagai sampel tambahan'],['Ekspor augmentasi own_v3','360','Turunan 48 induk; tidak dipakai lagi pada own_v4 (augmentasi dilakukan online)']]),
+        p('Kurasi: segar berarti kulit relatif utuh dan kencang tanpa tanda pembusukan; tidak segar berarti keriput atau layu tanpa pembusukan nyata; busuk berarti lesi atau jamur yang tampak. Ini definisi operasional visual, bukan hasil pengujian laboratorium. Label ambigu tetap tidak disetujui. Label segar pada 22 foto impor diberikan pemilik untuk seluruh foto tanpa pemeriksaan per foto; prediksi model tidak menggantikan label manusia dan kondisi tiap foto sebaiknya diverifikasi.'),
         p('Cleaning: checksum SHA-256 mendeteksi file identik; hash piksel dan dHash dipakai untuk mendeteksi salinan atau kemiripan. ID buah dan sesi digabungkan secara konservatif. Metadata sesi tidak menjamin bahwa setiap sesi adalah buah independen. Seluruh foto impor dimasukkan satu kelompok sampai identitas buah lintas tanggal diketahui.'),
         image('eda.png','Gambar 1. Inventaris dan distribusi split; dihitung dari CSV, bukan jumlah augmentasi.'),
-        table(['Split','Jumlah','Per kelas','Grup sesi'],[['Training','48','16','7'],['Validation','6','2','2'],['Test terkunci','6','2','2']]),
-        p('Fingerprint sumber: 7d208f30a6b6e8d7cf9a1b013fcd526b11905e07ec06c77a09c4b06a784868b4. Split sesi menggantikan pembagian set01–set10 yang bocor. Seluruh gambar dari grup sama berada pada split sama. Gambar sintetis dan impor belum disetujui tidak dimasukkan ke validation/test.'),
+        table(['Split','Jumlah','Per kelas','Grup sesi'],[['Training','70','segar 38, tidak_segar 16, busuk 16','8'],['Validation','6','2','2'],['Test terkunci','6','2','2']]),
+        p(f'Fingerprint sumber: {fingerprint}. Split sesi menggantikan pembagian set01–set10 yang bocor. Seluruh gambar dari grup sama berada pada split sama. Validation dan test terkunci identik dengan own_v3; seluruh 22 foto baru jatuh ke training karena satu grup. Segar menjadi 38 dari 70 foto training dan 22 di antaranya berasal dari satu latar, sehingga model dapat mengaitkan latar itu dengan kelas segar. Gambar sintetis tidak dimasukkan ke validation/test.'),
         image('training_examples.png','Gambar 2. Contoh berlabel dari split training sumber lama; bukan bukti asal pemotretan.'),
         p('Transformasi: koreksi EXIF, RGB, letterbox 128 × 128 dengan padding abu-abu dan interpolasi bilinear, lalu pembagian piksel dengan 255 ke float32 [0,1]. Loader identik digunakan saat training dan inferensi. Augmentasi training mencakup flip horizontal, rotasi ±0,06 putaran, translasi 7%, zoom, kontras, dan brightness ringan. Validation/test tidak diaugmentasi.'))
     section('Methodology',image('framework.png','Gambar 3. Kerangka penelitian dan batas penggunaan test.'),
         table(['Aspek','Baseline augmented','Regularized'],[['Blok','Conv2D 32/64/128/256, BatchNorm, ReLU, MaxPool','Conv 24 + residual separable conv 48/96/160'],['Head','Global average pooling, Dense 128, dropout 0,5','Global average pooling, Dense 64, dropout 0,35'],['Normalisasi','Batch Normalization','Group Normalization, 8 grup [7]'],['Parameter',str(b['model_parameters']),str(r['model_parameters'])],['Inisialisasi','Acak; tanpa pretrained','Acak; tanpa pretrained'],['Augmentasi','Aktif pada konfigurasi pembanding ini','Aktif saat training']]),
-        p('Adam, sparse categorical cross-entropy, learning rate 0,001, batch 16, seed 42, maksimum 20 epoch. Sampling seimbang 120 per kelas per epoch, yaitu 360 undian dari 48 sumber training. Early stopping memantau validation loss, patience 10; learning rate diturunkan pada plateau. Bobot epoch terbaik dipulihkan. Model regularized memakai L2 1e-4 dan spatial dropout.'),
+        p('Adam, sparse categorical cross-entropy, learning rate 0,001, batch 16, seed 42, maksimum epoch 20 untuk regularized dan 30 untuk baseline augmented (configs/augmented_baseline.json), sehingga anggaran tidak setara. Sampling seimbang 120 per kelas per epoch, yaitu 360 undian dari 70 sumber training. Early stopping memantau validation loss, patience 10; learning rate diturunkan pada plateau. Bobot epoch terbaik dipulihkan. Model regularized memakai L2 1e-4 dan spatial dropout; epoch terbaiknya adalah epoch terakhir (20), jadi anggaran epoch mungkin membatasinya.'),
         p('Seleksi model memakai validation macro-F1, lalu validation loss saat F1 sama. Dua kandidat menggunakan data sumber dan split yang sama. Karena arsitektur, normalisasi, serta regularisasi berbeda sekaligus, perbandingan ini tidak mengisolasi pengaruh satu komponen. Residual connection [8] dan augmentasi [6] merupakan pilihan desain yang masih perlu ablation terkontrol.'),
-        p('Test terkunci dari protokol own_v2 tidak dievaluasi dalam eksperimen own_v3_augmented. Studi own_v2 yang belum lengkap tidak dilaporkan sebagai hasil final. Tidak ada pemilihan hyperparameter menggunakan test.'))
-    section('Results',p('Bukti kode tersedia di notebook IS794_TomatoVision_Project.ipynb: bagian 2–4 untuk inventaris/EDA/preprocessing, bagian 5–6 untuk model dan training, serta bagian 7–10 untuk kurva, evaluasi, kesalahan, dan inferensi. Sel default memuat artefak tersimpan; flag RUN_TRAINING menjalankan ulang dua kandidat pada folder baru.'),
+        p('Test terkunci dari protokol own_v2 tidak dievaluasi dalam eksperimen own_v4_ref22. Studi own_v2 yang belum lengkap tidak dilaporkan sebagai hasil final. Tidak ada pemilihan hyperparameter menggunakan test.'))
+    section('Results',p('Bukti kode tersedia di notebook IS794_TomatoVision_Project.ipynb: bagian 2–4 untuk inventaris/EDA/preprocessing, bagian 5–6 untuk model dan training, serta bagian 7–10 untuk kurva, evaluasi, kesalahan, dan inferensi. Notebook memuat artefak own_v3; hasil own_v4_ref22 dihasilkan oleh python -m src.train pada manifest data/prepared/ff822adef8db3ae5 dan dirangkum di outputs/experiments/own_v4_ref22/summary.md.'),
         table(['Kandidat','Epoch / terbaik','Train acc','Val acc','Macro-F1','Val loss'],[[name,f"{x['epochs_run']} / {x['best_epoch']}",f"{x['train_clean']['accuracy']:.4f}",f"{x['validation']['accuracy']:.4f}",f"{x['validation']['macro_f1']:.4f}",f"{x['validation']['loss']:.4f}"] for name,x in runs.items()]),
-        p('Regularized dipilih karena macro-F1 sama dan validation loss lebih rendah. Sumber angka: outputs/experiments/own_v3_augmented/{regularized,baseline_augmented}/run.json. Loss pada history dan kurva training dapat mencakup penalti regularisasi. Validation loss di run.json dihitung sebagai log-loss prediksi (cross-entropy), sehingga definisinya berbeda dari loss pada kurva.'),
+        p('Baseline augmented dipilih karena macro-F1 validation lebih tinggi (1,000 dibanding 0,556). Sumber angka: outputs/experiments/own_v4_ref22/{regularized,baseline_augmented}/run.json. Loss pada history dan kurva training dapat mencakup penalti regularisasi. Validation loss di run.json dihitung sebagai log-loss prediksi (cross-entropy), sehingga definisinya berbeda dari loss pada kurva.'),
         image('learning_curves.png','Gambar 4. Kurva validation dua kandidat dari history.json.'),
-        image('validation_confusion.png','Gambar 5. Confusion matrix regularized pada validation, bukan test.'),
+        image('validation_confusion.png','Gambar 5. Confusion matrix model terpilih (baseline augmented) pada validation, bukan test.'),
         table(['Kelas','Precision','Recall','F1','Support'],[[c,*[f"{v['report'][c][k]:.3f}" for k in ['precision','recall','f1-score']],str(int(v['report'][c]['support']))] for c in CLASSES]),
-        p('Dua kesalahan validation: satu tidak_segar diprediksi segar, dan satu busuk diprediksi tidak_segar. Identitas gambar dan probabilitas tersimpan di validation_predictions.csv dan ditampilkan pada notebook bagian 9.'))
+        p('Model terpilih tidak membuat kesalahan pada enam foto validation. Regularized salah pada dua foto: kedua foto segar diprediksi tidak_segar; pada data training pun regularized memprediksi 16 dari 38 foto segar sebagai tidak_segar, tanda underfitting pada kelas segar. Identitas gambar dan probabilitas tersimpan di validation_predictions.csv pada masing-masing folder run.'))
     section('Evaluation',
-        p(f"Accuracy validation = jumlah benar / jumlah sampel = 4/6 = {v['accuracy']:.4f}. Macro-F1 adalah rata-rata F1 tiga kelas dengan bobot sama = {v['macro_f1']:.4f}. Macro precision = {v['macro_precision']:.4f}; macro recall = {v['macro_recall']:.4f}. ECE = {v['expected_calibration_error']:.4f}; hanya enam sampel sehingga estimasinya tidak stabil."),
+        p(f"Accuracy validation model terpilih = jumlah benar / jumlah sampel = {correct}/6 = {v['accuracy']:.4f}. Macro-F1 adalah rata-rata F1 tiga kelas dengan bobot sama = {v['macro_f1']:.4f}. Macro precision = {v['macro_precision']:.4f}; macro recall = {v['macro_recall']:.4f}. ECE = {v['expected_calibration_error']:.4f}; hanya enam sampel sehingga estimasinya tidak stabil."),
         p('Kalibrasi temperatur tidak dipasang karena validation hanya dua contoh per kelas dan dua grup. Probabilitas softmax tidak dapat diperlakukan sebagai peluang benar yang terkalibrasi. Validation juga dipakai untuk early stopping dan seleksi model, sehingga estimasi generalisasi cenderung optimistis.'),
-        p('Test independen final belum tersedia untuk eksperimen ini. Satu kesalahan pada enam gambar mengubah accuracy sebesar 16,7 poin persentase. Hasil own_v1 yang sebelumnya 100% ditarik dari hasil utama: audit menunjukkan sesi A_meja_kayu tersebar di train, validation, dan test. Menampilkan angka itu sebagai keberhasilan saat ini tidak sah.'),
-        p('Diagnostik reference_import: 22 gambar unik menghasilkan 18 prediksi busuk dan 4 tidak_segar; 14 ditandai perlu review. Karena label aktual belum tersedia, angka tersebut adalah distribusi prediksi, bukan akurasi. Latar ramai dan tomat yang kecil relatif terhadap gambar merupakan kemungkinan penyebab pergeseran distribusi, bukan penyebab yang telah dibuktikan.'))
+        p('Test independen final belum tersedia untuk eksperimen ini. Satu kesalahan pada enam gambar mengubah accuracy sebesar 16,7 poin persentase. Perubahan dari 4/6 (own_v3) ke 6/6 (own_v4, baseline augmented) setara dua foto dan berasal dari perubahan data training sekaligus pergantian kandidat terpilih, sehingga tidak dapat dikaitkan dengan 22 foto baru. Hasil own_v1 yang sebelumnya 100% ditarik dari hasil utama: audit menunjukkan sesi A_meja_kayu tersebar di train, validation, dan test. Menampilkan angka itu sebagai keberhasilan saat ini tidak sah.'),
+        p('Diagnostik foto impor sebelum digabung: model yang tersedia saat itu, yang belum melihat foto tersebut, memprediksi 18 dari 22 foto sebagai busuk dan 4 sebagai tidak_segar, tanpa satu pun segar. Bila label segar dari pemilik benar, model lama salah pada seluruh 22 foto; ini mengindikasikan pergeseran domain (latar ramai, tomat kecil dalam bingkai), meski penyebabnya belum dibuktikan dan menjadi alasan penggabungan ini. Kini foto tersebut masuk training dan tidak dapat lagi dipakai untuk menilai generalisasi; uji berikutnya memerlukan foto dari latar dan sesi baru.'))
     section('Pembeda: prediksi selektif dan variasi terstruktur',
         p('Kontribusi proyek adalah kombinasi audit sesi, CNN ringan, dan evaluasi prediksi selektif pada tiga kelas kondisi tomat. Ini kontribusi penerapan dan evaluasi, bukan klaim menciptakan algoritma CNN atau abstention baru. Referensi [1]–[5] dibedakan menurut tugas dan metode, bukan dinyatakan tidak pernah memakai teknik serupa.'),
         p('Coverage adalah proporsi gambar yang menerima prediksi otomatis. Selective risk adalah proporsi kesalahan di antara prediksi yang diterima. Evaluasi memakai ambang 0,7 dari konfigurasi yang telah ada; tidak ada fitting ambang pada test. Jika tidak ada prediksi diterima, accuracy dan risk tidak terdefinisi, bukan dianggap sempurna.'),
-        table(['Kebijakan','Diterima','Coverage','Benar dari diterima','Salah lolos'],[['Semua prediksi','6/6','100%','4/6 (66,7%)','2'],['Confidence ≥0,7','4/6','66,7%','3/4 (75%)','1'],['Confidence + kualitas + konsistensi','4/6','66,7%','3/4 (75%)','1']]),
+        table(['Kebijakan','Diterima','Coverage','Benar dari diterima','Salah lolos'],[policy_row('Semua prediksi','classify_all'),policy_row('Confidence ≥0,7','confidence_only_fixed'),policy_row('Confidence + kualitas + konsistensi','confidence_quality_consistency_fixed')]),
         image('risk_coverage.png','Gambar 6. Kurva deskriptif dari enam validation; bukan optimasi ambang atau hasil test.'),
-        p('Kebijakan selektif merujuk satu dari dua kesalahan untuk review, tetapi satu kesalahan masih lolos. Dua kebijakan selektif sama pada sampel ini, sehingga belum ada bukti manfaat tambahan quality/consistency guard. Angka 75% berlaku hanya bagi empat gambar yang diterima, tidak menggantikan accuracy keseluruhan 66,7%.'),
+        p('Pada validation model terpilih tidak ada kesalahan yang dapat dirujuk, sehingga aturan selektif hanya menurunkan coverage (83,3% dan 50%) tanpa manfaat terukur. Selective risk 0 berasal dari enam gambar yang semuanya benar dan bukan jaminan keselamatan; manfaat guard baru dapat dinilai pada data yang memuat kesalahan nyata.'),
         p('Ekspansi gambar merancang variasi latar, pencahayaan, ukuran objek, sudut, bentuk, permukaan kering/basah, serta blur ringan. Faktor adegan dibagi pada kelas segar, tidak segar, dan busuk agar tetesan air atau latar tertentu tidak otomatis berarti busuk. Metadata adalah atribut yang diminta, bukan ukuran fisik yang telah diukur. Blur yang menghilangkan bukti kondisi harus ditinjau, bukan diberi label yakin.'),
         p('Uji pengaruh latar yang bersifat kausal memerlukan foto buah yang sama pada latar berbeda di waktu berdekatan. Gambar yang dihasilkan secara terpisah bukan pasangan buah identik. Seluruh grup adegan harus tetap dalam satu split; data tambahan belum menjadi bukti peningkatan akurasi model.'))
     section('Deployment (if any)',
-        p('Aplikasi lokal memiliki menu Prediksi, Dataset & label, Training, dan Evaluasi. Jalankan model yang dibahas: python -m src.app --run outputs/experiments/own_v3_augmented/regularized. Inferensi CLI: python -m src.predict foto.jpg --run outputs/experiments/own_v3_augmented/regularized. Server lokal tersedia pada http://127.0.0.1:7860.'),
-        p('Demo browser statis merupakan artefak terpisah dan masih dapat memakai model historis. Oleh karena itu demo tersebut tidak dijadikan bukti kinerja model regularized saat ini. Rilis web perlu ekspor model dan uji paritas sebelum dinyatakan sesuai. Deployment adalah nilai tambah dalam PDF tugas, bukan pengganti evaluasi model atau syarat dataset.'),
+        p('Aplikasi lokal memiliki menu Prediksi, Dataset & label, Training, dan Evaluasi. Jalankan model yang dibahas: python -m src.app --run outputs/experiments/own_v4_ref22/' + SELECTED + '. Inferensi CLI: python -m src.predict foto.jpg --run outputs/experiments/own_v4_ref22/' + SELECTED + '. Server lokal tersedia pada http://127.0.0.1:7860.'),
+        p('Demo browser statis merupakan artefak terpisah dan belum diganti dengan model own_v4; demo masih memakai model historis. Oleh karena itu demo tersebut tidak dijadikan bukti kinerja model regularized saat ini. Rilis web perlu ekspor model dan uji paritas sebelum dinyatakan sesuai. Deployment adalah nilai tambah dalam PDF tugas, bukan pengganti evaluasi model atau syarat dataset.'),
         p('Batas sistem: classifier tiga kelas untuk satu tomat; tidak memiliki kelas non-tomat dan bukan detektor objek. Unggahan gambar yang salah dapat tetap memperoleh probabilitas tinggi. Tampilkan peringatan kualitas dan perlunya tinjauan pada presentasi.'))
     section('Analysis and Discussion',
-        p('1. Mengapa belum dapat disebut sangat akurat? Kedua kandidat hanya benar pada empat dari enam gambar validation. Regularized memiliki train accuracy 81,25% dan validation 66,67%; baseline augmented 93,75% dan 66,67%. Gap yang lebih besar pada baseline menunjukkan potensi overfitting, tetapi sampel validation terlalu kecil untuk memastikan perbedaan generalisasi.'),
-        p('2. Arti pemilihan regularized. Model ini memiliki 96.019 parameter dibanding 423.619 pada baseline, sekitar 77% lebih sedikit. Loss lebih rendah menjadi tie-break; hasil ini tidak membuktikan bahwa Group Normalization atau separable convolution sendirian menyebabkan perbaikan. Dibutuhkan ablation dengan data, seed, dan anggaran epoch yang sama.'),
-        p('3. Ambiguitas label. Kesalahan terjadi pada kelas berdekatan: tidak_segar menuju segar dan busuk menuju tidak_segar. Keriput ringan atau lesi kecil dapat hilang saat resize. Anotasi lintas penilai, dokumentasi kondisi buah, dan pengukuran kesepakatan akan lebih informatif daripada mengubah label agar cocok dengan model.'),
-        p('4. Jumlah file versus informasi. Augmentasi dan gambar sintetis menambah variasi visual, tetapi tidak membuktikan pengamatan primer baru. Dataset 127 juga mencakup 22 gambar tanpa label aktual. Perlu membedakan jumlah file, jumlah anotasi disetujui, jumlah sesi, dan jumlah buah independen.'),
+        p('1. Mengapa belum dapat disebut sangat akurat? Baseline augmented benar pada enam dari enam foto validation (train 98,6%); regularized benar pada empat dari enam (train 75,7%). Pada own_v3 kedua kandidat 4/6. Selisih satu-dua foto dari enam foto dua sesi tidak cukup untuk menyimpulkan generalisasi. Regularized juga underfit pada training (16 dari 38 foto segar salah) dan memakai epoch terakhir sebagai terbaik, sehingga 20 epoch mungkin tidak cukup.'),
+        p('2. Arti pemilihan baseline augmented. Model ini memiliki 423.619 parameter, sekitar 4,4 kali regularized (96.019). Pemilihan mengikuti aturan macro-F1 lalu loss. Perbandingan tidak setara karena arsitektur, normalisasi, regularisasi, dan anggaran epoch (30 vs 20) berbeda sekaligus, sehingga tidak membuktikan baseline lebih baik secara umum. Dibutuhkan ablation dengan data, seed, dan anggaran epoch yang sama.'),
+        p('3. Ambiguitas label. Pada own_v3 kesalahan terjadi antar kelas berdekatan, dan 22 foto baru diberi label segar sekaligus oleh pemilik tanpa penilaian per foto; bila sebagian sudah mulai layu, label itu mengajarkan kesalahan. Keriput ringan atau lesi kecil dapat hilang saat resize. Anotasi lintas penilai, dokumentasi kondisi buah, dan pengukuran kesepakatan akan lebih informatif daripada mengubah label agar cocok dengan model.'),
+        p(f'4. Jumlah file versus informasi. Augmentasi dan gambar sintetis menambah variasi visual, tetapi tidak membuktikan pengamatan primer baru. Dataset {n_total} gambar mencakup {n_syn} sintetis yang belum dipakai; dari 82 foto asli, 22 berasal dari satu sesi/latar dan satu kelas. Perlu membedakan jumlah file, jumlah anotasi disetujui, jumlah sesi, dan jumlah buah independen.'),
         p('5. Perbandingan literatur. Artikel [1]–[5] menggunakan tugas dan dataset berbeda. Model pretrained, distilasi, dan detektor objek dapat menjadi arah eksperimen lanjutan. Angka mereka tidak dijadikan benchmark langsung bagi 6 gambar validation proyek ini.'),
-        p('6. Prioritas perbaikan. Verifikasi asal sumber; tambah data primer terdokumentasi sampai minimal 100, dengan sebaran kelas dan buah beragam; konfirmasi 22 label impor; ulangi split berdasarkan buah/sesi; tetapkan protokol dan model sebelum satu evaluasi test independen. Setelah data memadai, bandingkan scratch CNN dengan transfer learning yang memang diizinkan tugas.'))
+        p('6. Prioritas perbaikan. Verifikasi asal sumber; tambah data primer terdokumentasi sampai minimal 100, dengan sebaran kelas dan buah beragam; verifikasi kondisi 22 foto impor satu per satu dan tambahkan foto tidak_segar/busuk pada latar yang sama agar latar tidak menjadi sinyal kelas; ulangi split berdasarkan buah/sesi; tetapkan protokol dan model sebelum satu evaluasi test independen. Setelah data memadai, bandingkan scratch CNN dengan transfer learning yang memang diizinkan tugas.'))
     section('Kesimpulan dan status pengumpulan',
-        p('Proyek telah memiliki CNN, pipeline data, hasil validation terukur, notebook proyek, aplikasi lokal, dan dokumentasi. Hasil yang dapat dipertanggungjawabkan saat ini adalah accuracy validation 66,7%, bukan klaim test 100%. Kelengkapan berkas tidak otomatis berarti semua syarat akademik terpenuhi.'),
-        table(['Ketentuan PDF','Status / tindakan'],[['Data primer ≥100 gambar','Belum terbukti; 127 total mencakup 45 sintetis dan 22 impor tanpa label'],['Neural network','Terpenuhi: dua CNN TensorFlow/Keras dari nol'],['Metrik relevan','Terpenuhi untuk evaluasi validation; test final belum selesai'],['PPT + IPYNB + dataset','Disediakan bersama laporan ini'],['Laporan PDF','Dokumen Word disediakan sesuai permintaan pengguna; ekspor PDF sebelum pengumpulan resmi'],['Nama ZIP sesuai kelas/kelompok','Ganti ClassXX/GroupXX setelah menggabungkan identitas terpisah'],['Judul tidak sama dengan kelompok lain','Perlu diperiksa di kelas oleh tim'],['Presentasi dan kontribusi seluruh anggota','Latih presentasi; identitas/kontribusi berasal dari dokumen tim']]),
+        p('Proyek telah memiliki CNN, pipeline data, hasil validation terukur, notebook proyek, aplikasi lokal, dan dokumentasi. Hasil yang dapat dipertanggungjawabkan saat ini adalah accuracy validation 100% (6/6) untuk baseline augmented dan 66,7% (4/6) untuk regularized pada enam foto, bukan klaim test. Kelengkapan berkas tidak otomatis berarti semua syarat akademik terpenuhi.'),
+        table(['Ketentuan PDF','Status / tindakan'],[['Data primer ≥100 gambar','Belum terbukti; 82 foto asli (22 di antaranya satu sesi) dan sintetis tidak dihitung primer'],['Neural network','Terpenuhi: dua CNN TensorFlow/Keras dari nol'],['Metrik relevan','Terpenuhi untuk evaluasi validation; test final belum selesai'],['PPT + IPYNB + dataset','Dataset dan laporan diperbarui 9 Okt 2026; presentasi dan notebook belum diperbarui ke own_v4'],['Laporan PDF','Dokumen Word disediakan sesuai permintaan pengguna; ekspor PDF sebelum pengumpulan resmi'],['Nama ZIP sesuai kelas/kelompok','Ganti ClassXX/GroupXX setelah menggabungkan identitas terpisah'],['Judul tidak sama dengan kelompok lain','Perlu diperiksa di kelas oleh tim'],['Presentasi dan kontribusi seluruh anggota','Latih presentasi; identitas/kontribusi berasal dari dokumen tim']]),
         p('Batas kesesuaian template: PDF yang diberikan memuat ketentuan dan rubrik, tetapi tidak memuat template laporan terpisah. Struktur Word mengikuti heading template yang sudah ada dalam proyek. Bila dosen menyediakan template lain, pindahkan isi ke template tersebut. Identitas tim tidak direkayasa dan digabungkan dari file pemilik.'))
     section('References',*[p(f'[{i+1}] {ref[0]} {ref[1]}') for i,ref in enumerate(REFERENCES)])
-    section('Bantuan perangkat lunak dan jejak reproduksi',,
+    section('Bantuan perangkat lunak dan jejak reproduksi',
         p('Perangkat: Python 3.11, TensorFlow 2.16.1, Keras 3.15.1, NumPy, pandas, scikit-learn, Pillow, Matplotlib. Model dilatih dari nol. Perintah reproduksi, versi pustaka dokumen, dan notebook disertakan. Tidak ada angka hasil eksperimen yang dibuat untuk memenuhi target akurasi.'))
     return sections
 
@@ -193,11 +205,11 @@ def word_report(sections):
     field=OxmlElement('w:fldSimple'); field.set(qn('w:instr'),'PAGE'); footer._p.append(field)
     d.add_paragraph('TOMATO VISION','Title')
     d.add_paragraph('Klasifikasi Kondisi Visual Tomat dengan CNN Ringan dan Evaluasi Prediksi Selektif pada Variasi Pengambilan Gambar','Subtitle')
-    d.add_paragraph('Laporan proyek • revisi 7 Oktober 2026')
+    d.add_paragraph('Laporan proyek • revisi 9 Oktober 2026')
     d.add_paragraph('Project of Week: Final project (Week 13–14)\nGroup Name and Class / Member (Name / NIM): digabungkan dari dokumen identitas tim.')
     d.add_heading('Status hasil',1)
     total=len(list(csv.DictReader((OUT/'dataset/labels.csv').open())))
-    d.add_paragraph(f'{total} gambar dalam paket • 60 anotasi sumber digunakan dalam eksperimen • validation accuracy 66,7% (4/6) • test final belum dievaluasi. Status data primer belum terverifikasi lengkap.')
+    d.add_paragraph(f'{total} gambar dalam paket • 82 foto asli berlabel digunakan dalam eksperimen • validation accuracy baseline augmented 100% (6/6), regularized 66,7% (4/6) • test final belum dievaluasi. Status data primer belum terverifikasi lengkap.')
     d.add_heading('Daftar bagian',1)
     for i,(title,_) in enumerate(sections,1): d.add_paragraph(f'{i}. {title}')
     d.add_page_break()
@@ -311,8 +323,8 @@ def main():
                 for row in item[2]:
                     if row[0]=='Sintetis': row[1]=str(count)
     word_report(sections)
-    slides(runs)
+    if '--slides' in sys.argv: slides(runs)
     (OUT/'audit/references.json').write_text(json.dumps([{'reference':r[0],'url':r[1],'relevance':r[2],'verified_date':'2026-10-07'} for r in REFERENCES],ensure_ascii=False,indent=2)+'\n')
-    print('Built Word report, PPTX decks, and figures from current metadata.')
+    print('Built Word report and figures from current metadata' + (' and PPTX decks.' if '--slides' in sys.argv else '.'))
 
 if __name__=='__main__': main()
