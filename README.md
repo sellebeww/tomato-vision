@@ -9,20 +9,15 @@
 
 **Klasifikasi Tingkat Kesegaran Tomat Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow**
 
-*In short: a small CNN trained from scratch with TensorFlow/Keras on 60 previously annotated tomato images (fresh / not fresh / rotten). The web demo runs the exported weights in plain JavaScript because GitHub Pages cannot run Python; the original TensorFlow model runs via `python -m src.predict` or the Colab notebook. Results are early indications only (tiny dataset).*
+**Demo online: https://sellebeww.github.io/tomato-vision/**
 
-Proyek ini mengklasifikasikan **kondisi visual** satu tomat ke dalam tiga kelas: `segar`, `tidak_segar`, `busuk`.
-CNN dibangun dari nol (tanpa transfer learning) dengan TensorFlow/Keras dan dilatih dari 60 gambar beranotasi lama (asal pengambilan perlu verifikasi). Hasilnya berupa dugaan beserta probabilitas dan penanda **perlu tinjauan**, bukan penilaian keamanan pangan.
-
-**Demo:** https://sellebeww.github.io/tomato-vision/ (aktif setelah GitHub Pages diaktifkan dan deploy pertama berhasil).
+CNN dari nol (TensorFlow/Keras) yang menilai **kondisi visual** satu tomat: `segar`, `tidak_segar`, atau `busuk`. Keluarannya dugaan, probabilitas, dan penanda **perlu tinjauan**; bukan penilaian keamanan pangan.
 
 ## Sekilas
 
-Unggah foto satu tomat, dan CNN menilai kondisinya: **segar**, **tidak segar**, atau **busuk**. Hasilnya berupa dugaan beserta probabilitas tiap kelas. Hasil yang meragukan ditandai **perlu tinjauan**.
-
-- **Dari nol:** CNN dilatih dengan TensorFlow/Keras tanpa bobot pretrained, dari 82 foto yang dipotret dan dilabeli sendiri.
+- **Dari nol:** CNN dilatih dengan TensorFlow/Keras tanpa bobot pretrained, dari 82 foto berlabel (dataset kecil).
 - **Evaluasi jujur:** data dibagi per sesi pemotretan agar tidak bocor antar split, dan test terkunci belum dibuka.
-- **Privat:** model berjalan di browser, jadi foto tidak diunggah ke server mana pun.
+- **Privat:** model berjalan di browser lewat JavaScript (GitHub Pages tidak bisa menjalankan Python), jadi foto tidak diunggah ke server mana pun. Versi TensorFlow asli: `python -m src.predict` atau notebook Colab.
 
 | | |
 |---|---|
