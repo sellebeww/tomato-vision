@@ -1,0 +1,24 @@
+{
+  "total_images": 229,
+  "by_source": {
+    "own": 229
+  },
+  "by_label": {
+    "segar": 91,
+    "tidak_segar": 69,
+    "busuk": 69
+  },
+  "by_split_in_package": {
+    "train": 193,
+    "test": 6,
+    "val": 30
+  },
+  "unlabeled_images": 0,
+  "images_with_unknown_source": 0,
+  "all_file_hashes_verified": true,
+  "notes": [
+    "seluruh foto milik pemilik, diambil sendiri (pernyataan pemilik 2026-10-14); tanpa EXIF",
+    "label own_061-own_207 berasal dari nama berkas paket lama, disetujui pemilik, belum diperiksa per foto",
+    "kolom split dan group_id disalin dari bundle data/prepared/d634459bcd9edb74 (python -m src.manifest)"
+  ]
+}

@@ -1,0 +1,50 @@
+# Virtual environment
+venv/
+.venv/
+.venv-repro/
+data/external/
+data/reference_import/
+data/augmented/
+data/annotation_backups/
+outputs/experiments/
+outputs/.matplotlib/
+models/.keras/
+
+# Python
+__pycache__/
+*.pyc
+
+# Dataset (foto tomat asli/dummy tidak perlu masuk git, terlalu besar)
+data/raw/*
+!data/raw/.gitkeep
+
+# Model & hasil training (biasanya besar, cukup disimpan lokal)
+models/*.h5
+models/*.keras
+models/checkpoints/
+models/saved_model/
+outputs/*.png
+outputs/logs/
+outputs/jobs/
+outputs/browser/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.vscode/
+
+# Data pribadi (nama file dan label lokal)
+data/annotations.csv
+data/duplicates.csv
+data/prepared/
+outputs/selected_run.json
+
+# Paket dataset lengkap (140 MB, di atas batas 100 MB GitHub; data pribadi). Pakai Git LFS/rilis bila memang ingin dibagikan.
+submission/dataset/*.zip
+submission/dataset/images/
+# Berkas sementara Word dan cadangan dari scripts/sync_docs.py
+~$*
+*.docx.bak
+*.docx.tmp

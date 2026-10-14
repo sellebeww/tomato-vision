@@ -1,0 +1,676 @@
+{
+  "evaluation_split": "validation",
+  "dataset_fingerprint": "ff822adef8db3ae57996f5dad7d64d9f3ed5ef4cbfddd07ad69b92c2ab89423e",
+  "model_run": "/Users/jgo/Documents/CODING/Tomato Vision/outputs/experiments/own_v4_ref22/baseline_augmented",
+  "classes": [
+    "segar",
+    "tidak_segar",
+    "busuk"
+  ],
+  "fixed_threshold": 0.7,
+  "threshold_fitted": false,
+  "locked_test_read": false,
+  "n_groups": 2,
+  "policies": {
+    "classify_all": {
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    "confidence_only_fixed": {
+      "n_images": 6,
+      "accepted": 5,
+      "reviewed": 1,
+      "coverage": 0.8333333333333334,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.5,
+        "2": 1.0
+      }
+    },
+    "confidence_quality_consistency_fixed": {
+      "n_images": 6,
+      "accepted": 3,
+      "reviewed": 3,
+      "coverage": 0.5,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 0.5,
+        "1": 0.0,
+        "2": 1.0
+      }
+    }
+  },
+  "risk_coverage_curve": [
+    {
+      "threshold": 0.0,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.05,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.1,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.15000000000000002,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.2,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.25,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.30000000000000004,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.35000000000000003,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.4,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.45,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.5,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.55,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.6000000000000001,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.65,
+      "n_images": 6,
+      "accepted": 6,
+      "reviewed": 0,
+      "coverage": 1.0,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.7000000000000001,
+      "n_images": 6,
+      "accepted": 5,
+      "reviewed": 1,
+      "coverage": 0.8333333333333334,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.5,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.75,
+      "n_images": 6,
+      "accepted": 5,
+      "reviewed": 1,
+      "coverage": 0.8333333333333334,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.5,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.8,
+      "n_images": 6,
+      "accepted": 5,
+      "reviewed": 1,
+      "coverage": 0.8333333333333334,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.5,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.8500000000000001,
+      "n_images": 6,
+      "accepted": 5,
+      "reviewed": 1,
+      "coverage": 0.8333333333333334,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.5,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.9,
+      "n_images": 6,
+      "accepted": 4,
+      "reviewed": 2,
+      "coverage": 0.6666666666666666,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 0.9500000000000001,
+      "n_images": 6,
+      "accepted": 4,
+      "reviewed": 2,
+      "coverage": 0.6666666666666666,
+      "accepted_accuracy": 1.0,
+      "selective_risk": 0.0,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 1.0
+      }
+    },
+    {
+      "threshold": 1.0,
+      "n_images": 6,
+      "accepted": 0,
+      "reviewed": 6,
+      "coverage": 0.0,
+      "accepted_accuracy": null,
+      "selective_risk": null,
+      "errors_accepted": 0,
+      "errors_referred": 0,
+      "per_class_coverage": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    }
+  ],
+  "limitations": [
+    "Validation also drives early stopping and model selection.",
+    "Six validation images from two sessions cannot validate safety or generalization.",
+    "Threshold grid is descriptive, not an optimization or test result."
+  ],
+  "predictions": [
+    {
+      "filepath": "data/raw/TOM035_segar.png",
+      "actual_label": "segar",
+      "label": "segar",
+      "confidence": 0.9748824238777161,
+      "probabilities": {
+        "segar": 0.9748824238777161,
+        "tidak_segar": 0.01718793250620365,
+        "busuk": 0.007929559797048569
+      },
+      "raw_probabilities": {
+        "segar": 0.9748824238777161,
+        "tidak_segar": 0.0171879343688488,
+        "busuk": 0.007929558865725994
+      },
+      "quality": {
+        "brightness": 0.5354899168014526,
+        "contrast": 0.1920360028743744,
+        "edge_variance": 0.006822857540100813,
+        "tomato_color_fraction": 0.3416748046875,
+        "warnings": [],
+        "method": "Heuristic on preprocessed image; not a non-tomato detector or validated blur classifier"
+      },
+      "decision": "review",
+      "needs_review": true,
+      "review_reasons": [
+        "Prediksi berubah pada flip atau perubahan pencahayaan ringan."
+      ],
+      "probability_margin": 0.9576944708824158,
+      "stability": {
+        "agreement": 0.75,
+        "views": 4,
+        "method": "Original, horizontal flip, brightness x0.9 and x1.1; diagnostic only"
+      },
+      "notice": "Hasil masih berupa dugaan; perlu pemeriksaan manual.",
+      "calibration": {
+        "temperature": 1.0,
+        "fitted": false,
+        "validation_images": 6,
+        "validation_groups": 2,
+        "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+      },
+      "mode": "own",
+      "production_ready": false,
+      "scope": "Satu tomat terlihat jelas. Tidak mendeteksi objek non-tomat atau menjamin keamanan pangan."
+    },
+    {
+      "filepath": "data/raw/TOM038_segar.png",
+      "actual_label": "segar",
+      "label": "segar",
+      "confidence": 0.9810598492622375,
+      "probabilities": {
+        "segar": 0.9810598492622375,
+        "tidak_segar": 0.007906858809292316,
+        "busuk": 0.011033371090888977
+      },
+      "raw_probabilities": {
+        "segar": 0.9810597896575928,
+        "tidak_segar": 0.007906858809292316,
+        "busuk": 0.011033371090888977
+      },
+      "quality": {
+        "brightness": 0.5005388259887695,
+        "contrast": 0.1376129686832428,
+        "edge_variance": 0.024677475914359093,
+        "tomato_color_fraction": 0.21368408203125,
+        "warnings": [],
+        "method": "Heuristic on preprocessed image; not a non-tomato detector or validated blur classifier"
+      },
+      "decision": "candidate",
+      "needs_review": false,
+      "review_reasons": [],
+      "probability_margin": 0.9700264930725098,
+      "stability": {
+        "agreement": 1.0,
+        "views": 4,
+        "method": "Original, horizontal flip, brightness x0.9 and x1.1; diagnostic only"
+      },
+      "notice": "Dugaan kondisi visual; probabilitas bukan jaminan dan bukan penilaian keamanan pangan.",
+      "calibration": {
+        "temperature": 1.0,
+        "fitted": false,
+        "validation_images": 6,
+        "validation_groups": 2,
+        "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+      },
+      "mode": "own",
+      "production_ready": false,
+      "scope": "Satu tomat terlihat jelas. Tidak mendeteksi objek non-tomat atau menjamin keamanan pangan."
+    },
+    {
+      "filepath": "data/raw/TOM045_tidak_segar.png",
+      "actual_label": "tidak_segar",
+      "label": "tidak_segar",
+      "confidence": 0.8766672611236572,
+      "probabilities": {
+        "segar": 0.06082376837730408,
+        "tidak_segar": 0.8766672611236572,
+        "busuk": 0.06250898540019989
+      },
+      "raw_probabilities": {
+        "segar": 0.06082376092672348,
+        "tidak_segar": 0.876667320728302,
+        "busuk": 0.06250899285078049
+      },
+      "quality": {
+        "brightness": 0.5504125952720642,
+        "contrast": 0.2085631936788559,
+        "edge_variance": 0.00960999634116888,
+        "tomato_color_fraction": 0.3134765625,
+        "warnings": [],
+        "method": "Heuristic on preprocessed image; not a non-tomato detector or validated blur classifier"
+      },
+      "decision": "review",
+      "needs_review": true,
+      "review_reasons": [
+        "Prediksi berubah pada flip atau perubahan pencahayaan ringan."
+      ],
+      "probability_margin": 0.8141582608222961,
+      "stability": {
+        "agreement": 0.75,
+        "views": 4,
+        "method": "Original, horizontal flip, brightness x0.9 and x1.1; diagnostic only"
+      },
+      "notice": "Hasil masih berupa dugaan; perlu pemeriksaan manual.",
+      "calibration": {
+        "temperature": 1.0,
+        "fitted": false,
+        "validation_images": 6,
+        "validation_groups": 2,
+        "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+      },
+      "mode": "own",
+      "production_ready": false,
+      "scope": "Satu tomat terlihat jelas. Tidak mendeteksi objek non-tomat atau menjamin keamanan pangan."
+    },
+    {
+      "filepath": "data/raw/TOM048_tidak_segar.png",
+      "actual_label": "tidak_segar",
+      "label": "tidak_segar",
+      "confidence": 0.6544840335845947,
+      "probabilities": {
+        "segar": 0.11378117650747299,
+        "tidak_segar": 0.6544840335845947,
+        "busuk": 0.23173485696315765
+      },
+      "raw_probabilities": {
+        "segar": 0.1137811690568924,
+        "tidak_segar": 0.6544840335845947,
+        "busuk": 0.23173485696315765
+      },
+      "quality": {
+        "brightness": 0.5091970562934875,
+        "contrast": 0.12776635587215424,
+        "edge_variance": 0.01310924906283617,
+        "tomato_color_fraction": 0.23321533203125,
+        "warnings": [],
+        "method": "Heuristic on preprocessed image; not a non-tomato detector or validated blur classifier"
+      },
+      "decision": "review",
+      "needs_review": true,
+      "review_reasons": [
+        "Probabilitas prediksi belum melewati ambang tinjauan."
+      ],
+      "probability_margin": 0.4227491617202759,
+      "stability": {
+        "agreement": 1.0,
+        "views": 4,
+        "method": "Original, horizontal flip, brightness x0.9 and x1.1; diagnostic only"
+      },
+      "notice": "Hasil masih berupa dugaan; perlu pemeriksaan manual.",
+      "calibration": {
+        "temperature": 1.0,
+        "fitted": false,
+        "validation_images": 6,
+        "validation_groups": 2,
+        "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+      },
+      "mode": "own",
+      "production_ready": false,
+      "scope": "Satu tomat terlihat jelas. Tidak mendeteksi objek non-tomat atau menjamin keamanan pangan."
+    },
+    {
+      "filepath": "data/raw/TOM055_busuk.png",
+      "actual_label": "busuk",
+      "label": "busuk",
+      "confidence": 0.9995285272598267,
+      "probabilities": {
+        "segar": 4.9798269174061716e-05,
+        "tidak_segar": 0.0004217227397020906,
+        "busuk": 0.9995285272598267
+      },
+      "raw_probabilities": {
+        "segar": 4.9798269174061716e-05,
+        "tidak_segar": 0.00042172271059826016,
+        "busuk": 0.9995284676551819
+      },
+      "quality": {
+        "brightness": 0.5273785591125488,
+        "contrast": 0.18345025181770325,
+        "edge_variance": 0.010458249598741531,
+        "tomato_color_fraction": 0.28948974609375,
+        "warnings": [],
+        "method": "Heuristic on preprocessed image; not a non-tomato detector or validated blur classifier"
+      },
+      "decision": "candidate",
+      "needs_review": false,
+      "review_reasons": [],
+      "probability_margin": 0.9991068243980408,
+      "stability": {
+        "agreement": 1.0,
+        "views": 4,
+        "method": "Original, horizontal flip, brightness x0.9 and x1.1; diagnostic only"
+      },
+      "notice": "Dugaan kondisi visual; probabilitas bukan jaminan dan bukan penilaian keamanan pangan.",
+      "calibration": {
+        "temperature": 1.0,
+        "fitted": false,
+        "validation_images": 6,
+        "validation_groups": 2,
+        "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+      },
+      "mode": "own",
+      "production_ready": false,
+      "scope": "Satu tomat terlihat jelas. Tidak mendeteksi objek non-tomat atau menjamin keamanan pangan."
+    },
+    {
+      "filepath": "data/raw/TOM058_busuk.png",
+      "actual_label": "busuk",
+      "label": "busuk",
+      "confidence": 0.9997757077217102,
+      "probabilities": {
+        "segar": 0.00019588941358961165,
+        "tidak_segar": 2.842935464286711e-05,
+        "busuk": 0.9997757077217102
+      },
+      "raw_probabilities": {
+        "segar": 0.00019588942814152688,
+        "tidak_segar": 2.842935464286711e-05,
+        "busuk": 0.9997757077217102
+      },
+      "quality": {
+        "brightness": 0.49952027201652527,
+        "contrast": 0.14132025837898254,
+        "edge_variance": 0.023181067779660225,
+        "tomato_color_fraction": 0.212158203125,
+        "warnings": [],
+        "method": "Heuristic on preprocessed image; not a non-tomato detector or validated blur classifier"
+      },
+      "decision": "candidate",
+      "needs_review": false,
+      "review_reasons": [],
+      "probability_margin": 0.9995798468589783,
+      "stability": {
+        "agreement": 1.0,
+        "views": 4,
+        "method": "Original, horizontal flip, brightness x0.9 and x1.1; diagnostic only"
+      },
+      "notice": "Dugaan kondisi visual; probabilitas bukan jaminan dan bukan penilaian keamanan pangan.",
+      "calibration": {
+        "temperature": 1.0,
+        "fitted": false,
+        "validation_images": 6,
+        "validation_groups": 2,
+        "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+      },
+      "mode": "own",
+      "production_ready": false,
+      "scope": "Satu tomat terlihat jelas. Tidak mendeteksi objek non-tomat atau menjamin keamanan pangan."
+    }
+  ]
+}

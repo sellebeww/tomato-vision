@@ -1,0 +1,50 @@
+[
+  {
+    "reference": "Shu, Y., Zhang, J., Wang, Y., & Wei, Y. (2025). Fruit Freshness Classification and Detection Based on the ResNet-101 Network and Non-Local Attention Mechanism. Foods, 14, 1987.",
+    "url": "https://www.mdpi.com/2304-8158/14/11/1987",
+    "relevance": "ResNet-101 dan attention untuk kesegaran buah; mendukung perhatian pada kerusakan permukaan. Data dan protokol berbeda, sehingga bukan pembanding angka langsung.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "Demirel, S., & Yıldız, O. (2025). VisDist-Net: A New Lightweight Model for Fruit Freshness Classification. Food Analytical Methods, 18, 229–244.",
+    "url": "https://link.springer.com/article/10.1007/s12161-024-02716-4",
+    "relevance": "Distilasi vision transformer ke CNN hibrida. Relevan untuk efisiensi model; proyek ini memakai CNN dari nol dan tidak melakukan distilasi.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "Mokhtar, Y. A., & Seddik, E. H. (2025). Real-time object detection and diagnosis of tomato quality using YOLO. Robotics: Integration, Manufacturing and Control, 2(2).",
+    "url": "https://apc.aast.edu/ojs/index.php/RIMC/article/view/RIMC.2025.02.2.1846",
+    "relevance": "Deteksi kualitas tomat dengan YOLO. Domain sama, tetapi deteksi objek berbeda dari klasifikasi satu tomat per gambar.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "Mukhiddinov, M., Muminov, A., & Cho, J. (2022). Improved Classification Approach for Fruits and Vegetables Freshness Based on Deep Learning. Sensors, 22, 8192.",
+    "url": "https://www.mdpi.com/1424-8220/22/21/8192",
+    "relevance": "YOLOv4 yang ditingkatkan untuk berbagai buah dan sayur, termasuk kategori segar/busuk. Menunjukkan kebutuhan variasi latar dan pencahayaan.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "Amin, U., Shahzad, M. I., Shahzad, A., Shahzad, M., Khan, U., & Mahmood, Z. (2023). Automatic Fruits Freshness Classification Using CNN and Transfer Learning. Applied Sciences, 13, 8087.",
+    "url": "https://www.mdpi.com/2076-3417/13/14/8087",
+    "relevance": "Fine-tuning AlexNet untuk kesegaran buah pada dataset publik. Transfer learning dapat menjadi eksperimen lanjutan, bukan metode yang telah diuji di proyek ini.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "Shorten, C., & Khoshgoftaar, T. M. (2019). A survey on Image Data Augmentation for Deep Learning. Journal of Big Data, 6, 60.",
+    "url": "https://link.springer.com/article/10.1186/s40537-019-0197-0",
+    "relevance": "Dasar augmentasi geometris dan warna. Transformasi menambah variasi training, tetapi bukan pengamatan buah independen.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "Wu, Y., & He, K. (2018). Group Normalization. ECCV, pp. 3–19.",
+    "url": "https://www.ecva.net/papers/eccv_2018/papers_ECCV/html/Yuxin_Wu_Group_Normalization_ECCV_2018_paper.php",
+    "relevance": "Normalisasi per kelompok kanal tidak memakai statistik antar batch; dasar pemilihan normalisasi pada CNN regularized.",
+    "verified_date": "2026-10-07"
+  },
+  {
+    "reference": "He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep Residual Learning for Image Recognition. CVPR, pp. 770–778.",
+    "url": "https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html",
+    "relevance": "Shortcut residual mendasari penjumlahan jalur utama dan jalur pintas pada arsitektur proyek.",
+    "verified_date": "2026-10-07"
+  }
+]

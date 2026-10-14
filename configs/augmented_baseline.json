@@ -1,0 +1,18 @@
+{
+  "seed": 42,
+  "image_size": 128,
+  "batch_size": 16,
+  "epochs": 30,
+  "learning_rate": 0.001,
+  "dropout": 0.35,
+  "weight_decay": 0.0001,
+  "patience": 10,
+  "train_samples_per_class": 120,
+  "threads": 4,
+  "confidence_threshold": 0.7,
+  "architecture": "baseline",
+  "augment": true,
+  "bn_momentum": 0.9,
+  "lr_schedule": "plateau",
+  "restore_best": true
+}

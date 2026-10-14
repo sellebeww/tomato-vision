@@ -1,0 +1,46 @@
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "tests/js_parity.mjs", "tests/fixtures/**", "README.md", "scripts/sync_docs.py", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Browser inference matches the Python predictor
+        run: node tests/js_parity.mjs
+      - name: README numbers match site/model_info.json and report.json (stdlib only)
+        run: |
+          python3 -m unittest tests.test_sync_docs -v
+          if [ -f site/model_info.json ]; then python3 -m scripts.sync_docs --check; fi
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

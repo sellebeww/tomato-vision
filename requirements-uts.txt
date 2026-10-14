@@ -1,0 +1,7 @@
+# Dependensi tambahan audit/laporan UTS; versi environment yang dipakai.
+-r requirements.txt
+python-docx==1.2.0
+Markdown==3.11
+nbformat==5.11.1
+ipykernel==7.3.0  # menyediakan IPython untuk uts_execute_notebook.py
+reportlab==5.0.1

@@ -1,0 +1,387 @@
+{
+  "title": "Tomato Vision: Klasifikasi Tingkat Kesegaran Tomat (Segar, Tidak Segar, Busuk) Menggunakan Convolutional Neural Network (CNN) Berbasis TensorFlow yang Dilatih dari Nol",
+  "study": "own_v4_ref22",
+  "study_type": "single_split",
+  "selection": {
+    "selected": "baseline_augmented",
+    "rule": "validation macro-F1, then validation loss",
+    "test_evaluated": false,
+    "production_ready": false,
+    "limitation": "Validation has only six photos from two sessions and also drives early stopping; a jump from 4/6 to 6/6 is two photos. No measured improvement on independent test data. Demo model unchanged."
+  },
+  "candidates": [
+    {
+      "name": "baseline_augmented",
+      "role": "selected",
+      "architecture": "baseline",
+      "parameters": 423619,
+      "augment": true,
+      "dropout": 0.35,
+      "learning_rate": 0.001,
+      "lr_schedule": "plateau",
+      "epochs_max": 30,
+      "best_epoch": 13,
+      "epochs_run": 23,
+      "elapsed_seconds": 194,
+      "train": {
+        "accuracy": 0.9857142857142858,
+        "macro_f1": 0.9854545454545455,
+        "loss": 0.06226846778187661,
+        "n_images": 70
+      },
+      "validation": {
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "loss": 0.10013201867231725,
+        "expected_calibration_error": 0.08560038580481714,
+        "report": {
+          "segar": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "tidak_segar": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "busuk": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "accuracy": 1.0,
+          "macro avg": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 6.0
+          },
+          "weighted avg": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 6.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            2,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            2
+          ]
+        ],
+        "n_images": 6
+      },
+      "predictions": [
+        {
+          "source": "TOM035_segar.png",
+          "session": "B05_linen",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.9748824,
+            "tidak_segar": 0.017187934,
+            "busuk": 0.007929559
+          }
+        },
+        {
+          "source": "TOM038_segar.png",
+          "session": "B08_beton",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.9810598,
+            "tidak_segar": 0.007906859,
+            "busuk": 0.011033371
+          }
+        },
+        {
+          "source": "TOM045_tidak_segar.png",
+          "session": "B05_linen",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.06082376,
+            "tidak_segar": 0.8766673,
+            "busuk": 0.06250899
+          }
+        },
+        {
+          "source": "TOM048_tidak_segar.png",
+          "session": "B08_beton",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.11378117,
+            "tidak_segar": 0.65448403,
+            "busuk": 0.23173486
+          }
+        },
+        {
+          "source": "TOM055_busuk.png",
+          "session": "B05_linen",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 4.9798273e-05,
+            "tidak_segar": 0.00042172274,
+            "busuk": 0.9995285
+          }
+        },
+        {
+          "source": "TOM058_busuk.png",
+          "session": "B08_beton",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 0.0001958896,
+            "tidak_segar": 2.8429382e-05,
+            "busuk": 0.9997757
+          }
+        }
+      ]
+    },
+    {
+      "name": "regularized",
+      "role": "comparison",
+      "architecture": "regularized",
+      "parameters": 96019,
+      "augment": false,
+      "dropout": 0.35,
+      "learning_rate": 0.001,
+      "lr_schedule": "plateau",
+      "epochs_max": 20,
+      "best_epoch": 20,
+      "epochs_run": 20,
+      "elapsed_seconds": 69,
+      "train": {
+        "accuracy": 0.7571428571428571,
+        "macro_f1": 0.7847121644356667,
+        "loss": 0.33902824358929606,
+        "n_images": 70
+      },
+      "validation": {
+        "accuracy": 0.6666666666666666,
+        "macro_f1": 0.5555555555555555,
+        "loss": 0.5053764403134687,
+        "expected_calibration_error": 0.20132994767245,
+        "report": {
+          "segar": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 2.0
+          },
+          "tidak_segar": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1-score": 0.6666666666666666,
+            "support": 2.0
+          },
+          "busuk": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+          },
+          "accuracy": 0.6666666666666666,
+          "macro avg": {
+            "precision": 0.5,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.5555555555555555,
+            "support": 6.0
+          },
+          "weighted avg": {
+            "precision": 0.5,
+            "recall": 0.6666666666666666,
+            "f1-score": 0.5555555555555555,
+            "support": 6.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            2,
+            0
+          ],
+          [
+            0,
+            0,
+            2
+          ]
+        ],
+        "n_images": 6
+      },
+      "predictions": [
+        {
+          "source": "TOM035_segar.png",
+          "session": "B05_linen",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.45644194,
+            "tidak_segar": 0.5247275,
+            "busuk": 0.018830605
+          }
+        },
+        {
+          "source": "TOM038_segar.png",
+          "session": "B08_beton",
+          "label": "segar",
+          "probabilities": {
+            "segar": 0.4212407,
+            "tidak_segar": 0.52700275,
+            "busuk": 0.05175656
+          }
+        },
+        {
+          "source": "TOM045_tidak_segar.png",
+          "session": "B05_linen",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.31405225,
+            "tidak_segar": 0.63365114,
+            "busuk": 0.05229669
+          }
+        },
+        {
+          "source": "TOM048_tidak_segar.png",
+          "session": "B08_beton",
+          "label": "tidak_segar",
+          "probabilities": {
+            "segar": 0.43521953,
+            "tidak_segar": 0.5304882,
+            "busuk": 0.03429223
+          }
+        },
+        {
+          "source": "TOM055_busuk.png",
+          "session": "B05_linen",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 0.028921317,
+            "tidak_segar": 0.20820037,
+            "busuk": 0.76287836
+          }
+        },
+        {
+          "source": "TOM058_busuk.png",
+          "session": "B08_beton",
+          "label": "busuk",
+          "probabilities": {
+            "segar": 0.006042369,
+            "tidak_segar": 0.016248267,
+            "busuk": 0.9777093
+          }
+        }
+      ]
+    }
+  ],
+  "dataset": {
+    "images": 82,
+    "sessions": 12,
+    "class_counts": {
+      "segar": 42,
+      "tidak_segar": 20,
+      "busuk": 20
+    },
+    "splits": {
+      "train": {
+        "segar": 38,
+        "tidak_segar": 16,
+        "busuk": 16
+      },
+      "val": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      },
+      "test": {
+        "segar": 2,
+        "tidak_segar": 2,
+        "busuk": 2
+      }
+    },
+    "split_sessions": {
+      "train": [
+        "A_meja_kayu",
+        "B01_ubin",
+        "B02_piring",
+        "B03_kardus",
+        "B04_granit_hitam",
+        "B09_kayu_gelap",
+        "B10_meja_bintik",
+        "R_reference_meja_kayu"
+      ],
+      "val": [
+        "B05_linen",
+        "B08_beton"
+      ],
+      "test": [
+        "B06_talenan",
+        "B07_baja"
+      ]
+    },
+    "sources": {
+      "own": 82
+    },
+    "fingerprint": "ff822adef8db3ae57996f5dad7d64d9f3ed5ef4cbfddd07ad69b92c2ab89423e"
+  },
+  "examples": [
+    {
+      "file": "examples/contoh_1_segar.jpg",
+      "label": "segar",
+      "split": "validation (B05_linen)",
+      "source": "TOM035_segar.png"
+    },
+    {
+      "file": "examples/contoh_2_segar.jpg",
+      "label": "segar",
+      "split": "validation (B08_beton)",
+      "source": "TOM038_segar.png"
+    },
+    {
+      "file": "examples/contoh_3_tidak_segar.jpg",
+      "label": "tidak_segar",
+      "split": "validation (B05_linen)",
+      "source": "TOM045_tidak_segar.png"
+    },
+    {
+      "file": "examples/contoh_4_tidak_segar.jpg",
+      "label": "tidak_segar",
+      "split": "validation (B08_beton)",
+      "source": "TOM048_tidak_segar.png"
+    },
+    {
+      "file": "examples/contoh_5_busuk.jpg",
+      "label": "busuk",
+      "split": "validation (B05_linen)",
+      "source": "TOM055_busuk.png"
+    },
+    {
+      "file": "examples/contoh_6_busuk.jpg",
+      "label": "busuk",
+      "split": "validation (B08_beton)",
+      "source": "TOM058_busuk.png"
+    }
+  ],
+  "legacy_own_v1": {
+    "validation_accuracy": 1.0,
+    "validation_images": 12,
+    "test_accuracy": 1.0,
+    "test_images": 12,
+    "note": "own_v1 memakai satu split per 'set'; sesi meja kayu (30 foto) tersebar di train/validasi/test, jadi angka 100% own_v1 tidak sebanding dan kemungkinan terlalu optimistis."
+  }
+}

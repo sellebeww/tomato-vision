@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "image_size": 128,
+  "batch_size": 16,
+  "epochs": 50,
+  "learning_rate": 0.001,
+  "dropout": 0.35,
+  "weight_decay": 0.0001,
+  "patience": 10,
+  "train_samples_per_class": 300,
+  "threads": 4,
+  "confidence_threshold": 0.7,
+  "architecture": "regularized"
+}

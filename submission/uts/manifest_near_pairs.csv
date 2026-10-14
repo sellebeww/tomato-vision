@@ -1,0 +1,6 @@
+a,b,distance,split_a,split_b,cross_split
+data/raw/tomat_ref_06.jpeg,data/raw/tomat_ref_07.jpeg,4,train,train,False
+data/raw/tomat_ref_07.jpeg,data/raw/tomat_ref_11.jpeg,4,train,train,False
+data/raw/tomat_ref_09.jpeg,data/raw/tomat_ref_10.jpeg,4,train,train,False
+data/raw/tomat_ref_09.jpeg,data/raw/tomat_ref_12.jpeg,4,train,train,False
+data/raw/tomat_ref_10.jpeg,data/raw/tomat_ref_12.jpeg,0,train,train,False

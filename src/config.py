@@ -1,0 +1,74 @@
+"""Shared paths and validated experiment configuration."""
+from dataclasses import asdict, dataclass
+import json
+import os
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT_DIR / "data"
+RAW_DATA_DIR = DATA_DIR / "raw"
+MODELS_DIR = ROOT_DIR / "models"
+OUTPUTS_DIR = ROOT_DIR / "outputs"
+CLASS_NAMES = ["segar", "tidak_segar", "busuk"]
+NUM_CLASSES = 3
+IMAGE_SIZE = (128, 128)
+BATCH_SIZE = 16
+RANDOM_SEED = 42
+LEARNING_RATE = 0.001
+os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
+os.environ.setdefault("MPLCONFIGDIR", str(OUTPUTS_DIR / ".matplotlib"))
+os.environ.setdefault("KERAS_HOME", str(MODELS_DIR / ".keras"))
+
+@dataclass(frozen=True)
+class ExperimentConfig:
+    seed: int = 42
+    image_size: int = 128
+    batch_size: int = 16
+    epochs: int = 50
+    learning_rate: float = 0.001
+    dropout: float = 0.35
+    weight_decay: float = 0.0001
+    patience: int = 10
+    train_samples_per_class: int = 300
+    threads: int = 4
+    confidence_threshold: float = 0.7
+    architecture: str = "regularized"
+    # Ablation switches (defaults reproduce the original own_v1 training exactly).
+    augment: bool | None = None        # None = architecture default (regularized yes, baseline no)
+    bn_momentum: float = 0.99          # Keras default; baseline BatchNormalization only
+    lr_schedule: str = "plateau"       # "plateau": halve LR every 3 stale epochs; "cosine": per-epoch cosine decay
+    restore_best: bool = True          # keep weights from the lowest validation-loss epoch
+
+    def __post_init__(self):
+        if self.augment is not None and not isinstance(self.augment, bool):
+            raise ValueError("augment must be true, false or null")
+        if not 0 < self.bn_momentum < 1:
+            raise ValueError("bn_momentum must be in (0,1)")
+        if self.lr_schedule not in {"plateau", "cosine"}:
+            raise ValueError("lr_schedule must be plateau or cosine")
+        if not isinstance(self.restore_best, bool):
+            raise ValueError("restore_best must be boolean")
+        for key in ("seed", "image_size", "batch_size", "epochs", "patience",
+                    "train_samples_per_class", "threads"):
+            value = getattr(self, key)
+            if not isinstance(value, int) or value < (0 if key == "seed" else 1):
+                raise ValueError(f"Invalid {key}: {value}")
+        if not 32 <= self.image_size <= 512:
+            raise ValueError("image_size must be 32..512")
+        if not 0 < self.learning_rate < 1 or not 0 <= self.dropout < 1:
+            raise ValueError("Invalid learning rate / dropout")
+        if not 0 <= self.weight_decay < 1 or not 0 <= self.confidence_threshold <= 1:
+            raise ValueError("Invalid regularization / threshold")
+        if self.architecture not in {"baseline", "regularized"}:
+            raise ValueError("CNN architecture must be baseline or regularized")
+
+    @classmethod
+    def load(cls, path=None):
+        return cls(**json.loads(Path(path).read_text())) if path else cls()
+
+    def to_dict(self):
+        return asdict(self)
+
+def resolve_path(value):
+    path = Path(value)
+    return path if path.is_absolute() else ROOT_DIR / path

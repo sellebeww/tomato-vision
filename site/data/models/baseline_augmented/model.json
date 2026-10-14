@@ -1,0 +1,197 @@
+{
+  "format": "tomato-vision-graph/2",
+  "id": "baseline_augmented",
+  "classes": [
+    "segar",
+    "tidak_segar",
+    "busuk"
+  ],
+  "input_size": 128,
+  "nodes": [
+    {
+      "name": "rgb_0_to_1",
+      "op": "input",
+      "inputs": []
+    },
+    {
+      "name": "block0_conv",
+      "op": "conv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 3,
+      "cout": 32,
+      "w": 0,
+      "b": 864,
+      "inputs": [
+        "rgb_0_to_1"
+      ]
+    },
+    {
+      "name": "activation",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "block0_conv"
+      ]
+    },
+    {
+      "name": "max_pooling2d",
+      "op": "maxpool",
+      "k": 2,
+      "stride": 2,
+      "inputs": [
+        "activation"
+      ]
+    },
+    {
+      "name": "block1_conv",
+      "op": "conv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 32,
+      "cout": 64,
+      "w": 896,
+      "b": 19328,
+      "inputs": [
+        "max_pooling2d"
+      ]
+    },
+    {
+      "name": "activation_1",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "block1_conv"
+      ]
+    },
+    {
+      "name": "max_pooling2d_1",
+      "op": "maxpool",
+      "k": 2,
+      "stride": 2,
+      "inputs": [
+        "activation_1"
+      ]
+    },
+    {
+      "name": "block2_conv",
+      "op": "conv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 64,
+      "cout": 128,
+      "w": 19392,
+      "b": 93120,
+      "inputs": [
+        "max_pooling2d_1"
+      ]
+    },
+    {
+      "name": "activation_2",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "block2_conv"
+      ]
+    },
+    {
+      "name": "max_pooling2d_2",
+      "op": "maxpool",
+      "k": 2,
+      "stride": 2,
+      "inputs": [
+        "activation_2"
+      ]
+    },
+    {
+      "name": "block3_conv",
+      "op": "conv",
+      "k": 3,
+      "stride": 1,
+      "padding": "same",
+      "act": "linear",
+      "cin": 128,
+      "cout": 256,
+      "w": 93248,
+      "b": 388160,
+      "inputs": [
+        "max_pooling2d_2"
+      ]
+    },
+    {
+      "name": "activation_3",
+      "op": "relu",
+      "max": null,
+      "inputs": [
+        "block3_conv"
+      ]
+    },
+    {
+      "name": "max_pooling2d_3",
+      "op": "maxpool",
+      "k": 2,
+      "stride": 2,
+      "inputs": [
+        "activation_3"
+      ]
+    },
+    {
+      "name": "global_average_pooling2d",
+      "op": "gap",
+      "inputs": [
+        "max_pooling2d_3"
+      ]
+    },
+    {
+      "name": "dense",
+      "op": "dense",
+      "in": 256,
+      "out": 128,
+      "w": 388416,
+      "b": 421184,
+      "act": "relu",
+      "inputs": [
+        "global_average_pooling2d"
+      ]
+    },
+    {
+      "name": "class_probabilities",
+      "op": "dense",
+      "in": 128,
+      "out": 3,
+      "w": 421312,
+      "b": 421696,
+      "act": "softmax",
+      "inputs": [
+        "dense"
+      ]
+    }
+  ],
+  "output": "class_probabilities",
+  "weights_file": "weights.bin",
+  "weights_floats": 421699,
+  "weights_sha256": "d28c7e57b2b8d4797def2211bc51beb2b6103e7bf9717e5ce55bee5e07ada2ac",
+  "temperature": 1.0,
+  "confidence_threshold": 0.7,
+  "review_threshold": null,
+  "mode": "own",
+  "production_ready": false,
+  "calibration": {
+    "temperature": 1.0,
+    "fitted": false,
+    "validation_images": 6,
+    "validation_groups": 2,
+    "note": "Not fitted: fewer than 20 images per class or 5 groups; raw softmax retained"
+  },
+  "architecture": "baseline",
+  "parameters": 423619,
+  "pad_color": 127,
+  "keras_parity_max_abs_error": 6.730700370660703e-07,
+  "source_run": "outputs/experiments/own_v4_ref22/baseline_augmented"
+}

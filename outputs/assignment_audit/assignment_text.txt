@@ -1,0 +1,110 @@
+
+PAGE 1
+Group Assignment IS794 Deep Learning Ganjil 2026-2027 
+Information Systems | IS794 Deep Learning | 1  
+ 
+DEEP LEARNING PROJECT 
+ 
+Sub-Course Learning Objective: 
+1. SUB-CLO082-5 : Students are able to present the results of implementing design, 
+analysis, and evaluation of deep learning implementation in a particular case study (P2) 
+ 
+Type: Project (Group assignment) 
+Your final project will require you to create a deep learning model using a neural network to 
+address a case study, with the following requirements: 
+1. The dataset used must be primary data (collected by scraping, manual image capture, 
+etc.). The data can be text, images, signals, audio, etc. 
+2. The dataset must have a minimum of 100 rows for images and 10,000 rows for other data 
+types. 
+3. The model must use a neural network algorithm; pre-training is permitted. 
+4. The model must be evaluated using metrics relevant to the case study. 
+5. Model deployment is a plus. 
+There are two stages of project assessment: 
+1. Week 7th: Presentation of scraping/dataset acquisition results (data sources, data 
+acquisition process, EDA). 
+2. Week 13th and 14th: Presentation of project final. 
+Submission 1 – Week 7th: 
+ The assignment must be submitted before week 7th, include: 
+o PPT for the presentation slides. 
+o PDF of the report (template provided). 
+o Dataset in .xls or .csv, or .zip, or link of the dataset. 
+ It is not permitted to use the same research title as another group. 
+ File name format: IS794-Deep Learning-ClassXX-GroupXX-Week7.zip 
+For example: IS794-Deep Learning-A-Group_Fantastic-Week7.zip 
+
+PAGE 2
+Group Assignment IS794 Deep Learning Ganjil 2026-2027 
+Information Systems | IS794 Deep Learning | 2  
+ 
+Submission 2 – Week 13th: 
+ The assignment must be submitted before week 13th, include: 
+o PPT for the presentation slides. 
+o .IPYNB for the code project. 
+o PDF of the report (template provided). 
+o Dataset in .xls or .csv, or .zip, or link of the dataset. 
+ File name format: IS794-Deep Learning-ClassXX-GroupXX-Presentation Final.zip 
+For example: IS794-Deep Learning-A-Group_Fantastic-Presentation Final.zip 
+ 
+Assessment Rubric: 
+I. Delivery (maximum 60 points) 
+No Rate Points Criteria 
+1 Excellent > 51 Demonstrates comprehensive understanding of the topic,  
+provides critical and in-depth analysis,  
+answers questions accurately and confidently,  
+delivers information clearly and systematically,  
+and all team members actively contribute. 
+2 Good 42 – 50 Demonstrates good understanding of the topic,  
+provides adequate analysis, answers most questions correctly,  
+delivers information clearly,  
+and most team members actively contribute. 
+3 Satisfactory 33 – 41 Demonstrates basic understanding of the topic,  
+provides limited analysis,  
+answers simple questions,  
+delivers information with some clarity but lacks structure,  
+and team participation is uneven. 
+4 Poor 27 – 32 Demonstrates limited understanding of the topic,  
+provides superficial analysis, struggles to answer questions,  
+delivers information unclearly,  
+and only a few team members participate actively. 
+5 Very Poor < 27 Demonstrates little or no understanding of the topic,  
+provides no meaningful analysis,  
+is unable to answer questions,  
+delivers information in a disorganized manner,  
+and shows little evidence of teamwork 
+ 
+II. Project Report (maximum 40 points) 
+No Rate Points Criteria 
+1 Excellent > 34 Report is complete and fully complies with the assignment requirements.  
+Information is accurate, well-supported by credible references (minimum 
+
+PAGE 3
+Group Assignment IS794 Deep Learning Ganjil 2026-2027 
+Information Systems | IS794 Deep Learning | 3  
+ 
+5 – 10 references),  
+analysis is thorough and insightful,  
+and the report is exceptionally well -organized and professionally 
+presented. 
+2 Good 28 – 33 Report is mostly complete and meets the assignment requirements.  
+Information is generally accurate and supported by appropriate 
+references (about 5 references),  
+analysis is adequate,  
+and the report is well-structured with only minor issues. 
+3 Satisfactory 22 – 27 Report meets the basic requirements. Information is reasonably 
+accurate,  
+references are provided but may be incomplete,  
+analysis is limited,  
+and the report structure is acceptable but could be improved. 
+4 Poor 18 – 22 Report is incomplete or only partially addresses the assignment 
+requirements.  
+Information lacks sufficient support,  
+references are limited (only 1 – 2) or poorly documented,  
+analysis is superficial,  
+and the report lacks organization. 
+5 Very Poor < 18 Report does not meet the assignment requirements.  
+Information is inaccurate or unsupported, references are missing,  
+analysis is absent,  
+and the report is poorly organized and difficult to follow. 
+ 
+ Good Luck  
+ 

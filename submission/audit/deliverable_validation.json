@@ -1,0 +1,17 @@
+{
+  "images": 127,
+  "report_docx_valid": true,
+  "report_figures": 6,
+  "background_words": 224,
+  "presentation_slides": {
+    "IS794_Presentasi_Week7.pptx": 10,
+    "IS794_Presentasi_Final.pptx": 20
+  },
+  "executed_notebook_code_cells": 10,
+  "all_assignment_requirements_met": false,
+  "remaining": [
+    "Primary data quantity and acquisition evidence are not verified.",
+    "Word-only report is requested; official assignment asks for PDF.",
+    "Team identity and unique-title check are handled in a separate user document."
+  ]
+}

@@ -1,0 +1,230 @@
+file,session_id,basis
+TOM001_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM002_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM003_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM004_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM005_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM006_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM007_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM008_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM009_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM010_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM011_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM012_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM013_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM014_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM015_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM016_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM017_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM018_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM019_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM020_tidak_segar,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM021_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM022_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM023_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM024_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM025_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM026_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM027_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM028_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM029_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM030_busuk,A_meja_kayu,"latar/pencahayaan sama; pemilik (2026-10-06): satu buah atau tidak yakin -> satu sesi, tidak boleh dipecah"
+TOM031_segar,B01_ubin,latar unik per triplet segar-tidak_segar-busuk
+TOM032_segar,B02_piring,latar unik per triplet segar-tidak_segar-busuk
+TOM033_segar,B03_kardus,latar unik per triplet segar-tidak_segar-busuk
+TOM034_segar,B04_granit_hitam,latar unik per triplet segar-tidak_segar-busuk
+TOM035_segar,B05_linen,latar unik per triplet segar-tidak_segar-busuk
+TOM036_segar,B06_talenan,latar unik per triplet segar-tidak_segar-busuk
+TOM037_segar,B07_baja,latar unik per triplet segar-tidak_segar-busuk
+TOM038_segar,B08_beton,latar unik per triplet segar-tidak_segar-busuk
+TOM039_segar,B09_kayu_gelap,latar unik per triplet segar-tidak_segar-busuk
+TOM040_segar,B10_meja_bintik,latar unik per triplet segar-tidak_segar-busuk
+TOM041_tidak_segar,B01_ubin,latar unik per triplet segar-tidak_segar-busuk
+TOM042_tidak_segar,B02_piring,latar unik per triplet segar-tidak_segar-busuk
+TOM043_tidak_segar,B03_kardus,latar unik per triplet segar-tidak_segar-busuk
+TOM044_tidak_segar,B04_granit_hitam,latar unik per triplet segar-tidak_segar-busuk
+TOM045_tidak_segar,B05_linen,latar unik per triplet segar-tidak_segar-busuk
+TOM046_tidak_segar,B06_talenan,latar unik per triplet segar-tidak_segar-busuk
+TOM047_tidak_segar,B07_baja,latar unik per triplet segar-tidak_segar-busuk
+TOM048_tidak_segar,B08_beton,latar unik per triplet segar-tidak_segar-busuk
+TOM049_tidak_segar,B09_kayu_gelap,latar unik per triplet segar-tidak_segar-busuk
+TOM050_tidak_segar,B10_meja_bintik,latar unik per triplet segar-tidak_segar-busuk
+TOM051_busuk,B01_ubin,latar unik per triplet segar-tidak_segar-busuk
+TOM052_busuk,B02_piring,latar unik per triplet segar-tidak_segar-busuk
+TOM053_busuk,B03_kardus,latar unik per triplet segar-tidak_segar-busuk
+TOM054_busuk,B04_granit_hitam,latar unik per triplet segar-tidak_segar-busuk
+TOM055_busuk,B05_linen,latar unik per triplet segar-tidak_segar-busuk
+TOM056_busuk,B06_talenan,latar unik per triplet segar-tidak_segar-busuk
+TOM057_busuk,B07_baja,latar unik per triplet segar-tidak_segar-busuk
+TOM058_busuk,B08_beton,latar unik per triplet segar-tidak_segar-busuk
+TOM059_busuk,B09_kayu_gelap,latar unik per triplet segar-tidak_segar-busuk
+TOM060_busuk,B10_meja_bintik,latar unik per triplet segar-tidak_segar-busuk
+tomat_ref_01,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_02,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_03,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_04,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_05,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_06,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_07,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_08,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_09,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_10,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_11,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_12,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_13,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_14,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_15,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_16,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_17,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_18,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_19,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_20,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_21,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+tomat_ref_22,R_reference_meja_kayu,"2026-10-07 audit: same location, uncertain physical fruit across dates; conservative single group"
+own_061_segar,paket_lama_scene01,adegan paket lama; satu adegan = satu grup
+own_062_tidak_segar,paket_lama_scene01,adegan paket lama; satu adegan = satu grup
+own_063_busuk,paket_lama_scene01,adegan paket lama; satu adegan = satu grup
+own_064_segar,paket_lama_scene02,adegan paket lama; satu adegan = satu grup
+own_065_tidak_segar,paket_lama_scene02,adegan paket lama; satu adegan = satu grup
+own_066_busuk,paket_lama_scene02,adegan paket lama; satu adegan = satu grup
+own_067_segar,paket_lama_scene03,adegan paket lama; satu adegan = satu grup
+own_068_tidak_segar,paket_lama_scene03,adegan paket lama; satu adegan = satu grup
+own_069_busuk,paket_lama_scene03,adegan paket lama; satu adegan = satu grup
+own_070_segar,paket_lama_scene04,adegan paket lama; satu adegan = satu grup
+own_071_tidak_segar,paket_lama_scene04,adegan paket lama; satu adegan = satu grup
+own_072_busuk,paket_lama_scene04,adegan paket lama; satu adegan = satu grup
+own_073_segar,paket_lama_scene05,adegan paket lama; satu adegan = satu grup
+own_074_tidak_segar,paket_lama_scene05,adegan paket lama; satu adegan = satu grup
+own_075_busuk,paket_lama_scene05,adegan paket lama; satu adegan = satu grup
+own_076_segar,paket_lama_scene06,adegan paket lama; satu adegan = satu grup
+own_077_tidak_segar,paket_lama_scene06,adegan paket lama; satu adegan = satu grup
+own_078_busuk,paket_lama_scene06,adegan paket lama; satu adegan = satu grup
+own_079_segar,paket_lama_scene07,adegan paket lama; satu adegan = satu grup
+own_080_tidak_segar,paket_lama_scene07,adegan paket lama; satu adegan = satu grup
+own_081_busuk,paket_lama_scene07,adegan paket lama; satu adegan = satu grup
+own_082_segar,paket_lama_scene08,adegan paket lama; satu adegan = satu grup
+own_083_tidak_segar,paket_lama_scene08,adegan paket lama; satu adegan = satu grup
+own_084_busuk,paket_lama_scene08,adegan paket lama; satu adegan = satu grup
+own_085_segar,paket_lama_scene09,adegan paket lama; satu adegan = satu grup
+own_086_tidak_segar,paket_lama_scene09,adegan paket lama; satu adegan = satu grup
+own_087_busuk,paket_lama_scene09,adegan paket lama; satu adegan = satu grup
+own_088_segar,paket_lama_scene10,adegan paket lama; satu adegan = satu grup
+own_089_tidak_segar,paket_lama_scene10,adegan paket lama; satu adegan = satu grup
+own_090_busuk,paket_lama_scene10,adegan paket lama; satu adegan = satu grup
+own_091_segar,paket_lama_scene11,adegan paket lama; satu adegan = satu grup
+own_092_tidak_segar,paket_lama_scene11,adegan paket lama; satu adegan = satu grup
+own_093_busuk,paket_lama_scene11,adegan paket lama; satu adegan = satu grup
+own_094_segar,paket_lama_scene12,adegan paket lama; satu adegan = satu grup
+own_095_tidak_segar,paket_lama_scene12,adegan paket lama; satu adegan = satu grup
+own_096_busuk,paket_lama_scene12,adegan paket lama; satu adegan = satu grup
+own_097_segar,paket_lama_scene13,adegan paket lama; satu adegan = satu grup
+own_098_tidak_segar,paket_lama_scene13,adegan paket lama; satu adegan = satu grup
+own_099_busuk,paket_lama_scene13,adegan paket lama; satu adegan = satu grup
+own_100_segar,paket_lama_scene14,adegan paket lama; satu adegan = satu grup
+own_101_tidak_segar,paket_lama_scene14,adegan paket lama; satu adegan = satu grup
+own_102_busuk,paket_lama_scene14,adegan paket lama; satu adegan = satu grup
+own_103_segar,paket_lama_scene15,adegan paket lama; satu adegan = satu grup
+own_104_tidak_segar,paket_lama_scene15,adegan paket lama; satu adegan = satu grup
+own_105_busuk,paket_lama_scene15,adegan paket lama; satu adegan = satu grup
+own_106_segar,paket_lama_scene16,adegan paket lama; satu adegan = satu grup
+own_107_tidak_segar,paket_lama_scene16,adegan paket lama; satu adegan = satu grup
+own_108_busuk,paket_lama_scene16,adegan paket lama; satu adegan = satu grup
+own_109_segar,paket_lama_scene17,adegan paket lama; satu adegan = satu grup
+own_110_tidak_segar,paket_lama_scene17,adegan paket lama; satu adegan = satu grup
+own_111_busuk,paket_lama_scene17,adegan paket lama; satu adegan = satu grup
+own_112_segar,paket_lama_scene18,adegan paket lama; satu adegan = satu grup
+own_113_tidak_segar,paket_lama_scene18,adegan paket lama; satu adegan = satu grup
+own_114_busuk,paket_lama_scene18,adegan paket lama; satu adegan = satu grup
+own_115_segar,paket_lama_scene19,adegan paket lama; satu adegan = satu grup
+own_116_tidak_segar,paket_lama_scene19,adegan paket lama; satu adegan = satu grup
+own_117_busuk,paket_lama_scene19,adegan paket lama; satu adegan = satu grup
+own_118_segar,paket_lama_scene20,adegan paket lama; satu adegan = satu grup
+own_119_tidak_segar,paket_lama_scene20,adegan paket lama; satu adegan = satu grup
+own_120_busuk,paket_lama_scene20,adegan paket lama; satu adegan = satu grup
+own_121_segar,paket_lama_scene21,adegan paket lama; satu adegan = satu grup
+own_122_tidak_segar,paket_lama_scene21,adegan paket lama; satu adegan = satu grup
+own_123_busuk,paket_lama_scene21,adegan paket lama; satu adegan = satu grup
+own_124_segar,paket_lama_scene22,adegan paket lama; satu adegan = satu grup
+own_125_tidak_segar,paket_lama_scene22,adegan paket lama; satu adegan = satu grup
+own_126_busuk,paket_lama_scene22,adegan paket lama; satu adegan = satu grup
+own_127_segar,paket_lama_scene23,adegan paket lama; satu adegan = satu grup
+own_128_tidak_segar,paket_lama_scene23,adegan paket lama; satu adegan = satu grup
+own_129_busuk,paket_lama_scene23,adegan paket lama; satu adegan = satu grup
+own_130_segar,paket_lama_scene24,adegan paket lama; satu adegan = satu grup
+own_131_tidak_segar,paket_lama_scene24,adegan paket lama; satu adegan = satu grup
+own_132_busuk,paket_lama_scene24,adegan paket lama; satu adegan = satu grup
+own_133_segar,paket_lama_scene25,adegan paket lama; satu adegan = satu grup
+own_134_tidak_segar,paket_lama_scene25,adegan paket lama; satu adegan = satu grup
+own_135_busuk,paket_lama_scene25,adegan paket lama; satu adegan = satu grup
+own_136_segar,paket_lama_scene26,adegan paket lama; satu adegan = satu grup
+own_137_tidak_segar,paket_lama_scene26,adegan paket lama; satu adegan = satu grup
+own_138_busuk,paket_lama_scene26,adegan paket lama; satu adegan = satu grup
+own_139_segar,paket_lama_scene27,adegan paket lama; satu adegan = satu grup
+own_140_tidak_segar,paket_lama_scene27,adegan paket lama; satu adegan = satu grup
+own_141_busuk,paket_lama_scene27,adegan paket lama; satu adegan = satu grup
+own_142_segar,paket_lama_scene28,adegan paket lama; satu adegan = satu grup
+own_143_tidak_segar,paket_lama_scene28,adegan paket lama; satu adegan = satu grup
+own_144_busuk,paket_lama_scene28,adegan paket lama; satu adegan = satu grup
+own_145_segar,paket_lama_scene29,adegan paket lama; satu adegan = satu grup
+own_146_tidak_segar,paket_lama_scene29,adegan paket lama; satu adegan = satu grup
+own_147_busuk,paket_lama_scene29,adegan paket lama; satu adegan = satu grup
+own_148_segar,paket_lama_scene30,adegan paket lama; satu adegan = satu grup
+own_149_tidak_segar,paket_lama_scene30,adegan paket lama; satu adegan = satu grup
+own_150_busuk,paket_lama_scene30,adegan paket lama; satu adegan = satu grup
+own_151_segar,paket_lama_scene31,adegan paket lama; satu adegan = satu grup
+own_152_tidak_segar,paket_lama_scene31,adegan paket lama; satu adegan = satu grup
+own_153_busuk,paket_lama_scene31,adegan paket lama; satu adegan = satu grup
+own_154_segar,paket_lama_scene32,adegan paket lama; satu adegan = satu grup
+own_155_tidak_segar,paket_lama_scene32,adegan paket lama; satu adegan = satu grup
+own_156_busuk,paket_lama_scene32,adegan paket lama; satu adegan = satu grup
+own_157_segar,paket_lama_scene33,adegan paket lama; satu adegan = satu grup
+own_158_tidak_segar,paket_lama_scene33,adegan paket lama; satu adegan = satu grup
+own_159_busuk,paket_lama_scene33,adegan paket lama; satu adegan = satu grup
+own_160_segar,paket_lama_scene34,adegan paket lama; satu adegan = satu grup
+own_161_tidak_segar,paket_lama_scene34,adegan paket lama; satu adegan = satu grup
+own_162_busuk,paket_lama_scene34,adegan paket lama; satu adegan = satu grup
+own_163_segar,paket_lama_scene35,adegan paket lama; satu adegan = satu grup
+own_164_tidak_segar,paket_lama_scene35,adegan paket lama; satu adegan = satu grup
+own_165_busuk,paket_lama_scene35,adegan paket lama; satu adegan = satu grup
+own_166_segar,paket_lama_scene36,adegan paket lama; satu adegan = satu grup
+own_167_tidak_segar,paket_lama_scene36,adegan paket lama; satu adegan = satu grup
+own_168_busuk,paket_lama_scene36,adegan paket lama; satu adegan = satu grup
+own_169_segar,paket_lama_scene37,adegan paket lama; satu adegan = satu grup
+own_170_tidak_segar,paket_lama_scene37,adegan paket lama; satu adegan = satu grup
+own_171_busuk,paket_lama_scene37,adegan paket lama; satu adegan = satu grup
+own_172_segar,paket_lama_scene38,adegan paket lama; satu adegan = satu grup
+own_173_tidak_segar,paket_lama_scene38,adegan paket lama; satu adegan = satu grup
+own_174_busuk,paket_lama_scene38,adegan paket lama; satu adegan = satu grup
+own_175_segar,paket_lama_scene39,adegan paket lama; satu adegan = satu grup
+own_176_tidak_segar,paket_lama_scene39,adegan paket lama; satu adegan = satu grup
+own_177_busuk,paket_lama_scene39,adegan paket lama; satu adegan = satu grup
+own_178_segar,paket_lama_scene40,adegan paket lama; satu adegan = satu grup
+own_179_tidak_segar,paket_lama_scene40,adegan paket lama; satu adegan = satu grup
+own_180_busuk,paket_lama_scene40,adegan paket lama; satu adegan = satu grup
+own_181_segar,paket_lama_scene41,adegan paket lama; satu adegan = satu grup
+own_182_tidak_segar,paket_lama_scene41,adegan paket lama; satu adegan = satu grup
+own_183_busuk,paket_lama_scene41,adegan paket lama; satu adegan = satu grup
+own_184_segar,paket_lama_scene42,adegan paket lama; satu adegan = satu grup
+own_185_tidak_segar,paket_lama_scene42,adegan paket lama; satu adegan = satu grup
+own_186_busuk,paket_lama_scene42,adegan paket lama; satu adegan = satu grup
+own_187_segar,paket_lama_scene43,adegan paket lama; satu adegan = satu grup
+own_188_tidak_segar,paket_lama_scene43,adegan paket lama; satu adegan = satu grup
+own_189_busuk,paket_lama_scene43,adegan paket lama; satu adegan = satu grup
+own_190_segar,paket_lama_scene44,adegan paket lama; satu adegan = satu grup
+own_191_tidak_segar,paket_lama_scene44,adegan paket lama; satu adegan = satu grup
+own_192_busuk,paket_lama_scene44,adegan paket lama; satu adegan = satu grup
+own_193_segar,paket_lama_scene45,adegan paket lama; satu adegan = satu grup
+own_194_tidak_segar,paket_lama_scene45,adegan paket lama; satu adegan = satu grup
+own_195_busuk,paket_lama_scene45,adegan paket lama; satu adegan = satu grup
+own_196_segar,paket_lama_scene46,adegan paket lama; satu adegan = satu grup
+own_197_tidak_segar,paket_lama_scene46,adegan paket lama; satu adegan = satu grup
+own_198_busuk,paket_lama_scene46,adegan paket lama; satu adegan = satu grup
+own_199_segar,paket_lama_scene47,adegan paket lama; satu adegan = satu grup
+own_200_tidak_segar,paket_lama_scene47,adegan paket lama; satu adegan = satu grup
+own_201_busuk,paket_lama_scene47,adegan paket lama; satu adegan = satu grup
+own_202_segar,paket_lama_scene48,adegan paket lama; satu adegan = satu grup
+own_203_tidak_segar,paket_lama_scene48,adegan paket lama; satu adegan = satu grup
+own_204_busuk,paket_lama_scene48,adegan paket lama; satu adegan = satu grup
+own_205_segar,paket_lama_scene49,adegan paket lama; satu adegan = satu grup
+own_206_tidak_segar,paket_lama_scene49,adegan paket lama; satu adegan = satu grup
+own_207_busuk,paket_lama_scene49,adegan paket lama; satu adegan = satu grup

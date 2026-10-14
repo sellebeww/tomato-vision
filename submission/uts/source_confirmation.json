@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-14",
+  "confirmation_basis": "keterangan langsung pemilik, bukan verifikasi forensik",
+  "all_229_photos_taken_by_owner": true,
+  "location": "rumah",
+  "device": "iPhone 13",
+  "capture_dates": "tidak tercatat secara spesifik",
+  "physical_fruit_count": null,
+  "physical_fruit_ids_verified": false,
+  "label_criteria_fully_documented": false,
+  "experienced_challenge": "terkadang lupa memotret secara rutin",
+  "name": "Vassel Goleyu",
+  "nim": "00000138850",
+  "class": null,
+  "jpeg_22_visual_review_done": true,
+  "jpeg_22_visual_review_count": 22,
+  "jpeg_22_ground_truth_verified": false,
+  "jpeg_22_annotation_method": "visual_review requested by owner",
+  "jpeg_22_labels_reviewed_individually_by_owner": false
+}

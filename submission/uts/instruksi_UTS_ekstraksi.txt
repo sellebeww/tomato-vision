@@ -1,0 +1,216 @@
+Halaman 1
+ MIDTERM EXAM ODD SEMESTER ACADEMIC YEAR 2026/2027 
+INFORMATION SYSTEM STUDY PROGRAM 
+FACULTY OF ENGINEERING AND INFORMATICS 
+UNIVERSITAS MULTIMEDIA NUSANTARA 
+ 
+Page 1 of 2 
+Subject : IS794 Deep Learning (Theory) Date :  
+Lecturer(s) : Monika Evelin Johan, S.Kom., M.M.S.I. 
+Dr. Irmawati, S.Kom., M.M.S.I. 
+Dr. Dinar Ajeng Kristiyanti, S.Kom., 
+M.Kom. 
+Time :  
+Form : Essay / Project Type : Onsite / Takehome 
+ 
+EXAM CONDITIONS / INSTRUCTIONS: 
+1. EACH student must submit the exam answer via e-learning.  
+2. Make sure the filename is collected using the format specified in e -learning and is in the 
+PDF file format. 
+3. If you are late in submitting an exam, you will get  a score of 0 for the mid -semester exam 
+scores. 
+4. Answers may be in English or Indonesian. 
+5. Do the exam well and use your own words, if anyone is caught working together or 
+taking answers by copy-pasting from any source on the internet the UTS sco re is 0, 
+and will be given a Penalty Letter by the UMN Ethics Council. 
+ 
+ 
+COURSE SUB LEARNING OUTCOMES (SUB-CLO): 
+SUB LEARNING OUTCOMES (SUB-CLO) ELO 
+Code Description 
+SUB-CLO012-3 Students are able to implement (C3) neural networks to various 
+types of case study 
+A 
+ 
+PROBLEM/QUESTIONS: 
+ 
+1. Question 1: SUB-CLO012-3, Weight (100%) 
+ 
+This exam is related to the final deep learning project. For the midterm exam, you are required to present 
+and report the dataset you have collected for your final project. The dataset must be primary data, 
+meaning it is collected directly by your group (e.g ., through surveys, experiments, interviews, or 
+measurements). Then, in a PDF file, answer the following questions. 
+ 
+1. Dataset Description 
+a. Explain the background of your chosen case study. 
+b. Describe how you collected the dataset (method, num ber of samples, variables 
+collected). 
+c. Justify why this dataset is relevant to the chosen case study and suitable of applying 
+neural networks. 
+2. Data Preparation 
+a. Show the preprocessing steps you applied  
+b. Provide a clean version of your dataset. 
+3. Exploratory Data Analysis (EDA) 
+a. Present descriptive statistics for the main variables. 
+b. Provide at least 5-10 visualizations and interpret each visualization with depth: not just 
+describing, but explaining possible patterns, anomalies, correlations, or biases. 
+c. Explain insights you discovered from the EDA.  Highlight insights that may influence 
+feature selection or modeling strategy. 
+4. Reflection 
+
+Halaman 2
+ MIDTERM EXAM ODD SEMESTER ACADEMIC YEAR 2026/2027 
+INFORMATION SYSTEM STUDY PROGRAM 
+FACULTY OF ENGINEERING AND INFORMATICS 
+UNIVERSITAS MULTIMEDIA NUSANTARA 
+ 
+Page 2 of 2 
+a. Mention possible challenges in data collection and how they might affect the neural 
+network model later. 
+5. Use at least 5 – 10 references from article journals, books, or any other reliable sources. 
+ 
+ 
+ 
+ASSESSMENT RUBRIC (per question): 
+Rated aspect Assessment criteria 
+Very Poor Poor Satisfactory Good Excellent 
+Case Study 
+Background 
+(10 points) 
+< 4.5 4.5-5.4 5.5-6.9 7-8.4 (Score ≥ 8.5) 
+No 
+backgroun
+d provided 
+Minimal 
+background, 
+unclear link 
+Basic 
+background, 
+weak 
+connection 
+Provides 
+sufficient 
+background, 
+some 
+connection to 
+dataset 
+Provides 
+thorough 
+background, 
+well connected 
+to dataset and 
+project 
+Dataset 
+Relevance & 
+Justification 
+(30 points) 
+< 13.5 13.5-16.2 16.5-20.7 21-25.2 (Score ≥ 25.5) 
+No 
+justification 
+given 
+Weak/unclear 
+justification of 
+dataset 
+relevance 
+Dataset 
+relevance 
+mentioned but 
+limited 
+explanation 
+Dataset 
+relevance 
+explained, with 
+some 
+justification 
+Clear, strong 
+justification of 
+dataset 
+relevance to 
+case study; 
+explains why 
+NN is 
+applicable 
+EDA 
+Interpretation 
+(40 points) 
+< 18 18-21.6 22-27.6 28-33.6 (Score ≥ 34) 
+No 
+interpretati
+on 
+provided 
+Minimal 
+interpretation, 
+mostly 
+descriptive 
+Basic 
+interpretation 
+with limited 
+insight 
+Provides 
+interpretation 
+with some 
+insight 
+Provides clear 
+interpretation 
+of patterns, 
+distributions, 
+and 
+implications 
+Clarity of 
+Writing & 
+Argumentation 
+(10 points) 
+< 4.5 4.5-5.4 5.5-6.9 7-8.4 (Score ≥ 8.5) 
+Not 
+coherent 
+Hard to follow, 
+unclear 
+explanations 
+Understandabl
+e but 
+somewhat 
+disorganized 
+Clear and 
+structured 
+Very well-
+structured, 
+logical, and 
+precise 
+Use of 
+References & 
+Concepts (10 
+points) 
+< 4.5 4.5-5.4 5.5-6.9 7-8.4 (Score ≥ 8.5) 
+No 
+references 
+Almost no 
+references 
+Minimal 
+references, 
+weak support 
+Uses some 
+references but 
+limited (not 
+more than 10) 
+Uses relevant 
+references/the
+ory to support 
+arguments 
+ 
+ 
+ 
+References: 
+1. Chollet, F. (2021). Deep Learning with Python. Manning Publications Co. 
+2. Ketkar, N., & Santana, E. (2017).  Deep Learning with Python: A Hands -on Introduction . 
+Banglore, Karnataka: Apress 
+3. Student project week 7. 
+ 
+
+Halaman 3
+ 
+This document has been approved by:
+Ririn Ikana Desanti (051314)
+on 28/09/2026 15:48
+Position: Head of Department
+Powered by TCPDF (www.tcpdf.org)
+                               1 / 1

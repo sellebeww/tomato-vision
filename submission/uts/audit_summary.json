@@ -1,0 +1,88 @@
+{
+  "source_files": 233,
+  "unique_source_bytes": 229,
+  "duplicate_excess": 4,
+  "corrupt": 0,
+  "inventory_files": 490,
+  "label_counts": {
+    "segar": 91,
+    "tidak_segar": 69,
+    "busuk": 69
+  },
+  "split_counts": {
+    "train": 193,
+    "val": 30,
+    "test": 6
+  },
+  "groups": 61,
+  "primary_verified": true,
+  "provenance_basis": "owner_attestation",
+  "canonical_unique_images": 229,
+  "pending_label_images": 0,
+  "visually_reviewed_images": 22,
+  "physical_ground_truth_verified": false,
+  "crossing_metadata_keys": [],
+  "near_train_pairs": 8,
+  "manifest_near_pairs": 5,
+  "manifest_near_cross_split": 0,
+  "dimensions": [
+    {
+      "format": "JPEG",
+      "width": 1200,
+      "height": 1600,
+      "n": 22
+    },
+    {
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "n": 207
+    }
+  ],
+  "training_medians": {
+    "brightness": {
+      "busuk": 0.5056895155364391,
+      "segar": 0.5217326069750817,
+      "tidak_segar": 0.48792623524385337
+    },
+    "saturation": {
+      "busuk": 0.36376133339077815,
+      "segar": 0.4242746988932291,
+      "tidak_segar": 0.381698428883272
+    },
+    "edge": {
+      "busuk": 0.02190125877066513,
+      "segar": 0.020749023632737406,
+      "tidak_segar": 0.020440744455257592
+    },
+    "red_mean": {
+      "busuk": 0.6104635799632354,
+      "segar": 0.6454249961703432,
+      "tidak_segar": 0.6103015376072303
+    },
+    "green_mean": {
+      "busuk": 0.4762484082988664,
+      "segar": 0.4805928149254494,
+      "tidak_segar": 0.4511184991574755
+    },
+    "blue_mean": {
+      "busuk": 0.39881382362515316,
+      "segar": 0.39338235294117646,
+      "tidak_segar": 0.3865287032781863
+    }
+  },
+  "selected_correlation": {
+    "pair": [
+      "brightness",
+      "red_mean"
+    ],
+    "r": 0.8463653818120813
+  },
+  "runtime": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.2",
+    "matplotlib": "3.9.0"
+  },
+  "manifest_sha256": "7ac2153819ecd1dd1636bd499f52e5f3cdeffd7a47850e8b195d0053ce595096",
+  "test_policy": "Hanya audit teknis; deskriptor dan contoh EDA menggunakan training; tidak menjalankan model."
+}
